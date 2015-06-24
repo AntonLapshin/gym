@@ -11,7 +11,7 @@ define([
         this.title = component.strings.bankEnergy;
         this.value = null;
 
-        // max and value is ko.observable
+        // max and value are ko.observable
         this.show = function (max, value) {
             this.max = max;
             this.value = value;
