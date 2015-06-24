@@ -7,15 +7,11 @@ define([
     function ViewModel(){
 
         this.title = component.strings.bankMoney;
-        this.show = function(value){
-            this.value = value;
-            this.isVisible(true);
-        };
 
         this.test = function(){
             var v = ko.observable(10);
             this.show(v);
-            v(15);
+            v(200);
         };
 
         this.click = function(){

@@ -2,33 +2,33 @@ define([
     'ko',
     'text!./view.html',
     'plugins/component',
-    'social/social',
-    'server/server',
+    'model/player',
     'c/ava/vm',
     'c/battery/vm',
     'c/mass/vm',
     'c/money/vm',
     'c/friends/vm'
-], function (ko, html, component, social, server, ava, battery, mass, money, friends) {
+], function (ko, html, component, Player, ava, battery, mass, money, friends) {
 
     function ViewModel() {
 
-        this.player = ko.observable(null);
-
-        this.show = function (player) {
-            this.player(player);
+        this.show = function(player){
+            this.model(player);
+            ava('private').show(player.public);
+            battery('private').show(player.private.energyMax, player.private.energy);
+            mass('private').show(player.public.mass);
+            money('private').show(player.private.money);
+            friends('private').show(player.private.friends);
             this.isVisible(true);
         };
 
         this.test = function () {
-            this.isVisible(true);
-            ava('private').test();
-            battery('private').test();
-            mass('private').test();
-            money('private').test();
-            friends('private').test();
+            var self = this;
+            var player = new Player();
+            player.load().then(function(){
+                self.show(player);
+            });
         };
-
 
     }
 

@@ -23,21 +23,23 @@ define(['ko', 'plugins/localization', 'plugins/format'], function (ko, strings, 
     }
 
     function ViewModel(name, viewModel, params){
+        var vm = typeof viewModel === 'function' ? this : viewModel;
+        vm.name = name;
+        vm.model = ko.observable(null);
+        vm.isVisible = ko.observable(false);
+        vm.show = function(model){
+            vm.isVisible(true);
+            vm.model(model);
+        };
+        _viewModels[name] = vm;
+
         if (typeof viewModel === 'function'){
-            this.name = name;
-            this.isVisible = ko.observable(false);
             viewModel.call(this);
-            _viewModels[name] = this;
             if (params && this.autoShow)
                 this.autoShow(params);
-            return this;
         }
-        else{
-            viewModel.name = name;
-            viewModel.isVisible = ko.observable(false);
-            _viewModels[name] = viewModel;
-            return viewModel;
-        }
+
+        return vm;
     }
 
     function getViewModel(params, viewName, viewModel){

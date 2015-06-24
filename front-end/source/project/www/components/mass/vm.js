@@ -8,15 +8,11 @@ define([
 
         this.title = component.strings.massAdd;
         this.unit = component.strings.massUnit;
-        this.show = function(value){
-            this.value = value;
-            this.isVisible(true);
-        };
 
         this.test = function(){
             var v = ko.observable(10);
             this.show(v);
-            v(15);
+            v(82.5);
         };
 
         this.click = function(){

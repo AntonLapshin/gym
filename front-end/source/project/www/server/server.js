@@ -2,7 +2,7 @@ define(['jquery'], function($){
 
     var _server,
         _resuests = {
-            loadTopUsers: {
+            loadTop: {
                 lastDateTime: 0,
                 data: null,
                 timeout: 5 * 1000 * 60
@@ -16,28 +16,31 @@ define(['jquery'], function($){
             return server.init();
         },
 
-        loadUsers: function(ids){
-            return _server.loadUsers(ids);
+        loadMe: function(id){
+            return _server.loadMe(id);
         },
 
-        loadTopUsers: function(){
-            if (Date.now() - _resuests.loadTopUsers.lastDateTime > _resuests.loadTopUsers.timeout){
-                return $.Deferred(function(defer){
-                    _server.loadTopUsers().then(function(serverUsers){
-                        _resuests.loadTopUsers.lastDateTime = Date.now();
-                        _resuests.loadTopUsers.data = serverUsers;
-                        defer.resolve(serverUsers);
-                    });
-                });
-            }
+        loadPlayers: function(ids){
+            return _server.loadPlayers(ids);
+        },
 
+        loadTop: function(){
             return $.Deferred(function(defer){
-                defer.resolve(_resuests.loadTopUsers.data);
+                if (Date.now() - _resuests.loadTop.lastDateTime <= _resuests.loadTop.timeout){
+                    defer.resolve(_resuests.loadTop.data);
+                    return;
+                }
+
+                _server.loadTop().then(function(serverPlayers){
+                    _resuests.loadTop.lastDateTime = Date.now();
+                    _resuests.loadTop.data = serverPlayers;
+                    defer.resolve(serverPlayers);
+                });
             });
         },
 
-        saveUser: function(userSetExp){
-            return _server.saveUser(userSetExp);
+        saveMe: function(playerSetExp){
+            return _server.saveMe(playerSetExp);
         }
     }
 });

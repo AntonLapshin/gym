@@ -1,52 +1,52 @@
 define(function(){
 
-    var _socialNetwork;
+    var _social;
 
     return {
 
-        init: function(socialNetwork){
-            _socialNetwork = socialNetwork;
-            return _socialNetwork.init();
+        init: function(social){
+            _social = social;
+            return _social.init();
         },
 
         invite: function () {
-            _socialNetwork.invite();
+            _social.invite();
         },
 
         showOrderBox: function(){
-            return _socialNetwork.showOrderBox();
+            return _social.showOrderBox();
         },
 
         getUserUrl: function(id){
-            return _socialNetwork.getUserUrl(id);
+            return _social.getUserUrl(id);
         },
 
         getUnknowImg: function(){
-            return _socialNetwork.getUnknowImg();
+            return _social.getUnknowImg();
         },
 
         wallPost: function(place){
-            return _socialNetwork.wallPost(place);
+            return _social.wallPost(place);
         },
 
         getMe: function () {
-            return _socialNetwork.getMe();
+            return _social.getMe();
         },
 
-        getUsers: function (ids) {
-            return _socialNetwork.getUsers(ids);
+        getPlayers: function (ids) {
+            return _social.getUsers(ids);
         },
 
-        getFriendsUsers: function () {
-            return _socialNetwork.getFriendsUsers();
+        getFriends: function () {
+            return _social.getFriends();
         },
 
         isUserInGroup: function (id) {
-            return _socialNetwork.isUserInGroup(id);
+            return _social.isUserInGroup(id);
         },
 
         getCommunityHref: function(){
-            return _socialNetwork.getCommunityHref();
+            return _social.getCommunityHref();
         }
     }
 });

@@ -7,10 +7,6 @@ define([
     function ViewModel(){
 
         this.title = component.strings.bankEnergy;
-        this.show = function(value){
-            this.value = value;
-            this.isVisible(true);
-        };
 
         this.test = function(){
             var v = ko.observable(10);

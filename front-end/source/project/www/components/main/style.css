@@ -4,10 +4,6 @@
   background-color: #ffffff;
   position: absolute;
 }
-.private .ava {
-  top: 10px;
-  left: 10px;
-}
 .private .battery,
 .private .mass,
 .private .money,
@@ -16,19 +12,19 @@
 }
 .private .battery {
   top: 0;
-  left: 26px;
+  left: 30px;
 }
 .private .mass {
   bottom: 10px;
-  left: 20px;
+  left: 25px;
   text-align: center;
   margin: auto;
 }
 .private .money {
   top: 25px;
-  left: 110px;
+  left: 115px;
 }
 .private .friends {
   top: 50px;
-  left: 110px;
+  left: 115px;
 }
