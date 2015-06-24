@@ -1,0 +1,14 @@
+<div class="top" data-bind="visible: isVisible()">
+    <ul data-bind="foreach: visibleUsers">
+        <member params="name: 'top' + $index(), user: $data"></member>
+    </ul>
+    <div class="container">
+        <div class="switch">
+            <input type="radio" class="switch-input" name="top" value="friends" id="friends" checked >
+            <label for="friends" class="switch-label" data-bind="text: linkTopFriends, event: { mouseup: toFriendsTop }"></label>
+            <input type="radio" class="switch-input" name="top" value="top" id="top" >
+            <label for="top" class="switch-label modetop" data-bind="text: linkTopAll, event: { mouseup: toAllTop }"></label>
+            <span class="switch-selection"></span>
+        </div>
+    </div>
+</div>

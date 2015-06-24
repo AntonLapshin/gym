@@ -1,0 +1,102 @@
+.tournament {
+    width: 100%;
+    height: 100%;
+}
+
+#tournament-table {
+    position: absolute;
+    left: 0;
+    top: 2px;
+}
+
+#tournament-table img {
+    opacity: 0.5;
+}
+
+.tournament .team {
+    font-size: 10pt;
+}
+
+.tournament .score {
+    font-size: 12pt;
+}
+
+#go-round {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.t { position: absolute; }
+.s {
+    position: absolute;
+    line-height: 1;
+    margin: 7px 0 0 0;
+    padding: 1px 5px 2px 5px;
+}
+
+.t0 { left: 21px; }
+#t00 { top: 15px; }
+#t01 { top: 59px; }
+#t02 { top: 115px; }
+#t03 { top: 159px; }
+#t04 { top: 215px; }
+#t05 { top: 259px; }
+#t06 { top: 315px; }
+#t07 { top: 359px; }
+#t08 { top: 415px; }
+#t09 { top: 459px; }
+#t010 { top: 515px; }
+#t011 { top: 559px; }
+#t012 { top: 615px; }
+#t013 { top: 659px; }
+#t014 { top: 715px; }
+#t015 { top: 759px; }
+
+.t0score { left: 65px; }
+#t0score0 { top: 32px; }
+#t0score1 { top: 132px; }
+#t0score2 { top: 232px; }
+#t0score3 { top: 332px; }
+#t0score4 { top: 432px; }
+#t0score5 { top: 532px; }
+#t0score6 { top: 632px; }
+#t0score7 { top: 732px; }
+
+.t1 { left: 150px; }
+#t10 { top: 36px; }
+#t11 { top: 136px; }
+#t12 { top: 237px; }
+#t13 { top: 337px; }
+#t14 { top: 437px; }
+#t15 { top: 537px; }
+#t16 { top: 636px; }
+#t17 { top: 737px; }
+
+.t1score { left: 190px; }
+#t1score0 { top: 84px; }
+#t1score1 { top: 284px; }
+#t1score2 { top: 484px; }
+#t1score3 { top: 682px; }
+
+.t2 { left: 278px; }
+#t20 { top: 86px; }
+#t21 { top: 287px; }
+#t22 { top: 487px; }
+#t23 { top: 686px; }
+
+.t2score { left: 320px; }
+#t2score0 { top: 184px; }
+#t2score1 { top: 584px; }
+
+.t3 { left: 406px; }
+#t30 { top: 187px; }
+#t31 { top: 587px; }
+
+.t3score { left: 450px; }
+#t3score0 { top: 384px; }
+
+#champion {
+    top: 386px;
+    left: 532px;
+}

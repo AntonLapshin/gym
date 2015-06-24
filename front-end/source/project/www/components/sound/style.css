@@ -1,0 +1,7 @@
+.sound {
+    position: absolute;
+    z-index: 9999;
+    right: 8px;
+    top: 5px;
+    cursor: pointer;
+}

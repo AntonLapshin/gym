@@ -1,0 +1,15 @@
+<div class="execute" data-bind="visible: isVisible, loaded: true">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped active" role="progressbar"
+                     aria-valuemin="0" aria-valuemax="10"
+                     data-bind="attr:{'aria-valuenow':percent},style:{width:percent()+'%'},css:{'progress-bar-success':isSuccess,'progress-bar-warning':isWarning,'progress-bar-danger':isDanger}">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 text-center">
+            <input type="text" class="textvalue form-control text-center" disabled data-bind="value:repeats"/>
+        </div>
+    </div>
+</div>

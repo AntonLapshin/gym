@@ -1,0 +1,9 @@
+<div class="load" data-bind="visible: isVisible">
+    <div class="loading">
+    <progress max="100" data-bind="attr: { value: percent }" class="css3">
+    </progress>
+    <a href="#" class="button" data-bind="click: start, visible: isLoaded">
+        <span data-bind="text: buttonName"></span>
+    </a>
+    </div>
+</div>

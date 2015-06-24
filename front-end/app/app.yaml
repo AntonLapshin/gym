@@ -1,0 +1,30 @@
+application: penaltyapp2
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+  
+- url: /components
+  static_dir: components
+
+- url: /engine
+  static_dir: engine
+
+- url: /
+  static_files: index.html
+  upload: index.html
+
+- url: /privacy-policy
+  static_files: privacy-policy.html
+  upload: privacy-policy.html
+  
+- url: /main.js
+  static_files: main.js
+  upload: main.js 
+
+- url: /style.css
+  static_files: style.css
+  upload: style.css
+
+  

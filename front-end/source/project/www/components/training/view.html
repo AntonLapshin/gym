@@ -1,0 +1,53 @@
+<div class="training" data-bind="visible: isVisible, loaded: true">
+    <div class="exSelect text-center well">
+        <button type="button" class="btn btn-primary left" data-bind="click:prev,attr:{disabled:!left()}">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </button>
+        <ul class="nav nav-pills" data-bind="foreach: exercises">
+            <li role="presentation" data-bind="css: {active:active}, click: $parent.select">
+                <a href="#" class="text-center">
+                    <img alt="..." src="" data-bind="attr:{src:img}" class="img-thumbnail"/>
+
+                    <div class="caption">
+                        <h5 data-bind="text:name"></h5>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <button type="button" class="btn btn-primary right" data-bind="click:next,attr:{disabled:!right()}">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </button>
+    </div>
+    <div class="exSetup text-center well" data-bind="visible:selectedExercise">
+        <div data-bind="with:selectedExercise">
+            <h2 data-bind="text:name"></h2>
+
+            <p data-bind="text:desc"></p>
+        </div>
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <h4><span class="label label-default" data-bind="text:chooseWeight"></span></h4>
+                <input class="weightSlider" data-slider-id='weightSlider' type="text" data-slider-tooltip="hide"/>
+
+                <br/>
+
+                <input type="text" class="textvalue form-control text-center" disabled data-bind="value:weightDesc"/>
+            </div>
+            <div class="col-md-6 text-center">
+                <h4><span class="label label-default" data-bind="text:chooseRepeats"></span></h4>
+                <input class="repeatsSlider" data-slider-id='repeatsSlider' type="text" data-slider-tooltip="hide"/>
+
+                <br/>
+
+                <input type="text" class="textvalue form-control text-center" disabled data-bind="value:repeatsDesc"/>
+            </div>
+        </div>
+    </div>
+    <div class="exExecute well text-center" data-bind="visible:selectedExercise">
+        <button type="button" class="btn btn-success executeBtn" data-bind="click:execute">
+            <span class="glyphicon glyphicon-flash"></span>
+            <span data-bind="text: executeBtn"></span>
+        </button>
+        <execute params="name:'training'"></execute>
+    </div>
+</div>

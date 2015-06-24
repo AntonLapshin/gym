@@ -1,0 +1,59 @@
+/*@import url('components/timer/style.css');*/
+/*@import url('components/sound/style.css');*/
+/*@import url('components/info/style.css');*/
+/*@import url('components/member/style.css');*/
+/*@import url('components/top/style.css');*/
+@import url('components/team/style.css');
+/*@import url('components/load/style.css');*/
+/*@import url('components/intro/style.css');*/
+/*@import url('components/choice/style.css');*/
+/*@import url('components/match/style.css');*/
+/*@import url('components/result/style.css');*/
+/*@import url('components/instruction/style.css');*/
+/*@import url('components/tournament/style.css');*/
+/*@import url('components/game/style.css');*/
+/*@import url('components/scores/style.css');*/
+/*@import url('components/twist/style.css');*/
+/*@import url('components/lang/style.css');*/
+/*@import url('components/psychic/style.css');*/
+
+@import url('lib/bootstrap-slider.min.css');
+
+@import url('components/gyms/style.css');
+@import url('components/training/style.css');
+@import url('components/execute/style.css');
+@import url('components/timer/style.css');
+@import url('components/jobbing/style.css');
+@import url('components/menu/style.css');
+@import url('components/money/style.css');
+@import url('components/friends/style.css');
+@import url('components/battery/style.css');
+@import url('components/mass/style.css');
+@import url('components/energy/style.css');
+@import url('components/ava/style.css');
+@import url('components/private/style.css');
+
+
+@import url('bootstrap/css/bootstrap.min.css');
+
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+#container {
+    position: absolute;
+    z-index: 5;
+    left: 0;
+    top: 0;
+    width: 700px;
+    height: 800px;
+}
+
+.glyphicon-flash {
+    color: #ffda14;
+    color: #0040D0;
+}
+
+.bootbox .modal-dialog {
+    width: 300px;
+}

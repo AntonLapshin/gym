@@ -1,0 +1,11 @@
+.mass {
+  display: inline-block;
+  cursor: pointer;
+  padding: 0 5px 1px 5px !important;
+}
+.mass:hover {
+  background-color: #d0e7b2;
+}
+.mass span {
+  vertical-align: middle;
+}

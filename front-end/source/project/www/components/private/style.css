@@ -1,0 +1,30 @@
+.private {
+  width: 200px;
+  height: 120px;
+  background-color: #d8d8d8;
+  position: absolute;
+}
+.private .battery,
+.private .mass,
+.private .money,
+.private .friends {
+  position: absolute;
+}
+.private .battery {
+  top: 0;
+  left: 30px;
+}
+.private .mass {
+  bottom: 10px;
+  left: 25px;
+  text-align: center;
+  margin: auto;
+}
+.private .money {
+  top: 30px;
+  left: 115px;
+}
+.private .friends {
+  top: 50px;
+  left: 115px;
+}

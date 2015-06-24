@@ -1,0 +1,32 @@
+.result {
+    text-align: center;
+    width: 100%;
+    height: 670px;
+    padding-top: 30px;
+}
+
+.result h1 {
+    font-size: 30pt;
+}
+
+.result a {
+    margin-bottom: 20px;
+}
+
+.result .info {
+    text-align: left;
+    width: 300px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.result .info span {
+    vertical-align: middle;
+    font-size: xx-large;
+}
+
+.result .score {
+    font-size: 60pt;
+    font-weight: bold;
+    margin: 30px;
+}

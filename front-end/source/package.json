@@ -1,0 +1,24 @@
+{
+  "name": "gym",
+  "version": "0.0.0",
+  "description": "game",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp": "^3.8.10",
+    "gulp-6to5": "^3.0.0",
+    "gulp-exec": "^2.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "a"
+  },
+  "repository": {
+    "type": "git",
+    "url": "a"
+  },
+  "keywords": [
+    "a"
+  ],
+  "author": "a",
+  "license": "a"
+}

@@ -1,0 +1,11 @@
+<div class="lang" data-bind="visible: isVisible">
+    <div class="container">
+        <div class="switch">
+            <input type="radio" class="switch-input" name="lang" value="en" id="en" data-bind="attr: { checked: lang() == 'en' }">
+            <label for="en" class="switch-label" data-bind="event: { mouseup: en }">EN</label>
+            <input type="radio" class="switch-input" name="lang" value="ru" id="ru" data-bind="attr: { checked: lang() == 'ru' }">
+            <label for="ru" class="switch-label ru" data-bind="event: { mouseup: ru }">RU</label>
+            <span class="switch-selection"></span>
+        </div>
+    </div>
+</div>

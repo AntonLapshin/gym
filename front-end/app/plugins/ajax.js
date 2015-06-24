@@ -1,0 +1,1 @@
+define(["jquery"],function(e){function i(e,r){var i=t+e+"?";if(r!=null)for(var s in r)i=i+s+"="+r[s]+"&";return i+=n,i}var t=window.cfg.server,n="callback=?",r=5e4;return{callAjax:function(t,n){return e.ajax({url:i(t,n),type:"GET",dataType:"json",timeout:r})}}});

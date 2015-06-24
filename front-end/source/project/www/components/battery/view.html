@@ -1,0 +1,12 @@
+<div class="battery" data-bind="visible:isVisible,click:click,attr:{'title':title},loaded:true"
+           data-toggle="tooltip" data-placement="bottom">
+    <div class="progress">
+        <!--progress-bar-striped active-->
+        <div class="progress-bar" role="progressbar"
+             aria-valuemin="0"
+             data-bind="attr:{'aria-valuenow':value,'aria-valuemax':max},style:{width:percent()},
+css:{'progress-bar-success':yellow() <= value(),'progress-bar-warning':red() <= value() && value() < yellow(),'progress-bar-danger':value() < red()}">
+        </div>
+    </div>
+    <div class="value text-center" data-bind="text: valueDesc">56/172</div>
+</div>

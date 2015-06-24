@@ -1,0 +1,46 @@
+.training .nav img {
+    width: 100px;
+    height: 100px;
+}
+
+.training .nav {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.training button {
+    vertical-align: middle;
+}
+
+.training .exSelect {
+    background-color: rgba(237, 230, 219, 0.13);
+}
+
+.training .exSetup {
+    background-color: rgba(237, 230, 219, 0.13);
+}
+
+.training .exExecute {
+    background-color: rgba(237, 230, 219, 0.13);
+}
+
+.training .textvalue
+{
+    display: inline-block;
+    width: 150px;
+    height: auto;
+    font-size: 2em;
+    margin-top: 10px;
+}
+
+.training .slider {
+    width: 270px;
+}
+
+.training .slider-selection {
+    background: #76ba59;
+}
+
+.training .executeBtn {
+    font-size: 2em;
+}

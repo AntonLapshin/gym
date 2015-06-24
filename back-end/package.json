@@ -1,0 +1,22 @@
+{
+  "name": "gymdb",
+  "version": "0.0.1",
+  "description": "This is a database service",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AntonLapshin/gym"
+  },
+  "keywords": [
+    "mongodb",
+    "db"
+  ],
+  "author": "Anton Lapshin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AntonLapshin/gym/issues"
+  }
+}

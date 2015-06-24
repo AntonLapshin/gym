@@ -1,0 +1,23 @@
+<div class="scores" data-bind="visible: isVisible">
+
+    <!-- ko if: teamA() && teamB() -->
+    <div class="score">
+        <team params="name: 'scores1', team: teamA(), position: 'right'"></team>
+        <span class="value" data-bind="text: '' + goalsA() + ':' + goalsB()"></span>
+        <team params="name: 'scores2', team: teamB(), position: 'left'"></team>
+    </div>
+    <div class="stats">
+        <div class="round">
+            <div data-bind="css: teamA().className"></div>
+            <div data-bind="css: teamB().className"></div>
+        </div>
+        <!-- ko foreach: rounds -->
+        <div class="round">
+            <div data-bind="css: A"></div>
+            <div data-bind="css: B"></div>
+        </div>
+        <!-- /ko -->
+    </div>
+    <!-- /ko -->
+
+</div>

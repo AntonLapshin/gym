@@ -1,0 +1,38 @@
+<div class="jobbing" data-bind="visible: isVisible, loaded: true">
+    <!-- ko if: weight() -->
+    <div class="summary-weight">
+        Собрано: <span data-bind="text: summaryWeight"></span> кг (<span data-bind="text: weight"></span> кг)
+    </div>
+
+    <div class="timer" class="bottom-right opacity-medium">
+        <!--<span data-bind="text: timeShort"></span>-->
+    </div>
+
+    <ul class="area-left" data-bind="foreach: itemsLeft">
+        <li data-bind="attr:{title:header},style:{ left:x,top:y},click:function(){$parent.select($data);}"
+            class="disc" data-toggle="tooltip">
+            <img data-bind="attr: { src: img }"/>
+        </li>
+    </ul>
+    <ul class="area-right" data-bind="foreach: itemsRight">
+        <li data-bind="attr:{title:header},style:{ left:x,top:y},click:function(){$parent.select($data);}"
+            class="disc" data-toggle="tooltip">
+            <img data-bind="attr: { src: img }"/>
+        </li>
+    </ul>
+    <ul class="side-left" data-bind="foreach: itemsSideLeft">
+        <li class="disc" data-bind="attr: { title: header, }, style: { left: x, top: y }"
+            data-toggle="tooltip">
+            <img data-bind="attr: { src: img }"/>
+        </li>
+    </ul>
+    <ul class="side-right" data-bind="foreach: itemsSideRight"
+        data-toggle="tooltip">
+        <li class="disc" data-bind="attr: { title: header }, style: { left: x, top: y }">
+            <img data-bind="attr: { src: img }"/>
+        </li>
+    </ul>
+
+    <timer params="name:'jobbing'"></timer>
+    <!-- /ko -->
+</div>

@@ -1,0 +1,7 @@
+<div class="menu" data-bind="visible: isVisible, loaded: true">
+    <ul class="nav nav-pills" data-bind="foreach: items">
+        <li role="presentation" data-bind="css: {active:active}, click: $parent.select">
+            <a href="#" data-bind="text:name"></a>
+        </li>
+    </ul>
+</div>

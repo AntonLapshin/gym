@@ -1,0 +1,18 @@
+<div class="result" data-bind="visible: isVisible">
+    <h1 data-bind="text: title"></h1>
+
+    <p class="score" data-bind="text: score"></p>
+
+    <div class="info">
+        <!-- ko if: team -->
+        <p><team params="name: 'result1', team: team()"></team></p>
+        <!-- /ko -->
+
+        <p><span data-bind="text: txtPlace"></span> <span>:</span> <span data-bind="text: place"></span></p>
+
+        <p><span data-bind="text: txtGoals"></span> <span>:</span> <span data-bind="text: goals"></span></p>
+    </div>
+
+    <a data-bind="text: linkGroup, attr: { href: communityHref }" class="push_button red" target="_blank"></a>
+    <a href="#" class="push_button blue" data-bind="text: linkInvite, click: invite"></a>
+</div>

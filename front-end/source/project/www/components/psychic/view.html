@@ -1,0 +1,7 @@
+<div class="psychic" data-bind="visible: isVisible() && isPaymentEnabled">
+
+    <img alt="" src="components/psychic/psychic.png" data-bind="click: buy, event: { mouseover: hover, mouseout: out }, css: { enabled: isEnabled }" />
+    <div class="text" data-bind="text: text, visible: textVisible() && !isEnabled()"></div>
+    <div class="text bought" data-bind="text: textEnabled, visible: textVisible() && isEnabled()"></div>
+
+</div>

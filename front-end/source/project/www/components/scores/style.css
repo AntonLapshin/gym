@@ -1,0 +1,55 @@
+.scores .score {
+    position: absolute;
+    z-index: 1001;
+    left: 0;
+    bottom: 0;
+    padding: 5px 8px 7px 8px;
+}
+
+.scores .score div{
+    vertical-align: middle;
+}
+
+.scores .score span{
+    vertical-align: middle;
+    color: white;
+}
+
+.scores .score .value{
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.scores .stats {
+    position: absolute;
+    z-index: 1001;
+    left: 0;
+    bottom: 50px;
+    padding: 5px 8px 7px 8px;
+}
+
+.scores .stats .round {
+    display: inline-block;
+    width: 20px;
+    height: 40px;
+}
+
+.scores .stats .round .goal,
+.scores .stats .round .miss,
+.scores .stats .round .none,
+.scores .stats .round .move {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+.scores .round .goal{
+    background: url('scoreball.png') no-repeat;
+}
+
+.scores .stats .round .miss {
+    background: url('scoremiss.png') no-repeat;
+}
+
+.scores .stats .round .move {
+    background-color: #9fdf89;
+}

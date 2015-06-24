@@ -1,0 +1,8 @@
+<li class="member" data-bind="visible: isVisible, click: click, event: { mouseover: function() { hover($data); }, mouseout: out }">
+    <!-- ko if: user -->
+    <img class="ava" src="" data-bind="attr: { src: user().img, title: user().name }" />
+    <img alt="star" src="components/member/star.png" class="star" data-bind="visible: user().place < 3" style="right: 0"/>
+    <img alt="star" src="components/member/star.png" class="star" data-bind="visible: user().place < 2" style="right: 16px"/>
+    <img alt="star" src="components/member/star.png" class="star" data-bind="visible: user().place < 1" style="right: 32px"/>
+    <!-- /ko -->
+</li>

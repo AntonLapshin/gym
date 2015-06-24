@@ -1,0 +1,10 @@
+<div class="choice" data-bind="visible: isVisible">
+    <h1 data-bind="text: title"></h1>
+    <!-- ko if: items -->
+    <ul id="pairs8" data-bind="foreach: items">
+        <li data-bind="click: function() { $parent.ok($index()); }">
+            <team params="name: 'choice' + $index(), team: $data"></team>
+        </li>
+    </ul>
+    <!-- /ko -->
+</div>

@@ -1,0 +1,31 @@
+.team { display: inline-block; }
+.team > div { vertical-align: middle; }
+.team > span { vertical-align: middle; }
+.playerTeam {
+    font-weight: bold;
+    color: #005c99 !important;
+    background-color: white;
+}
+
+.team-alzgir, .team-argentina, .team-belgium, .team-brazil, .team-chily,
+.team-costa-rica, .team-ekvador, .team-france, .team-germany, .team-greace,
+.team-mexico, .team-netherlands, .team-nigeria, .team-rus, .team-uruguai,
+.team-usa
+{ display: inline-block; background: url('teams.png') no-repeat; overflow: hidden; text-indent: -9999px; text-align: left; }
+
+.team-alzgir { background-position: -0px -0px; width: 20px; height: 20px; }
+.team-argentina { background-position: -20px -0px; width: 20px; height: 20px; }
+.team-belgium { background-position: -40px -0px; width: 20px; height: 20px; }
+.team-brazil { background-position: -60px -0px; width: 20px; height: 20px; }
+.team-chily { background-position: -0px -20px; width: 20px; height: 20px; }
+.team-costa-rica { background-position: -20px -20px; width: 20px; height: 20px; }
+.team-ekvador { background-position: -40px -20px; width: 20px; height: 20px; }
+.team-france { background-position: -60px -20px; width: 20px; height: 20px; }
+.team-germany { background-position: -0px -40px; width: 20px; height: 20px; }
+.team-greace { background-position: -20px -40px; width: 20px; height: 20px; }
+.team-mexico { background-position: -40px -40px; width: 20px; height: 20px; }
+.team-netherlands { background-position: -60px -40px; width: 20px; height: 20px; }
+.team-nigeria { background-position: -0px -60px; width: 20px; height: 20px; }
+.team-rus { background-position: -20px -60px; width: 20px; height: 20px; }
+.team-uruguai { background-position: -40px -60px; width: 20px; height: 20px; }
+.team-usa { background-position: -60px -60px; width: 20px; height: 20px; }

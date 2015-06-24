@@ -1,0 +1,23 @@
+.ava {
+  cursor: pointer;
+  position: absolute;
+  width: 106px;
+  height: 115px;
+}
+.ava .avatar {
+  width: 85px;
+  height: 85px;
+  left: 10px;
+  top: 10px;
+  border-radius: 25px;
+  position: absolute;
+}
+.ava img {
+  position: absolute;
+  left: 0;
+}
+.ava .mass {
+  position: absolute;
+  bottom: 0;
+  left: 23px;
+}

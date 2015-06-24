@@ -1,0 +1,106 @@
+.twist {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 1001;
+    height: 170px;
+    width: 107px;
+}
+
+.twist img {
+    position: absolute;
+    bottom: 0
+}
+
+.twist .twistvalue {
+    position: absolute;
+    left: 0;
+    top: 109px;
+    width: 103px;
+}
+
+.twist h4 {
+    position: absolute;
+    top: 0;
+    opacity: 0.5;
+    margin: 0;
+    padding: 5px;
+    border: 1px solid #555;
+    text-align: center;
+    background-color: white;
+}
+
+input[type=range] {
+    /*removes default webkit styles*/
+    -webkit-appearance: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    height: 0;
+    background: #ddd;
+    border: none;
+}
+input[type=range]::-moz-range-track {
+    height: 0;
+    background: #ddd;
+    border: none;
+}
+input[type=range]::-ms-track {
+    height: 0;
+    background: #ddd;
+    border: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: red;
+    margin-top: -4px;
+    border: 2px solid white;
+    cursor: pointer;
+}
+input[type=range]:focus {
+    outline: none;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}
+
+input[type=range]::-moz-range-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: red;
+    cursor: pointer;
+}
+
+/*hide the outline behind the border*/
+input[type=range]:-moz-focusring{
+    outline: 1px solid white;
+    outline-offset: -1px;
+}
+input[type=range]::-ms-track {
+    /*remove default tick marks*/
+    color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+    outline: none;
+    background: #777;
+}
+input[type=range]::-ms-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: red;
+}
+input[type=range]:focus::-ms-track {
+    background: #ccc;
+}
+input[type=range]:focus::-ms-fill-lower {
+    background: #888;
+}

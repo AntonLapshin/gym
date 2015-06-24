@@ -1,0 +1,7 @@
+<div class="ava" data-bind="click:click,visible:isVisible,attr:{'title':user().name}"
+     data-toggle="tooltip" data-placement="right" data-delay="500">
+    <!-- ko if: user -->
+    <img class="avatar" alt="" src="" data-bind="attr: { src: user().img }" />
+    <img alt="" src="components/ava/frame.png" />
+    <!-- /ko -->
+</div>

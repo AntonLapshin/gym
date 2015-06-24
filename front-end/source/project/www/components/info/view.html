@@ -1,0 +1,12 @@
+<div class="info" data-bind="visible: isVisible">
+    <div class="back"></div>
+    <div>
+        <!-- ko if: user -->
+        <img alt="" src="" data-bind="attr: { src: user().img }">
+        <p class="name" data-bind="text: user().name"></p>
+        <p><span data-bind="text: scores"></span> : <span data-bind="text: user().score"></span></p>
+        <p><span data-bind="text: goals"></span> : <span data-bind="text: user().goals"></span></p>
+        <p><span data-bind="text: exp"></span> : <span data-bind="text: user().exp"></span></p>
+        <!-- /ko -->
+    </div>
+</div>

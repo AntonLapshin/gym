@@ -1,0 +1,31 @@
+<div class="match" data-bind="visible: isVisible">
+
+    <br/>
+    <br/>
+    <br/>
+
+    <div class="teams">
+        <!-- ko if: teamA() >= 0 -->
+        <team params="name: 'match1', team: teams[teamA()]"></team>
+        <!-- /ko -->
+        <p>VS</p>
+        <!-- ko if: teamB() >= 0 -->
+        <team params="name: 'match2', team: teams[teamB()]"></team>
+        <!-- /ko -->
+    </div>
+
+    <h2 data-bind="text: firstTurn">Право первого удара: </h2>
+    <a href="#" class="push_button blue small" data-bind="text: drawLot, visible: isBallotVisible, click: ballot"></a>
+    <!-- ko if: firstTeam() >= 0 -->
+    <team params="name: 'match3', team: teams[firstTeam()]"></team>
+    <!-- /ko -->
+
+    <br/>
+    <br/>
+    <br/>
+
+    <a href="#" class="button" data-bind="visible: isBeginVisible, click: beginGame">
+        <span data-bind="text: btnStart"></span>
+    </a>
+
+</div>

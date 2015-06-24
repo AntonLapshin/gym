@@ -1,0 +1,15 @@
+<div class="team" data-bind="visible: isVisible, loaded: true">
+    <!-- ko if: team -->
+
+    <!-- ko if: position() == 'left' -->
+    <div data-bind="css: team().className"></div>
+    <span data-bind="text: team().name, css: { 'playerTeam': team().isPlayer }"></span>
+    <!-- /ko -->
+
+    <!-- ko if: position() == 'right' -->
+    <span data-bind="text: team().name, css: { 'playerTeam': team().isPlayer }"></span>
+    <div data-bind="css: team().className"></div>
+    <!-- /ko -->
+
+    <!-- /ko -->
+</div>

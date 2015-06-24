@@ -1,0 +1,34 @@
+.top{
+    /*padding: 3px;*/
+    border-top: 1px solid #afd458;
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    height: 120px;
+    left: 0;
+    bottom: 0;
+    padding-top: 10px;
+}
+
+.top ul { padding: 0; margin: 0}
+
+.top .switch {
+    margin-top: 10px;
+}
+
+/* ----------------- SWITCH -------------- */
+.top .switch {
+    width: 240px;
+}
+
+.top .switch-label {
+    width: 116px;
+}
+
+.switch-input:checked + .modetop ~ .switch-selection {
+    left: 120px;
+}
+
+.top .switch-selection {
+    width: 116px;
+}
