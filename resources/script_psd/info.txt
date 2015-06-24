@@ -1,0 +1,14 @@
+{
+  level: 0,
+  muscles: [
+       { id: ikr, x: 179, y: 240 },
+       { id: grudak, x: 173, y: 85 },
+  ]
+},
+{
+  level: 1,
+  muscles: [
+       { id: ikr, x: 176, y: 221 },
+       { id: grudak, x: 167, y: 84 },
+  ]
+}

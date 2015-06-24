@@ -68,6 +68,68 @@ module.exports = {
             });
         });
     },
+    update: function (coll, id, setClause) {
+        if (typeof coll === 'string')
+            coll = _collections[coll];
+
+        return $.Deferred(function (defer) {
+            coll.update({ _id: id}, setClause, function(err, value){
+                if (err)
+                    defer.reject(err);
+                else
+                    defer.resolve(value);
+            });
+        });
+    },
+    remove: function (coll, id) {
+        if (typeof coll === 'string')
+            coll = _collections[coll];
+
+        return $.Deferred(function (defer) {
+            coll.remove({ _id: id}, function(err, value){
+                if (err)
+                    defer.reject(err);
+                else
+                    defer.resolve(value);
+            });
+        });
+    },
+    exists: function (coll, id) {
+        if (typeof coll === 'string')
+            coll = _collections[coll];
+
+        return $.Deferred(function (defer) {
+            coll.findOne({ _id: id }, { _id: 1}, function(err, value){
+                if (err)
+                    defer.reject(err);
+                else
+                    defer.resolve(value);
+            });
+        });
+    },
+    find: function (coll, id, shown) {
+        if (typeof coll === 'string')
+            coll = _collections[coll];
+
+        var shownBase = shown;
+        if (typeof shown === 'string') shown = [shown];
+        var target = {};
+        for (var i = 0; i < shown.length; i++) target[shown[i]] = 1;
+
+        return $.Deferred(function (defer) {
+            coll.findOne({ _id: id }, target, function (err, data) {
+                if (err)
+                    defer.reject(err);
+                else {
+                    if (data == null) defer.resolve(null);
+                    else if (typeof shownBase === 'string')
+                        defer.resolve(data[shownBase]);
+                    else
+                        defer.resolve(data);
+                }
+            });
+        });
+    },
     ensureIndex: function (coll, index) {
         if (typeof coll === 'string')
             coll = _collections[coll];

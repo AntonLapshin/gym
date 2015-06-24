@@ -6,91 +6,64 @@ var Db = require('../db'),
 var UPDATE_PERIOD = 5,
     CHECK_LEVELUP_PERIOD = 4,
     LIMIT_TOP_PLAYERS = 100,
-    REG_FRAZZLE_PER_HOUR = 0.,
+    REG_FRAZZLE_PER_HOUR = 0.3,
     REG_ENERGY = 0.3,
     REG_ENERGY_PER_HOUR = REG_ENERGY * PlayersCollection.ENERGY_MAX;
 
 module.exports = {
-    REG_FRAZZLE_PER_HOUR: REG_FRAZZLE_PER_HOUR,
-    REG_ENERGY: REG_ENERGY,
-    REG_ENERGY_PER_HOUR: REG_ENERGY_PER_HOUR,
     create: create,
+    update: update,
     exists: exists,
     find: find,
-    remove: remove
+    remove: remove,
+    top: top,
+    incMoney: incMoney,
+    decMoney: decMoney,
+    decEnergy: decEnergy,
+    frazzle: frazzle,
+    updateState: updateState
 };
 
-var update = function (id, setClause) {
-    return P.call(function (fulfill, reject, handler) {
-        Db.players.update({ _id: id}, setClause, handler);
-    });
-};
+function update(id, setClause) {
+    return Db.update('players', id, setClause);
+}
 
 function remove(id) {
-    return $.Deferred(function(defer){
-        Db.getColl('players').remove({ _id: id}, function(err, value){
-            if (err)
-                defer.reject(err);
-            else
-                defer.resolve(value);
-        });
-    });
+    return Db.remove('players', id);
 }
 
 function create(id) {
-    var newPlayer = PlayersCollection.newPlayer();
+    var newPlayer = PlayersCollection.newPlayer(-1, 0);
     newPlayer._id = id;
 
     return Db.insert('players', newPlayer);
 }
 
 function exists(id) {
-    return $.Deferred(function(defer){
-        Db.getColl('players').findOne({ _id: id }, { _id: 1}, function(err, value){
-            if (err)
-                defer.reject(err);
-            else
-                defer.resolve(value);
+    return Db.exists('players', id);
+}
+
+function find(id, shown) {
+    return Db.find('players', id, shown);
+}
+
+function top() {
+    return $.Deferred(function (defer) {
+        Db.getColl('players').find({$query: {}, $orderby: { 'public.level': -1 }}, { _id: 1 })
+            .limit(LIMIT_TOP_PLAYERS)
+            .toArray(function (err, data) {
+                if (err)
+                    defer.reject(err);
+                else {
+                    defer.resolve(data);
+                }
         });
     });
 }
 
-function find(id, shown) {
-    var shownBase = shown;
-    if (typeof shown === 'string') shown = [shown];
-    var target = {};
-    for (var i = 0; i < shown.length; i++) target[shown[i]] = 1;
-
-    return $.Deferred(function(defer){
-        Db.getColl('players').findOne({ _id: id }, target, function (err, data) {
-            if (err)
-                defer.reject(err);
-            else {
-                if (data == null) defer.resolve(null);
-                else if (typeof shownBase === 'string')
-                    defer.resolve(data[shownBase]);
-                else
-                    defer.resolve(data);
-            }
-        });
-    });
-};
-
-var getTopPlayers = function () {
-    return P.call(function (fulfill, reject) {
-        Db.players.find({$query: {}, $orderby: { 'public.level': -1 }}, { _id: 1 })
-            .limit(LIMIT_TOP_PLAYERS)
-            .toArray(function (err, data) {
-                if (err)reject(err);
-                else {
-                    fulfill(data);
-                }
-        });
-    });
-};
-
-var setFrazzle = function (playerId, body, exercise, effect) {
+function frazzle(playerId, body, exercise, effect) {
     var setClause = {};
+
     for (var i = 0; i < exercise.body.length; i++) {
         var muscleExercise = exercise.body[i];
         var muscleBody = body[muscleExercise._id];
@@ -105,44 +78,35 @@ var setFrazzle = function (playerId, body, exercise, effect) {
     }
 
     return update(playerId, { $set: setClause });
-};
+}
 
-var updateState = function (id) {
-
+function updateState(id) {
     return find(id, ['private', 'body', 'public']).then(
         function (player) {
             var setClause = getUpdateClause(player);
             if (setClause == null) {
-                var promise = P.Promise();
-                promise.fulfill();
-                return promise;
+                return $.Deferred(function(defer){
+                    defer.resolve();
+                });
             }
 
             setClause = getClauseAfterCheckLevelUp(player, setClause);
             return update(id, {$set: setClause});
         }
     );
-};
+}
 
-exports.incMoney = function (id, money) {
+function incMoney (id, money) {
     return update(id, { $inc: {'private.money': money } });
-};
+}
 
-exports.decMoney = function (id, money) {
+function decMoney (id, money) {
     return update(id, { $inc: {'private.money': money == undefined ? 0 : -money } });
-};
+}
 
-exports.decEnergy = function (id, value) {
+function decEnergy (id, value) {
     return update(id, { $inc: { 'private.energy': -value } });
-};
-
-//exports.remove = remove;
-//exports.update = update;
-//exports.create = create;
-//exports.find = find;
-//exports.getTopPlayers = getTopPlayers;
-//exports.setFrazzle = setFrazzle;
-//exports.updateState = updateState;
+}
 
 function round2(v) {
     return Math.round(v * 100) / 100;
@@ -158,8 +122,8 @@ function getUpdateClause(player) {
 
     var interval = DateHelper.intervalHours(now - reg.lastUpdateTime);
 
-    var frazzleDecrease = round2(exports.REG_FRAZZLE_PER_HOUR * interval);
-    var energyValue = Math.round(player.private.energy + exports.REG_ENERGY_PER_HOUR * interval);
+    var frazzleDecrease = round2(REG_FRAZZLE_PER_HOUR * interval);
+    var energyValue = Math.round(player.private.energy + REG_ENERGY_PER_HOUR * interval);
 
     if (energyValue > PlayersCollection.ENERGY_MAX)
         energyValue = PlayersCollection.ENERGY_MAX;

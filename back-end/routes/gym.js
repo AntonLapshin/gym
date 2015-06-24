@@ -1,6 +1,6 @@
-var Db = require('../db');
-var Player = require('../controllers/player');
-var P = require('../p');
+var Db = require('../db'),
+    Player = require('../controllers/player'),
+    $ = require('jquery-deferred');
 
 var WEIGHT_MIN = 20;
 var REPEATS_MIN = 0;
@@ -10,27 +10,35 @@ var COEFF_POWER = 4;
 var COEFF_FRAZZLE = 10;
 //var COEFF_BODYPOWER = 8;
 
-exports.MES_WEIGHT= { message: "Нельзя собрать такой вес"};
-exports.MES_REPEATS_MAX = { message: "Нет смысла делать столько повторений"};
-exports.MES_REPEATS_MIN = { message: "Сделай хотя бы одно повторение"};
-exports.MES_ENERGY = { message: "Не хватает энергии, отдохни и подкрепись"};
-exports.MES_EXERCISE = { message: "Упражнение недоступно"};
+var MES_WEIGHT = { message: "Нельзя собрать такой вес"},
+    MES_REPEATS_MAX = { message: "Нет смысла делать столько повторений"},
+    MES_REPEATS_MIN = { message: "Сделай хотя бы одно повторение"},
+    MES_ENERGY = { message: "Не хватает энергии, отдохни и подкрепись"},
+    MES_EXERCISE = { message: "Упражнение недоступно"};
 
-function round2(v)
-{
+module.exports = {
+    MES_WEIGHT: MES_WEIGHT,
+    MES_REPEATS_MAX: MES_REPEATS_MAX,
+    MES_REPEATS_MIN: MES_REPEATS_MIN,
+    MES_ENERGY: MES_ENERGY,
+    MES_EXERCISE: MES_EXERCISE,
+
+    getExercisePower: getExercisePower,
+    execute: execute
+};
+
+function round2(v) {
     return Math.round(v * 100) / 100;
 }
 
-exports.getExercisePower = function(playerBody, publicInfo, exercise)
-{
+function getExercisePower(playerBody, publicInfo, exercise) {
     //TODO: stimulants
     var level = publicInfo.level;
     var totalPower = 0;
-    for (var i = 0; i < exercise.body.length; i++)
-    {
+    for (var i = 0; i < exercise.body.length; i++) {
         var muscleExercise = exercise.body[i];
         var muscleBody = playerBody[muscleExercise._id];
-        var muscleInfo = Db.dics.muscles[muscleExercise._id];
+        var muscleInfo = Db.getRefs().muscles[muscleExercise._id];
         var power = level * muscleInfo.power * muscleExercise.stress / COEFF_POWER;
         //power = power + power * muscleBody.power / COEFF_BODYPOWER;
         power = power - power * muscleBody.frazzle / COEFF_FRAZZLE;
@@ -38,44 +46,36 @@ exports.getExercisePower = function(playerBody, publicInfo, exercise)
     }
     totalPower = totalPower * exercise.coeff + exercise.power;
     return totalPower;
-};
+}
 
-exports.execute = function(playerId, gymId, exerciseId, weight, repeats)
-{
-    return P.call(function(fulfill, reject)
-    {
-        var gym = Db.dics.gyms[gymId];
-        if (gym.exercises.indexOf(exerciseId) == -1)
-        {
-            fulfill(exports.MES_EXERCISE);
+function execute(playerId, gymId, exerciseId, weight, repeats) {
+    return $.Deferred(function (defer) {
+        var gym = Db.getRefs().gyms[gymId];
+        if (gym.exercises.indexOf(exerciseId) == -1) {
+            defer.resolve(MES_EXERCISE);
             return;
         }
 
-        var exercise = Db.dics.exercises[exerciseId];
+        var exercise = Db.getRefs().exercises[exerciseId];
 
-        if (weight < WEIGHT_MIN || gym.max < weight || weight % gym.delta != 0)
-        {
-            fulfill(exports.MES_WEIGHT);
+        if (weight < WEIGHT_MIN || gym.max < weight || weight % gym.delta != 0) {
+            defer.resolve(MES_WEIGHT);
             return;
         }
-        if (repeats < REPEATS_MIN)
-        {
-            fulfill(exports.MES_REPEATS_MIN);
+        if (repeats < REPEATS_MIN) {
+            defer.resolve(MES_REPEATS_MIN);
             return;
         }
-        if (repeats > REPEATS_MAX)
-        {
-            fulfill(exports.MES_REPEATS_MAX);
+        if (repeats > REPEATS_MAX) {
+            defer.resolve(MES_REPEATS_MAX);
             return;
         }
 
         Player.find(playerId, ['body', 'public', 'records', 'private']).then(
-            function(player)
-            {
-                var power = exports.getExercisePower(player.body, player.public, exercise);
-                if (power < weight)
-                {
-                    fulfill({ repeatsMax: power / weight, repeats: power / weight, energy: exercise.energy });
+            function (player) {
+                var power = getExercisePower(player.body, player.public, exercise);
+                if (power < weight) {
+                    defer.resolve({repeatsMax: power / weight, repeats: power / weight, energy: exercise.energy});
                     return;
                 }
 
@@ -83,7 +83,7 @@ exports.execute = function(playerId, gymId, exerciseId, weight, repeats)
                 var k1 = 1 - weight / power;
                 var repeatsMax = round2(k1 / 0.03 + k1 * k1 * 35 + 1);
                 var k2 = weight * repeatsMax - weight * repeatsMax * (k1 + 0.25) + weight;
-                while(k2 < 0) k2 += weight;
+                while (k2 < 0) k2 += weight;
                 var effMax = k2 / (mass * 15);
 
 
@@ -92,30 +92,27 @@ exports.execute = function(playerId, gymId, exerciseId, weight, repeats)
                 var effFact = (repeatsFact / repeatsPlan) * effMax;
 
                 var energyFact = Math.ceil((repeatsFact / repeatsMax) * exercise.energy);
-                if (energyFact > player.private.energy)
-                {
-                    fulfill(exports.MES_ENERGY);
+                if (energyFact > player.private.energy) {
+                    defer.resolve(MES_ENERGY);
                     return;
                 }
 
-                Player.setFrazzle(playerId, player.body, exercise, effFact).then(
-                    function()
-                    {
+                Player.frazzle(playerId, player.body, exercise, effFact).then(
+                    function () {
                         return Player.decEnergy(playerId, energyFact);
-                    }, reject
+                    }, defer.reject
                 ).then(
-                    function()
-                    {
-                        fulfill(
+                    function () {
+                        defer.resolve(
                             {
                                 repeatsMax: repeatsMax,
                                 repeats: repeatsFact,
                                 energy: energyFact
                             });
-                    }, reject
+                    }, defer.reject
                 );
             },
-            reject
+            defer.reject
         );
     });
-};
+}
