@@ -54,17 +54,17 @@ exports.start = function (port)
     });
 
     var auth = require('./routes/auth'),
-        refs = require('./routes/refs');
-        //gym = require('./routes/gym'),
-        //jobbing = require('./routes/jobbing');
+        refs = require('./routes/refs'),
+        gym = require('./routes/gym'),
+        jobbing = require('./routes/jobbing');
 
     return $.Deferred(function(defer){
         try {
             GymDb.init().then(function(){
                 app.get('/auth', function(req, res) { handler(req, res, auth)});
                 app.get('/refs', function(req, res) { handler(req, res, refs)});
-                //app.get('/gym', function(req, res) { handler(req, res, gym)});
-                //app.get('/jobbing', function(req, res) { handler(req, res, jobbing)});
+                app.get('/gym', function(req, res) { handler(req, res, gym)});
+                app.get('/jobbing', function(req, res) { handler(req, res, jobbing)});
                 app.listen(port);
                 defer.resolve();
             });

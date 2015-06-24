@@ -24,7 +24,16 @@ module.exports = {
     MES_EXERCISE: MES_EXERCISE,
 
     getExercisePower: getExercisePower,
-    execute: execute
+    execute: execute,
+    handler: function (session, params) {
+        if (params.method != 'execute'){
+            return $.Deferred(function(defer){
+                defer.resolve({ message: 'Invalid method'});
+            });
+        }
+
+        return execute(params.playerId, params.gymId, params.exerciseId, params.weight, params.repeats);
+    }
 };
 
 function round2(v) {

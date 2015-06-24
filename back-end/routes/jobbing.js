@@ -35,7 +35,20 @@ module.exports = {
     setNextTime: setNextTime,
     get: get,
     start: start,
-    complete: complete
+    complete: complete,
+
+    handler: function (session, params) {
+        if (params.method == 'get')
+            return get(session);
+        else if (params.method == 'start')
+            return start(session);
+        else if (params.method == 'complete')
+            return complete(session);
+        else
+            return $.Deferred(function(defer){
+                defer.resolve({ message: 'Invalid method'});
+            });
+    }
 };
 
 function clearJobbing(session) {
