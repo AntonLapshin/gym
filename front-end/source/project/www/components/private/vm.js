@@ -13,7 +13,6 @@ define([
     function ViewModel() {
 
         this.show = function(player){
-            this.model(player);
             ava('private').show(player.public);
             battery('private').show(player.private.energyMax, player.private.energy);
             mass('private').show(player.public.mass);

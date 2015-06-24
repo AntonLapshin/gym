@@ -9,6 +9,7 @@ define([
         this.red = ko.observable();
         this.yellow = ko.observable();
         this.title = component.strings.bankEnergy;
+        this.value = null;
 
         // max and value is ko.observable
         this.show = function (max, value) {

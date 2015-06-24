@@ -15,32 +15,34 @@ define([
         { name: strings.menuShop, active: ko.observable(false) }
     ];
 
-    var _viewModel = {
-        items: ko.observableArray(_items),
+    function ViewModel() {
+        var self = this;
 
-        show: function () {
+        this.items = ko.observableArray(_items);
+
+        this.show = function () {
             this.isVisible(true);
             return $.Deferred(function (defer) {
                 _defer = defer;
             });
-        },
+        };
 
-        select: function(){
+        this.select = function(){
             _items.forEach(function(item){
                 item.active(false);
             });
             this.active(true);
-            var index = _viewModel.items().indexOf(this);
+            var index = self.items().indexOf(this);
             _defer.notify(index);
-        },
+        };
 
-        test: function () {
+        this.test = function () {
             this.show()
                 .progress(function(index){
                     console.log('Selected item is ' + index);
                 });
-        }
+        };
     };
 
-    return component.add(_viewModel, html, 'menu');
+    return component.add(ViewModel, html, 'menu');
 });

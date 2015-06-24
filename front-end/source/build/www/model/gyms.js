@@ -1,1 +1,0 @@
-define(["plugins/localization"],function(e){return[{id:0,name:e.gyms0name,desc:e.gyms0desc,img:"components/gyms/gym0.jpg"},{id:1,name:e.gyms1name,desc:e.gyms1desc,img:"components/gyms/gym1.jpg"}]});

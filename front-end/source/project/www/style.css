@@ -13,6 +13,7 @@
 @import url('components/energy/style.css');
 @import url('components/ava/style.css');
 @import url('components/private/style.css');
+@import url('components/main/style.css');
 body {
   font-family: 'Roboto Condensed', sans-serif;
 }
