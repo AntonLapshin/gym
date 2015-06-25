@@ -4,7 +4,7 @@ exports.START_MONEY = 125;
 exports.newPlayer = function (id, level) {
     return {
         _id: id,
-        jobbing: {
+        job: {
             nextTime: new Date()
         },
         private: {
