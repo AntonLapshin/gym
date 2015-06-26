@@ -1,0 +1,15 @@
+<div class="body" data-bind="visible:isVisible, loaded">
+
+
+    <!-- ko if: model -->
+    <img class="img-body" data-bind="attr: { src: src }" border="0" usemap="#navigation"/>
+
+    <map name="navigation" data-bind="foreach: muscles">
+        <area data-bind="attr: { coords: map }"
+              shape="poly"
+              href="javascript:;">
+    </map>
+    <!-- /ko -->
+
+
+</div>

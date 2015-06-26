@@ -7,6 +7,14 @@ define(['jquery', 'plugins/ajax'], function ($, ajax) {
             })
         },
 
+        loadRefs: function(){
+            return ajax.callAjax('refs');
+        },
+
+        loadMe: function(id){
+
+        },
+
         loadUsers: function(ids){
             return ajax.callAjax('scores', { ids: ids })
         },

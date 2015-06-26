@@ -2,13 +2,12 @@ define([
     'ko',
     'text!./view.html',
     'plugins/component',
-    'model/player',
     'c/ava/vm',
     'c/battery/vm',
     'c/mass/vm',
     'c/money/vm',
     'c/friends/vm'
-], function (ko, html, component, Player, ava, battery, mass, money, friends) {
+], function (ko, html, component, ava, battery, mass, money, friends) {
 
     function ViewModel() {
 
@@ -23,9 +22,8 @@ define([
 
         this.test = function () {
             var self = this;
-            var player = new Player();
-            player.load().then(function(){
-                self.show(player);
+            require(['model/game'], function(game){
+                self.show(game.player);
             });
         };
 

@@ -1,42 +1,60 @@
 define(['jquery'], function($){
 
     var _server,
-        _resuests = {
+        _requests = {
             loadTop: {
                 lastDateTime: 0,
                 data: null,
                 timeout: 5 * 1000 * 60
+            },
+            loadRefs: {
+                lastDateTime: 0,
+                data: null,
+                timeout: 60 * 1000 * 60
             }
         };
 
     return {
+
+        proxy: function(){
+            var funcName = [].shift.apply(arguments);
+            var args = arguments;
+            return $.Deferred(function(defer){
+                if (_requests[funcName])
+                    if (Date.now() - _requests[funcName].lastDateTime <= _requests[funcName].timeout){
+                        defer.resolve(_requests[funcName].data);
+                        return;
+                    }
+
+                _server[funcName].apply(_server, args).then(function(data){
+                    if (_requests[funcName]) {
+                        _requests[funcName].lastDateTime = Date.now();
+                        _requests[funcName].data = data;
+                    }
+                    defer.resolve(data);
+                });
+            });
+        },
 
         init: function(server){
             _server = server;
             return server.init();
         },
 
+        loadRefs: function(){
+            return this.proxy('loadRefs');
+        },
+
         loadMe: function(id){
-            return _server.loadMe(id);
+            return this.proxy('loadMe', id);
         },
 
         loadPlayers: function(ids){
-            return _server.loadPlayers(ids);
+            return this.proxy('loadPlayers', ids);
         },
 
         loadTop: function(){
-            return $.Deferred(function(defer){
-                if (Date.now() - _resuests.loadTop.lastDateTime <= _resuests.loadTop.timeout){
-                    defer.resolve(_resuests.loadTop.data);
-                    return;
-                }
-
-                _server.loadTop().then(function(serverPlayers){
-                    _resuests.loadTop.lastDateTime = Date.now();
-                    _resuests.loadTop.data = serverPlayers;
-                    defer.resolve(serverPlayers);
-                });
-            });
+            return this.proxy('loadTop');
         },
 
         saveMe: function(playerSetExp){

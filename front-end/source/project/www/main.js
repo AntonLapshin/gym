@@ -2,7 +2,7 @@ window.cfg = {
     debug: true,
     payments: true,
     publish: true,
-    server: "https://penaltydb.herokuapp.com/",
+    server: "http://localhost:8080/",
     language: "ru"
 };
 
@@ -25,6 +25,7 @@ requirejs.config({
         vk: '//vk.com/js/api/xd_connection',
         fb: '//connect.facebook.net/en_US/all',
         bootstrap: 'bootstrap/js/bootstrap.min',
+        maphilight: 'lib/jquery.maphilight.min',
         slider: 'lib/bootstrap-slider.min',
         bootbox: '//cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min',
         //kob: 'lib/knockout-bootstrap.min',
@@ -42,6 +43,7 @@ require([
     'social/demo',
     'server/server',
     'server/demo',
+    'model/game',
     'plugins/dynamic-tooltips',
     'plugins/prevent-selection'
 ], function (ko,
@@ -52,10 +54,14 @@ require([
              social,
              socialInstance,
              server,
-             serverInstance
+             serverInstance,
+             game
     ) {
     $.when.apply($, [social.init(socialInstance), server.init(serverInstance)])
         .then(function () {
+            return game.init();
+        })
+        .then(function(){
             var search = window.location.search,
                 testComponentName = search.length > 0 ? search.substring(1) : null;
             if (window.cfg.debug === true && testComponentName) {
@@ -68,6 +74,6 @@ require([
             else {
                 require(['lifecycle']);
             }
-        });
+        })
 });
 

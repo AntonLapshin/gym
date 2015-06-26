@@ -18,11 +18,8 @@ define([
         };
         this.test = function(){
             var self = this;
-            require(['model/player'], function(Player){
-                var player = new Player();
-                player.load().then(function(){
-                    self.show(player.public);
-                });
+            require(['model/game'], function(game){
+                self.show(game.player.public);
             });
         };
     }

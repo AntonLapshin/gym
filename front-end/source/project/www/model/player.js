@@ -26,7 +26,6 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
         var self = this;
 
         this._id = ko.observable();
-        this.jobbing = ko.observable();
         this.private = {
             money: ko.observable(),
             energy: ko.observable(),
@@ -55,7 +54,6 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
         this.load = function(){
             return getMe().then(function(model){
                 self._id(model._id);
-                self.jobbing(model.jobbing);
 
                 self.private.money(model.private.money);
                 self.private.energy(model.private.energy);
