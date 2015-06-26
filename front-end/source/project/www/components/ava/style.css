@@ -1,8 +1,8 @@
-.body {
+.ava {
   cursor: pointer;
   position: absolute;
 }
-.body .avatar {
+.ava .avatar {
   width: 70px;
   height: 70px;
   left: 8px;
@@ -10,15 +10,15 @@
   border-radius: 50%;
   position: absolute;
 }
-.body .frame {
+.ava .frame {
   width: 85px;
   height: 85px;
 }
-.body img {
+.ava img {
   position: absolute;
   left: 0;
 }
-.body .mass {
+.ava .mass {
   position: absolute;
   bottom: 0;
   left: 23px;
