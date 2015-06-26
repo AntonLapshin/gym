@@ -10,8 +10,7 @@ module.exports = {
         GymDb.init().then(callback, console.log);
     },
     tearDown: function (callback) {
-        GymDb.close();
-        callback();
+        GymDb.close().then(callback, console.log);
     },
     getSuccess: function (test) {
         var session = {auth: {id: PLAYER_ID_TEST, job: {}}};

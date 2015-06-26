@@ -19,7 +19,11 @@ module.exports = {
         return Db.init(REMOTE_TEST, COLL_NAMES, REF_NAMES);
     },
     close: function () {
-        Db.getDb().close();
+        return $.Deferred(function(defer){
+            Db.getDb().close(function(){
+                defer.resolve();
+            });
+        });
     },
     create: function () {
         return Db.connect(REMOTE_TEST)

@@ -13,8 +13,7 @@ module.exports = {
         GymDb.init().then(callback, console.log);
     },
     tearDown: function (callback) {
-        GymDb.close();
-        callback();
+        GymDb.close().then(callback, console.log);
     },
     authSuccess: function (test) {
         var session = {},
@@ -26,7 +25,7 @@ module.exports = {
         Auth.handler(session, params).then(
             function (answer) {
                 test.equal(answer, Auth.MES_SUCCESS);
-                test.equal(session.player.id, PLAYER_ID);
+                test.equal(session.auth.id, PLAYER_ID);
                 test.done();
             },
             console.log
@@ -57,7 +56,7 @@ module.exports = {
         Auth.handler(session, params).then(
             function (answer) {
                 test.equal(answer, Auth.MES_SUCCESS);
-                test.equal(session.player.id, PLAYER_ID_CREATED);
+                test.equal(session.auth.id, PLAYER_ID_CREATED);
 
                 return Player.find(PLAYER_ID_CREATED, '_id');
             },

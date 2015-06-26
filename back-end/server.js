@@ -10,12 +10,12 @@ function handler(req, res, route) {
 
     try {
         var auth = require('./routes/auth');
+        var session = req.session;
         if (route !== auth) {
-            if (!auth.isAuth(req))
+            if (!session.auth)
                 throw ERR_UNAUTH;
         }
         var params = getParams(req, route);
-        var session = req.session;
         route.handler(session, params)
             .then(function (answer) {
                 if (answer == undefined)answer = true;

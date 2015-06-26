@@ -22,9 +22,6 @@ module.exports = {
             required: true
         }
     },
-    isAuth: function (req) {
-        return !!req.session.auth;
-    },
     handler: function (session, params) {
         return $.Deferred(function (defer) {
             if (session.auth) {

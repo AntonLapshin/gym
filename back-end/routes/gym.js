@@ -23,16 +23,17 @@ module.exports = {
     MES_ENERGY: MES_ENERGY,
     MES_EXERCISE: MES_EXERCISE,
 
+    params: {
+        gymId: { required: true, parseMethod: parseInt },
+        exerciseId: { required: true, parseMethod: parseInt },
+        weight: { required: true, parseMethod: parseInt },
+        repeats: { required: true, parseMethod: parseInt }
+    },
+
     getExercisePower: getExercisePower,
     execute: execute,
     handler: function (session, params) {
-        if (params.method != 'execute'){
-            return $.Deferred(function(defer){
-                defer.resolve({ message: 'Invalid method'});
-            });
-        }
-
-        return execute(params.playerId, params.gymId, params.exerciseId, params.weight, params.repeats);
+        return execute(session.auth.id, params.gymId, params.exerciseId, params.weight, params.repeats);
     }
 };
 

@@ -35,13 +35,10 @@ var PLAYER_NOT_CREATED = 99;
 
 module.exports = {
     setUp: function (callback) {
-        GymDb.create().then(function(){
-            GymDb.init().then(callback, console.log);
-        }, console.log);
+        GymDb.init().then(GymDb.create, console.log).then(callback, console.log);
     },
     tearDown: function (callback) {
-        GymDb.close();
-        callback();
+        GymDb.close().then(callback, console.log);
     },
     exists: function (test) {
         Player.exists(PLAYER_ID_TEST).then(function (_id) {
