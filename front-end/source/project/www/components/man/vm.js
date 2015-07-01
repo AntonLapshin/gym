@@ -89,6 +89,9 @@ define([
         this.hover = function(e, muscle){
             muscleinfo('man').show(muscle, { x: e.clientX, y: e.clientY });
         }
+        this.out = function(){
+            muscleinfo('man').hide();
+        }
     }
 
     return component.add(ViewModel, html, 'man');

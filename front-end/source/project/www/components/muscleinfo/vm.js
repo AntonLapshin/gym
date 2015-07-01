@@ -7,51 +7,50 @@ define([
     'c/battery/vm'
 ], function(ko, $, html, component, strings, battery) {
 
-    function draw(elem$, context, position){
-        var posEnd = elem$.position();
-        context.beginPath();
-        context.moveTo(position.x, position.y);
-        context.lineTo(posEnd.left, posEnd.top + 20);
-        context.closePath();
-        context.lineWidth = 1;
-        context.strokeStyle = 'rgba(220, 184, 148, 0.37)';
-        context.stroke();
-        context.beginPath();
-        context.arc(position.x, position.y, 2, 0, 2 * Math.PI, false);
-        context.arc(posEnd.left, posEnd.top + 20, 2, 0, 2 * Math.PI, false);
-        context.fillStyle = 'rgba(220, 184, 148, 0.57)';
-        context.fill();
+    function draw(ctx, start){
+        var end = ctx.elem$.position();
+
+        if (ctx.svg$)
+            ctx.svg$.remove();
+        var svgHtml =
+            '<svg>' +
+                '<line x1="{0}" y1="{1}" x2="{2}" y2="{3}" stroke-width="{4}" stroke="{5}"/>' +
+                '<circle cx="{0}" cy="{1}" r="2" fill="{5}"/>' +
+                '<circle cx="{2}" cy="{3}" r="2" fill="{5}"/>' +
+            '</svg>';
+        svgHtml = component.format(svgHtml, start.x, start.y - 20, end.left, end.top + 20, 1, 'rgba(220, 184, 148, 0.37)');
+        ctx.svg$ = $(svgHtml);
+        if ($('img.img-man').length > 0)
+            $('img.img-man').before(ctx.svg$);
+        else
+            ctx.elem$.after(ctx.svg$);
     }
 
     function ViewModel() {
 
-
         this.show = function(muscle, position){
             this.model(muscle);
             this.isVisible(true);
+            muscle.frazzle = muscle.frazzle || 0.2;
             var max = ko.observable(100),
                 value = ko.observable(muscle.frazzle*100);
-            battery('muscleinfo').show(max, value);
+            battery('muscleinfo').show(max, value, '%');
 
             this.position = position;
-            if (!this.context){
+            if (!this.elem$){
                 var self = this;
                 this.delayed = function(){
-                    draw(self.elem$, self.context, position);
+                    draw(self, position);
                 }
             }else {
-                draw(this.elem$, this.context, position);
+                draw(this, position);
             }
         };
 
-        this.frazzle = ko.computed(function(){
-            var value = this.model && this.model() ? this.model().frazzle : 0;
-            if (value == 0) return 0;
-            if (0 < value && value <= 0.2) return 1;
-            if (0.2 < value && value <= 0.5) return 2;
-            if (0.5 < value && value <= 0.8) return 3;
-            if (0.8 < value && value <= 1) return 4;
-        }, this);
+        this.hide = function(){
+            this.isVisible(false);
+            this.svg$.hide();
+        };
 
         this.strings = strings;
 
@@ -66,14 +65,10 @@ define([
 
         this.loaded = function(elem$){
             this.elem$ = elem$;
-            var canvas$ = $('<canvas width="550px" height="550px"/>');
-            elem$.after(canvas$);
-            this.context = canvas$[0].getContext('2d');
             if (this.delayed){
                 this.delayed();
                 this.delayed = null;
             }
-
         };
     }
 

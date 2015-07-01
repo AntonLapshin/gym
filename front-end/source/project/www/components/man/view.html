@@ -1,16 +1,17 @@
 <div class="man" data-bind="visible:isVisible, loaded">
 
+    <muscleinfo params="name: 'man'"></muscleinfo>
+
     <!-- ko if: model -->
     <img class="img-man" data-bind="attr: { src: src }" border="0" usemap="#navigation"/>
 
     <map name="navigation" data-bind="foreach: muscles">
         <area data-bind="attr: { coords: map },
-                         event: { mouseover: function() { $parents[0].hover(event, $data); } }"
+                         event: { mouseover: function() { $parents[0].hover(event, $data); },
+                                  mouseout: function() { $parents[0].out($data); } }"
               shape="poly"
               href="javascript:;">
     </map>
     <!-- /ko -->
-
-    <muscleinfo params="name: 'man'"></muscleinfo>
 
 </div>

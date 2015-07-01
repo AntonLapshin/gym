@@ -56,5 +56,5 @@ define([
         };
     }
 
-    return component.add(ViewModel, html, 'battery');
+    return component.add(ViewModel, html, 'switch');
 });
