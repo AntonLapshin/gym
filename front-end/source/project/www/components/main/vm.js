@@ -2,28 +2,24 @@ define([
     'ko',
     'text!./view.html',
     'plugins/component',
-    'model/player',
+    'model/game',
     'c/private/vm',
-    'c/menu/vm'
-], function (ko, html, component, Player, private, menu) {
+    'c/menu/vm',
+    'c/man/vm'
+], function (ko, html, component, game, private, menu, man) {
 
     function ViewModel() {
 
         this.show = function (player) {
             private('main').show(player);
             menu('main').show();
+            man('main').show(player);
             this.isVisible(true);
         };
 
         this.test = function () {
-            var self = this;
-            var player = new Player();
-            player.load().then(function(){
-                self.show(player);
-            });
+            this.show(game.player);
         };
-
-
     }
 
     return component.add(ViewModel, html, 'main');

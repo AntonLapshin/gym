@@ -1,15 +1,16 @@
-.body {
+.man {
+  width: 500px;
   position: relative;
 }
-.body .img-background {
+.man .img-background {
   width: 480px;
   height: 550px;
 }
-.body .img-body {
+.man .img-man {
   position: absolute;
   top: 0;
 }
-.body canvas.frazzle {
+.man canvas.frazzle {
   position: absolute;
   left: 0;
   top: 0;

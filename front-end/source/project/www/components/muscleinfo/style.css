@@ -1,0 +1,18 @@
+muscleinfo canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.muscleinfo {
+  position: absolute;
+  top: 5px;
+  left: 500px;
+  border: 1px solid rgba(220, 184, 148, 0.37);
+  background: rgba(220, 184, 149, 0.11);
+  color: #b5aca3;
+  opacity: 0.6;
+  padding: 10px;
+}
+.muscleinfo p {
+  line-height: 1;
+}

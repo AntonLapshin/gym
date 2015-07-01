@@ -3,8 +3,9 @@ define([
     'text!./view.html',
     'plugins/component',
     'model/game',
-    'maphilight'
-], function (ko, html, component, game, mphl) {
+    'maphilight',
+    'c/muscleinfo/vm'
+], function (ko, html, component, game, mphl, muscleinfo) {
 
     $.fn.maphilight.defaults = {
         fill: true,
@@ -31,7 +32,7 @@ define([
 
     function showFrazzleMap(elem$, muscles){
         var canvas$ = $('<canvas class="frazzle" width="480px" height="550px"/>');
-        elem$.find('img.img-body').before(canvas$);
+        elem$.find('img.img-man').before(canvas$);
         var context = canvas$[0].getContext('2d');
 
         $.each(muscles(), function(j, m){
@@ -67,7 +68,7 @@ define([
         };
         this.show = function(model){
             this.model(model);
-            this.src(component.format('components/body/{0}.png', model.public.level()));
+            this.src(component.format('components/man/{0}.png', model.public.level()));
 
             var view = $.grep(game.refs.muscles_view, function(m){
                 return m._id == model.public.level();
@@ -80,12 +81,15 @@ define([
             this.isVisible(true);
         };
         this.loaded = function(elem$){
-            elem$.find('.img-body').maphilight({fillColor: 'ff0000', strokeOpacity: 0, fillOpacity: 0.3, fade: true});
+            elem$.find('.img-man').maphilight({fillColor: 'ff0000', strokeOpacity: 0, fillOpacity: 0.3, fade: true});
         };
         this.test = function(){
             this.show(game.player);
         };
+        this.hover = function(e, muscle){
+            muscleinfo('man').show(muscle, { x: e.clientX, y: e.clientY });
+        }
     }
 
-    return component.add(ViewModel, html, 'body');
+    return component.add(ViewModel, html, 'man');
 });
