@@ -18,7 +18,7 @@ define([
                 '<circle cx="{0}" cy="{1}" r="2" fill="{5}"/>' +
                 '<circle cx="{2}" cy="{3}" r="2" fill="{5}"/>' +
             '</svg>';
-        svgHtml = component.format(svgHtml, start.x, start.y - 20, end.left, end.top + 20, 1, 'rgba(220, 184, 148, 0.37)');
+        svgHtml = component.format(svgHtml, start.x, start.y - 10, end.left, end.top + 20, 1, 'rgba(220, 184, 148, 0.37)');
         ctx.svg$ = $(svgHtml);
         if ($('img.img-man').length > 0)
             $('img.img-man').before(ctx.svg$);
@@ -31,10 +31,18 @@ define([
         this.show = function(muscle, position){
             this.model(muscle);
             this.isVisible(true);
-            muscle.frazzle = muscle.frazzle || 0.2;
-            var max = ko.observable(100),
-                value = ko.observable(muscle.frazzle*100);
-            battery('muscleinfo').show(max, value, '%');
+
+            var b = battery('muscleinfo');
+            var fr = Math.floor(100 - muscle.frazzle() * 100);
+
+            if (!b.value) {
+                var max = ko.observable(100),
+                    value = ko.observable(fr);
+                b.show(max, value, '%');
+            }
+            else {
+                b.value(fr);
+            }
 
             this.position = position;
             if (!this.elem$){

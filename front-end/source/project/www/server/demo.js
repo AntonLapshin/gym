@@ -25,8 +25,8 @@ define(['jquery'], function ($) {
             },
             {
                 _id: 1,
-                stress: 0,
-                frazzle: 0
+                stress: 0.7,
+                frazzle: 0.9
             },
             {
                 _id: 2,
@@ -40,18 +40,18 @@ define(['jquery'], function ($) {
             },
             {
                 _id: 4,
-                stress: 0,
-                frazzle: 0
+                stress: 1,
+                frazzle: 1
             },
             {
                 _id: 5,
-                stress: 0,
-                frazzle: 0
+                stress: 1,
+                frazzle: 1
             },
             {
                 _id: 6,
-                stress: 0,
-                frazzle: 0
+                stress: 0.3,
+                frazzle: 0.2
             },
             {
                 _id: 7,
@@ -70,28 +70,28 @@ define(['jquery'], function ($) {
             },
             {
                 _id: 10,
-                stress: 0,
-                frazzle: 0
+                stress: 1,
+                frazzle: 1
             },
             {
                 _id: 11,
-                stress: 0,
-                frazzle: 0
+                stress: 1,
+                frazzle: 1
             },
             {
                 _id: 12,
-                stress: 0,
-                frazzle: 0
+                stress: 0.8,
+                frazzle: 0.8
             },
             {
                 _id: 13,
-                stress: 0,
-                frazzle: 0
+                stress: 0.3,
+                frazzle: 0.3
             },
             {
                 _id: 14,
-                stress: 0,
-                frazzle: 0
+                stress: 0.5,
+                frazzle: 0.5
             },
             {
                 _id: 15,

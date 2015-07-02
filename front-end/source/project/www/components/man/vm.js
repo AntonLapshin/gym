@@ -4,8 +4,10 @@ define([
     'plugins/component',
     'model/game',
     'maphilight',
-    'c/muscleinfo/vm'
-], function (ko, html, component, game, mphl, muscleinfo) {
+    'plugins/localization',
+    'c/muscleinfo/vm',
+    'c/sw/vm'
+], function (ko, html, component, game, mphl, strings, muscleinfo, sw) {
 
     $.fn.maphilight.defaults = {
         fill: true,
@@ -30,12 +32,12 @@ define([
         shadowFrom: true
     };
 
-    function showFrazzleMap(elem$, muscles){
-        var canvas$ = $('<canvas class="frazzle" width="480px" height="550px"/>');
-        elem$.find('img.img-man').before(canvas$);
-        var context = canvas$[0].getContext('2d');
+    function showFrazzleMap(vm){
+        vm.canvas$ = $('<canvas class="frazzle" width="480px" height="550px"/>');
+        vm.elem$.find('img.img-man').before(vm.canvas$);
+        var context = vm.canvas$[0].getContext('2d');
 
-        $.each(muscles(), function(j, m){
+        $.each(vm.muscles(), function(j, m){
 
             var map = m.map.split(',');
             context.beginPath();
@@ -45,15 +47,17 @@ define([
             }
 
             context.closePath();
-            //context.lineWidth = 5;
-            //context.strokeStyle = 'blue';
-            context.fillStyle = component.format('rgba(255,0,0,{0})', component.random(0,40) / 100);
+            context.fillStyle = component.format('rgba(255,0,0,{0})', m.frazzle() / 2);
             context.fill();
-            //context.stroke();
         });
     }
 
+    function hideFrazzleMap(vm){
+        vm.canvas$.remove();
+    }
+
     function ViewModel() {
+        this.strings = strings;
         this.src = ko.observable();
         this.muscles = ko.observableArray();
         this.click = function () {
@@ -75,23 +79,35 @@ define([
             })[0];
             var muscles = $.map(view.front, function(m){
                 var newMap = $.map(m.map.split(','), function(c, i) { return i % 2 == 0 ? c - 50 : c; }).join(',');
-                return { _id: m._id, map: newMap };
+                var muscleFromModel = $.grep(model.body, function(m2){
+                    return m2._id === m._id;
+                })[0];
+                return $.extend({ map: newMap }, muscleFromModel);
             });
             this.muscles(muscles);
+            var self = this;
+            sw('man').show('man').progress(function(state){
+                if (state)
+                    showFrazzleMap(self);
+                else
+                    hideFrazzleMap(self);
+            });
             this.isVisible(true);
         };
         this.loaded = function(elem$){
             elem$.find('.img-man').maphilight({fillColor: 'ff0000', strokeOpacity: 0, fillOpacity: 0.3, fade: true});
+            this.elem$ = elem$;
         };
         this.test = function(){
             this.show(game.player);
         };
         this.hover = function(e, muscle){
-            muscleinfo('man').show(muscle, { x: e.clientX, y: e.clientY });
-        }
+            var pos = this.elem$.position();
+            muscleinfo('man').show(muscle, { x: e.clientX - pos.left, y: e.clientY - pos.top });
+        };
         this.out = function(){
             muscleinfo('man').hide();
-        }
+        };
     }
 
     return component.add(ViewModel, html, 'man');

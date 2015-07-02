@@ -53,6 +53,7 @@ define(['ko'], function(ko){
         massUnit:       ['кг', 'kg'],
 
 
+        showFrazzle:   ['Показать усталость', 'Show frazzle'],
         manFrazzle:    ['Усталость', 'Frazzle'],
         manStress:     ['Стресс', 'Stress'],
         manM0:         ['Мышцы шеи', 'TBD'],

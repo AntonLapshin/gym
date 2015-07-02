@@ -1,8 +1,6 @@
 <div class="muscleinfo" data-bind="visible: isVisible, loaded">
     <!-- ko if: model -->
     <h4 data-bind="text: strings['manM' + model()._id]"></h4>
-    <!--<p><span data-bind="text: strings.manFrazzle"></span><span>: </span><span data-bind="text: strings['manFr' + frazzle()]"></span></p>-->
-    <!--<p><span data-bind="text: strings.manStress"></span><span>: </span><span data-bind="text: model().stress"></span></p>-->
     <battery params="name: 'muscleinfo'"></battery>
     <!-- /ko -->
 </div>

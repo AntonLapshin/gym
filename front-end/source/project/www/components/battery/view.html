@@ -1,6 +1,6 @@
 <div class="battery" data-bind="visible:isVisible,click:click,attr:{'title':title},loaded:true"
            data-toggle="tooltip" data-placement="bottom">
-    <!-- ko if: value -->
+    <!-- ko if: value != undefined -->
     <div class="progress">
         <div class="progress-bar" role="progressbar"
              aria-valuemin="0"

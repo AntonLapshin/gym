@@ -15,3 +15,11 @@
   left: 0;
   top: 0;
 }
+.man .frazzle-map {
+  position: absolute;
+  right: 0;
+  bottom: 100px;
+}
+.man .frazzle-map h5 {
+  margin-bottom: 0;
+}
