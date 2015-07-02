@@ -86,7 +86,7 @@ define([
             });
             this.muscles(muscles);
             var self = this;
-            sw('man').show('man').progress(function(state){
+            sw('man').show().progress(function(state){
                 if (state)
                     showFrazzleMap(self);
                 else

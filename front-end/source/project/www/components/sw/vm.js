@@ -7,12 +7,11 @@ define([
     var _defer,
         _state = false;
 
-    function ViewModel() {
+    function ViewModel(name) {
 
-        this.id = ko.observable(null);
+        this.id = ko.observable(name);
 
-        this.show = function(id){
-            this.id(id);
+        this.show = function(){
             this.isVisible(true);
             return $.Deferred(function(defer){
                 _defer = defer;
@@ -20,7 +19,7 @@ define([
         };
 
         this.test = function () {
-            this.show('test').progress(function(state){
+            this.show().progress(function(state){
                 console.log(state)
             });
         };

@@ -34,7 +34,7 @@ define(['ko', 'plugins/localization', 'plugins/format'], function (ko, strings, 
         _viewModels[name] = vm;
 
         if (typeof viewModel === 'function'){
-            viewModel.call(this);
+            viewModel.call(this, name);
             if (params && this.autoShow)
                 this.autoShow(params);
         }
