@@ -1,8 +1,6 @@
 <div class="sw text-center" data-bind="visible:isVisible">
-    <!-- ko if: id -->
-    <input type="checkbox" data-bind="attr: { id: id }"/>
-    <label class="attention" data-bind="event: { mousedown: click }, attr: { for: id }">
+    <input type="checkbox"/>
+    <label class="attention" data-bind="event: { mousedown: click }">
         <i></i>
     </label>
-    <!-- /ko -->
 </div>

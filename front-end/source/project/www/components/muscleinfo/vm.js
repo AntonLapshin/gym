@@ -3,9 +3,8 @@ define([
     'jquery',
     'text!./view.html',
     'plugins/component',
-    'plugins/localization',
     'c/battery/vm'
-], function(ko, $, html, component, strings, battery) {
+], function(ko, $, html, component, battery) {
 
     function draw(ctx, start){
         var end = ctx.elem$.position();
@@ -60,7 +59,7 @@ define([
             this.svg$.hide();
         };
 
-        this.strings = strings;
+        this.strings = component.strings;
 
         this.test = function () {
             var muscle = {

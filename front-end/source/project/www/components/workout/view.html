@@ -1,4 +1,4 @@
-<div class="training" data-bind="visible: isVisible, loaded: true">
+<div class="workout" data-bind="visible: isVisible, loaded">
     <div class="exSelect text-center well">
         <button type="button" class="btn btn-primary left" data-bind="click:prev,attr:{disabled:!left()}">
             <span class="glyphicon glyphicon-chevron-left"></span>
@@ -26,28 +26,26 @@
         </div>
         <div class="row">
             <div class="col-md-6 text-center">
-                <h4><span class="label label-default" data-bind="text:chooseWeight"></span></h4>
+                <h4>
+                    <span class="label label-default" data-bind="text:strings.trChooseWeight"></span>
+                    <span class="label label-warning" data-bind="text:weightDesc"></span>
+                </h4>
                 <input class="weightSlider" data-slider-id='weightSlider' type="text" data-slider-tooltip="hide"/>
-
-                <br/>
-
-                <input type="text" class="textvalue form-control text-center" disabled data-bind="value:weightDesc"/>
             </div>
             <div class="col-md-6 text-center">
-                <h4><span class="label label-default" data-bind="text:chooseRepeats"></span></h4>
+                <h4>
+                    <span class="label label-default" data-bind="text: strings.trChooseRepeats"></span>
+                    <span class="label label-warning" data-bind="text:repeatsDesc"></span>
+                </h4>
                 <input class="repeatsSlider" data-slider-id='repeatsSlider' type="text" data-slider-tooltip="hide"/>
-
-                <br/>
-
-                <input type="text" class="textvalue form-control text-center" disabled data-bind="value:repeatsDesc"/>
             </div>
+            <button type="button" class="btn btn-success executeBtn" data-bind="click:execute, attr: { disabled: disabled }">
+                <span class="glyphicon glyphicon-flash"></span>
+                <span data-bind="text: strings.trExecuteBtn"></span>
+            </button>
         </div>
     </div>
     <div class="exExecute well text-center" data-bind="visible:selectedExercise">
-        <button type="button" class="btn btn-success executeBtn" data-bind="click:execute">
-            <span class="glyphicon glyphicon-flash"></span>
-            <span data-bind="text: executeBtn"></span>
-        </button>
-        <execute params="name:'training'"></execute>
+        <execute params="name:'workout'"></execute>
     </div>
 </div>

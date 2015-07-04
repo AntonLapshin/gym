@@ -1,12 +1,11 @@
 define([
     'ko',
     'text!./view.html',
+    'plugins/component',
     'slider',
     'components/execute/vm',
-    'plugins/component'
-], function (ko, html, slider, execute, component) {
-
-    var strings = component.strings;
+    'model/game'
+], function (ko, html, c, slider, execute, game) {
 
     var _defer,
         _exercises,
@@ -18,22 +17,21 @@ define([
         _repeatsSlider = null;
 
 
-    var _viewModel = {
-        chooseWeight: strings.trChooseWeight,
-        chooseRepeats: strings.trChooseRepeats,
-        measureWeight: strings.trMeasureWeight,
-        noLimit: strings.trNoLimit,
-        executeBtn: strings.trExecute,
+    function ViewModel() {
+        this.strings = c.strings;
 
-        exercises: ko.observableArray(),
-        selectedExercise: ko.observable(null),
-        left: ko.observable(false),
-        right: ko.observable(false),
+        this.disabled = ko.observable(false);
+        this.exercises = ko.observableArray();
+        this.selectedExercise = ko.observable(null);
+        this.left = ko.observable(false);
+        this.right = ko.observable(false);
+        this.weightDesc = ko.observable('');
+        this.repeatsDesc = ko.observable('');
+        this.history = ko.observableArray();
 
-        weightDesc: ko.observable(''),
-        repeatsDesc: ko.observable(''),
+        var self = this;
 
-        setVisibleExercises: function () {
+        this.setVisibleExercises = function () {
             var exs = [];
             for (var i = _index; i < _exercises.length && i < _index + VISIBLE_COUNT; i++) {
                 _exercises[i].active(false);
@@ -43,26 +41,26 @@ define([
 
             this.left(_index > 0);
             this.right(_index + VISIBLE_COUNT < _exercises.length);
-        },
+        };
 
-        loaded: function (div$) {
+        this.loaded = function (div$) {
             _weightSlider = div$.find('.weightSlider').slider({
                 formatter: function (value) {
                     _weight = value;
-                    _viewModel.weightDesc(value.toFixed(1) + ' ' + _viewModel.measureWeight());
+                    self.weightDesc(value.toFixed(1) + ' ' + c.strings.trMeasureWeight());
                     return 'Current value: ' + value;
                 }
             });
             _repeatsSlider = div$.find('.repeatsSlider').slider({
                 formatter: function (value) {
                     _repeats = value;
-                    _viewModel.repeatsDesc(value === 0 ? _viewModel.noLimit() : value);
+                    self.repeatsDesc(value === 0 ? c.strings.trNoLimit() : value);
                     return 'Current value: ' + value;
                 }
             });
-        },
+        };
 
-        show: function (exercises) {
+        this.show = function (exercises) {
             var self = this;
             exercises.forEach(function (ex) {
                 ex.active = ko.observable(false);
@@ -71,22 +69,31 @@ define([
             _exercises = exercises;
             this.setVisibleExercises(0);
             this.isVisible(true);
+            game.on('workout.executed', function(approach){
+                self.disabled(true);
+                execute('workout')
+                    .show(approach.repeats, approach.repeatsFact)
+                    .then(function(){
+                        self.disabled(false);
+                    });
+                self.history().push(approach);
+            });
             return $.Deferred(function (defer) {
                 _defer = defer;
             });
-        },
+        };
 
-        prev: function () {
+        this.prev = function () {
             _index--;
-            this.setVisibleExercises()
-        },
+            this.setVisibleExercises();
+        };
 
-        next: function () {
+        this.next = function () {
             _index++;
-            this.setVisibleExercises()
-        },
+            this.setVisibleExercises();
+        };
 
-        select: function () {
+        this.select = function () {
             _exercises.forEach(function (exercise) {
                 exercise.active(false);
             });
@@ -99,32 +106,30 @@ define([
             _repeatsSlider.slider('setAttribute', 'min', 0);
             _repeatsSlider.slider('setAttribute', 'step', 1);
             _repeatsSlider.slider('setValue', 10);
-            _viewModel.selectedExercise(this);
-        },
+            self.selectedExercise(this);
+        };
 
-        execute: function(){
+        this.execute = function(){
             _defer.notify({
-                exerciseId: this.selectedExercise().id,
+                exerciseId: this.selectedExercise()._id,
                 weight: _weight,
                 repeats: _repeats
             });
-        },
+        };
 
-        showExecuting: function(repeatsPlan, repeatsFact){
-            execute('training').show(repeatsPlan, repeatsFact);
-        },
-
-        test: function () {
+        this.test = function () {
             var self = this;
-            require(['model/exercises'], function (exercises) {
-                self.show(exercises)
-                    .progress(function(approach){
-                        console.log(JSON.stringify(approach));
-                        self.showExecuting(approach.repeats, component.random(0, 100) / 10);
+            this.show(game.getExercises(1))
+                .progress(function(approach){
+                    game.fire('workout.executed', {
+                        exerciseId: approach.exerciseId,
+                        weight: approach.weight,
+                        repeats: approach.repeats,
+                        repeatsFact: approach.repeats
                     });
-            });
+                });
         }
-    };
+    }
 
-    return component.add(_viewModel, html, 'training');
+    return c.add(ViewModel, html, 'workout');
 });

@@ -17,6 +17,7 @@ define(['jquery'], function ($) {
         public: {
             level: 120
         },
+        gyms: [0, 1],
         body: [
             {
                 _id: 0,
@@ -131,338 +132,199 @@ define(['jquery'], function ($) {
     var _REFS = {
         "muscles": [
             {
+                // Мышцы шеи
                 "_id": 0,
-                "name": "Мышцы шеи",
                 "power": 2,
                 "mass": 1
             },
             {
+                // Трапециевидные мышцы
                 "_id": 1,
-                "name": "Трапециевидные мышцы",
                 "power": 4,
                 "mass": 3
             },
             {
+                // Дельтовидные мышцы
                 "_id": 2,
-                "name": "Дельтовидные мышцы",
                 "power": 2,
                 "mass": 2
             },
             {
+                // Бицепс
                 "_id": 3,
-                "name": "Бицепс",
                 "power": 3,
                 "mass": 3
             },
             {
+                // Трицепс
                 "_id": 4,
-                "name": "Трицепс",
                 "power": 3,
                 "mass": 3
             },
             {
+                // Мышцы предплечья
                 "_id": 5,
-                "name": "Мышцы предплечья",
                 "power": 1,
                 "mass": 2
             },
             {
+                // Грудные мышцы
                 "_id": 6,
-                "name": "Грудные мышцы",
                 "power": 3,
                 "mass": 3
             },
             {
+                // Косые мышцы живота
                 "_id": 7,
-                "name": "Косые мышцы живота",
                 "power": 1,
                 "mass": 0.5
             },
             {
+                // Прямые мышцы живота
                 "_id": 8,
-                "name": "Прямые мышцы живота",
                 "power": 1,
                 "mass": 0.5
             },
             {
+                // Круглые мышцы
                 "_id": 9,
-                "name": "Круглые мышцы",
                 "power": 1,
                 "mass": 1
             },
             {
+                // Широчайшие мышцы
                 "_id": 10,
-                "name": "Широчайшие мышцы",
                 "power": 3,
                 "mass": 4
             },
             {
+                // Ягодичные мышцы
                 "_id": 11,
-                "name": "Ягодичные мышцы",
                 "power": 2,
                 "mass": 3
             },
             {
+                // Задние мышцы бедра
                 "_id": 12,
-                "name": "Задние мышцы бедра",
                 "power": 3,
                 "mass": 4
             },
             {
+                // Квадрицепс
                 "_id": 13,
-                "name": "Квадрицепс",
                 "power": 5,
                 "mass": 5
             },
             {
+                // Большеберцовые мышцы
                 "_id": 14,
-                "name": "Большеберцовые мышцы",
                 "power": 1,
                 "mass": 2
             },
             {
+                // Икроножные мышцы
                 "_id": 15,
-                "name": "Икроножные мышцы",
                 "power": 2,
                 "mass": 3
             }
         ],
         "exercises": [
             {
-                "_id": 0,
-                "name": "Жим лежа",
-                "coeff": 1,
-                "power": 30,
-                "energy": 5,
-                "record": null,
-                "body": [
-                    {
-                        "_id": 2,
-                        "stress": 0.5
-                    },
-                    {
-                        "_id": 4,
-                        "stress": 0.8
-                    },
-                    {
-                        "_id": 5,
-                        "stress": 0.3
-                    },
-                    {
-                        "_id": 6,
-                        "stress": 1
-                    }
+                // Жим лежа
+                _id: 0, min: 20, max: 500, step: 2.5, coeff: 1, power: 30, energy: 5, record: null, body: [
+                {"_id": 2, "stress": 0.5},
+                {"_id": 4, "stress": 0.8},
+                {"_id": 5, "stress": 0.3},
+                {"_id": 6, "stress": 1.0}
+            ]
+            },
+            {
+                // Присед
+                _id: 1, min: 20, max: 600, step: 2.5, coeff: 1, power: 40, energy: 7, record: null, body: [
+                {"_id": 11, "stress": 0.7},
+                {"_id": 12, "stress": 0.8},
+                {"_id": 13, "stress": 1.0},
+                {"_id": 14, "stress": 0.7},
+                {"_id": 15, "stress": 0.3}
+            ]
+            },
+            {
+                // Становая тяга в стиле сумо
+                _id: 2,
+                min: 20,
+                max: 700,
+                step: 2.5,
+                coeff: 1,
+                power: 40,
+                energy: 6,
+                record: null,
+                body: [
+                    {"_id": 1, "stress": 0.4},
+                    {"_id": 2, "stress": 0.3},
+                    {"_id": 5, "stress": 0.3},
+                    {"_id": 9, "stress": 0.5},
+                    {"_id": 10, "stress": 1.0},
+                    {"_id": 11, "stress": 0.5},
+                    {"_id": 12, "stress": 0.5},
+                    {"_id": 13, "stress": 0.2},
+                    {"_id": 14, "stress": 0.1},
+                    {"_id": 15, "stress": 0.1}
                 ]
             },
             {
-                "_id": 1,
-                "name": "Присед",
-                "coeff": 1,
-                "power": 40,
-                "energy": 7,
-                "record": null,
-                "body": [
-                    {
-                        "_id": 11,
-                        "stress": 0.7
-                    },
-                    {
-                        "_id": 12,
-                        "stress": 0.8
-                    },
-                    {
-                        "_id": 13,
-                        "stress": 1
-                    },
-                    {
-                        "_id": 14,
-                        "stress": 0.7
-                    },
-                    {
-                        "_id": 15,
-                        "stress": 0.3
-                    }
-                ]
+                // Т-тяга
+                _id: 3, min: 10, max: 300, step: 2.5, coeff: 0.4, power: 25, energy: 4, record: null, body: [
+                {"_id": 1, "stress": 0.2},
+                {"_id": 2, "stress": 0.3},
+                {"_id": 3, "stress": 0.7},
+                {"_id": 4, "stress": 0.1},
+                {"_id": 5, "stress": 0.3},
+                {"_id": 9, "stress": 0.1},
+                {"_id": 10, "stress": 0.7}
+            ]
             },
             {
-                "_id": 2,
-                "name": "Становая тяга в стиле сумо",
-                "coeff": 1,
-                "power": 40,
-                "energy": 6,
-                "record": null,
-                "body": [
-                    {
-                        "_id": 1,
-                        "stress": 0.4
-                    },
-                    {
-                        "_id": 2,
-                        "stress": 0.3
-                    },
-                    {
-                        "_id": 5,
-                        "stress": 0.3
-                    },
-                    {
-                        "_id": 9,
-                        "stress": 0.5
-                    },
-                    {
-                        "_id": 10,
-                        "stress": 1
-                    },
-                    {
-                        "_id": 11,
-                        "stress": 0.5
-                    },
-                    {
-                        "_id": 12,
-                        "stress": 0.5
-                    },
-                    {
-                        "_id": 13,
-                        "stress": 0.2
-                    },
-                    {
-                        "_id": 14,
-                        "stress": 0.1
-                    },
-                    {
-                        "_id": 15,
-                        "stress": 0.1
-                    }
-                ]
-            },
-            {
-                "_id": 3,
-                "name": "Т-тяга",
-                "coeff": 0.4,
-                "power": 25,
-                "energy": 4,
-                "record": null,
-                "body": [
-                    {
-                        "_id": 1,
-                        "stress": 0.2
-                    },
-                    {
-                        "_id": 2,
-                        "stress": 0.3
-                    },
-                    {
-                        "_id": 3,
-                        "stress": 0.7
-                    },
-                    {
-                        "_id": 4,
-                        "stress": 0.1
-                    },
-                    {
-                        "_id": 5,
-                        "stress": 0.3
-                    },
-                    {
-                        "_id": 9,
-                        "stress": 0.1
-                    },
-                    {
-                        "_id": 10,
-                        "stress": 0.7
-                    }
-                ]
-            },
-            {
-                "_id": 4,
-                "name": "Подъемы на бицепс",
-                "coeff": 0.7,
-                "power": 15,
-                "energy": 3,
-                "record": null,
-                "body": [
-                    {
-                        "_id": 3,
-                        "stress": 1
-                    },
-                    {
-                        "_id": 5,
-                        "stress": 0.3
-                    }
+                // Подъемы на бицепс
+                _id: 4,
+                min: 5,
+                max: 200,
+                step: 1,
+                coeff: 0.7,
+                power: 15,
+                energy: 3,
+                record: null,
+                body: [
+                    {"_id": 3, "stress": 1.0},
+                    {"_id": 5, "stress": 0.3}
                 ]
             }
         ],
-        "gyms": [
+        gyms: [
             {
-                "_id": 0,
-                "desc": "Зал 1",
-                "img": "gym0",
-                "exercises": [
-                    0,
-                    1,
-                    2
-                ],
-                "max": 290,
-                "delta": 5,
-                "req": null
+                _id: 0,
+                exercises: [0, 1, 2],
+                req: null
             },
             {
-                "_id": 1,
-                "desc": "Зал 2",
-                "img": "gym1",
-                "exercises": [
-                    0,
-                    1,
-                    2,
-                    3
-                ],
-                "max": 340,
-                "delta": 2.5,
-                "req": {
-                    "conditions": [
-                        {
-                            "level": 30,
-                            "friends": 5
-                        },
-                        {
-                            "level": 5,
-                            "friends": 20
-                        },
-                        {
-                            "gold": 20
-                        }
-                    ],
-                    "text": "В зале тренируются спортсмены весовой категорией свыше 80 кг и несколькими друзьями. Говорят, что в зал пропускают также более легких спортсменов, если у них много друзей"
+                _id: 1,
+                exercises: [0, 1, 2, 3],
+                req: {
+                    conditions: [
+                        {level: 30, friends: 5},
+                        {level: 5, friends: 20},
+                        {gold: 20}
+                    ]
                 }
             },
             {
-                "_id": 2,
-                "desc": "Зал 3",
-                "img": "gym2",
-                "exercises": [
-                    0,
-                    1,
-                    2,
-                    3,
-                    4
-                ],
-                "max": 500,
-                "delta": 1.25,
-                "req": {
-                    "conditions": [
-                        {
-                            "level": 50,
-                            "friends": 15
-                        },
-                        {
-                            "level": 30,
-                            "friends": 30
-                        },
-                        {
-                            "level": 10,
-                            "gold": 100
-                        }
-                    ],
-                    "text": "В зале тренируются спортсмены весовой категорией свыше 100 кг и большим количеством друзей. Говорят, что в зал пропускают также более легких спортсменов, если у них очень много друзей"
+                _id: 2,
+                exercises: [0, 1, 2, 3, 4],
+                req: {
+                    conditions: [
+                        {level: 50, friends: 15},
+                        {level: 30, friends: 30},
+                        {level: 10, gold: 100}
+                    ]
                 }
             }
         ],
@@ -574,13 +436,13 @@ define(['jquery'], function ($) {
             })
         },
 
-        loadRefs: function(){
+        loadRefs: function () {
             return $.Deferred(function (defer) {
                 defer.resolve(_REFS);
             });
         },
 
-        loadMe: function(id){
+        loadMe: function (id) {
             return $.Deferred(function (defer) {
                 defer.resolve(_ME);
             });
@@ -603,7 +465,7 @@ define(['jquery'], function ($) {
         },
 
         saveUser: function (userSetExp) {
-            console.log('User is saved: ' + JSON.stringify(userSetExp));
+            console.log('User has been saved: ' + JSON.stringify(userSetExp));
         }
     }
 });

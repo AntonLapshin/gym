@@ -19,6 +19,7 @@ exports.newPlayer = function (id, level) {
         public: {
             level: level
         },
+        gyms: [0],
         body: [
             {
                 _id: 0,

@@ -7,9 +7,7 @@ define([
     var _defer,
         _state = false;
 
-    function ViewModel(name) {
-
-        this.id = ko.observable(name);
+    function ViewModel() {
 
         this.show = function(){
             this.isVisible(true);
@@ -24,7 +22,8 @@ define([
             });
         };
 
-        this.click = function(){
+        this.click = function(e){
+            $(e.click.arguments[1].currentTarget).prev('input').click();
             _state = !_state;
             _defer.notify(_state);
         }

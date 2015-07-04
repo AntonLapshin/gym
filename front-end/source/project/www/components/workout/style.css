@@ -1,0 +1,43 @@
+.workout button {
+  line-height: 1;
+}
+.workout button[disabled] {
+  background-color: #aaa;
+  border: 1px solid #888;
+}
+.workout .well {
+  margin-bottom: 5px;
+  padding: 10px;
+}
+.workout .well h2 {
+  margin-top: 0;
+}
+.workout .nav {
+  display: inline-block;
+  vertical-align: middle;
+}
+.workout .nav img {
+  width: 100px;
+  height: 100px;
+}
+.workout button {
+  vertical-align: middle;
+}
+.workout .exSelect {
+  background-color: rgba(237, 230, 219, 0.13);
+}
+.workout .exSetup {
+  background-color: rgba(237, 230, 219, 0.13);
+}
+.workout .exExecute {
+  background-color: rgba(237, 230, 219, 0.13);
+}
+.workout .slider {
+  width: 270px;
+}
+.workout .slider-selection {
+  background: #76ba59;
+}
+.workout .executeBtn {
+  font-size: 2em;
+}

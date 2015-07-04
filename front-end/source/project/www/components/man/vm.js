@@ -4,10 +4,9 @@ define([
     'plugins/component',
     'model/game',
     'maphilight',
-    'plugins/localization',
     'c/muscleinfo/vm',
     'c/sw/vm'
-], function (ko, html, component, game, mphl, strings, muscleinfo, sw) {
+], function (ko, html, component, game, mphl, muscleinfo, sw) {
 
     $.fn.maphilight.defaults = {
         fill: true,
@@ -57,7 +56,7 @@ define([
     }
 
     function ViewModel() {
-        this.strings = strings;
+        this.strings = component.strings;
         this.src = ko.observable();
         this.muscles = ko.observableArray();
         this.click = function () {
@@ -74,17 +73,8 @@ define([
             this.model(model);
             this.src(component.format('components/man/{0}.png', model.public.level()));
 
-            var view = $.grep(game.refs.muscles_view, function(m){
-                return m._id == model.public.level();
-            })[0];
-            var muscles = $.map(view.front, function(m){
-                var newMap = $.map(m.map.split(','), function(c, i) { return i % 2 == 0 ? c - 50 : c; }).join(',');
-                var muscleFromModel = $.grep(model.body, function(m2){
-                    return m2._id === m._id;
-                })[0];
-                return $.extend({ map: newMap }, muscleFromModel);
-            });
-            this.muscles(muscles);
+
+            this.muscles(game.getMuscles());
             var self = this;
             sw('man').show().progress(function(state){
                 if (state)

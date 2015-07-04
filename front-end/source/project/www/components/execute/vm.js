@@ -39,24 +39,26 @@ define([
         _index = 0,
         MAX = 50;
 
-    var _viewModel = {
+    function ViewModel() {
 
-        repeats: ko.observable(0),
-        percent: ko.observable(30),
-        isSuccess: ko.observable(false),
-        isWarning: ko.observable(false),
-        isDanger: ko.observable(false),
+        this.repeats = ko.observable(0);
+        this.percent = ko.observable(30);
+        this.isSuccess = ko.observable(false);
+        this.isWarning = ko.observable(false);
+        this.isDanger = ko.observable(false);
 
-        show: function (repeatsPlan, repeatsFactMax) {
+        var self = this;
+
+        this.show = function (repeatsPlan, repeatsFactMax) {
             calcExecutePlan(repeatsPlan, repeatsFactMax);
             this.start();
             this.isVisible(true);
             return $.Deferred(function (defer) {
                 _defer = defer;
             });
-        },
+        };
 
-        start: function () {
+        this.start = function () {
             this.repeats(0);
             this.percent(0);
             this.isSuccess(false);
@@ -67,9 +69,9 @@ define([
             _index = 0;
 
             this.execute();
-        },
+        };
 
-        getDelay: function (speed) {
+        this.getDelay = function (speed) {
             if (speed === 3) {
                 this.isSuccess(true);
                 this.isWarning(false);
@@ -88,9 +90,9 @@ define([
             this.isWarning(false);
             this.isDanger(true);
             return 30;
-        },
+        };
 
-        execute: function () {
+        this.execute = function () {
             var repeat = _executePlan[_repeat];
             if (!repeat) {
                 _defer.resolve();
@@ -102,21 +104,21 @@ define([
                 return;
             }
 
-            _viewModel.percent((_index + 1) * 2);
+            self.percent((_index + 1) * 2);
 
-            var delay = _viewModel.getDelay(speed);
+            var delay = self.getDelay(speed);
 
             _index++;
             if (_index === MAX){
                 _index = 0;
                 _repeat++;
-                _viewModel.repeats(_repeat);
+                self.repeats(_repeat);
             }
 
-            setTimeout(_viewModel.execute, delay);
-        },
+            setTimeout(self.execute, delay);
+        };
 
-        test: function () {
+        this.test = function () {
             this.show(1, 1)
                 .then(function(){
                     console.log('finished');
@@ -124,5 +126,5 @@ define([
         }
     };
 
-    return component.add(_viewModel, html, 'execute');
+    return component.add(ViewModel, html, 'execute');
 });
