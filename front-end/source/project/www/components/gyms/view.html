@@ -1,5 +1,5 @@
 <div class="gyms" data-bind="visible: isVisible, loaded: true">
-    <h1 data-bind="text: title" class="text-center"></h1>
+    <h1 data-bind="text: strings.gymsTitle" class="text-center"></h1>
 
     <div id="carousel-example-generic" class="carousel slide" data-interval="false" data-ride="carousel">
         <!-- Indicators -->
@@ -21,7 +21,7 @@
                             data-bind="attr: {disabled:disabled}, click: $parent.select,
                             css:{'btn-primary':!disabled,'btn-danger':disabled}">
                         <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-                        <span data-bind="text: $parent.btnEnterText"></span>
+                        <span data-bind="text: $parent.strings.gymsBtnEnter"></span>
                     </button>
                     <br/>
                     <br/>

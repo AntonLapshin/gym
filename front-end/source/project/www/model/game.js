@@ -89,7 +89,8 @@ define(['jquery', 'toastr', 'model/player', 'server/server', 'plugins/component'
                 return $.extend(
                     {
                         name: c.strings[c.format('gym{0}name', id)],
-                        desc: c.strings[c.format('gym{0}desc', id)]
+                        desc: c.strings[c.format('gym{0}desc', id)],
+                        img: c.format('components/gyms/gym{0}.jpg', id)
                     },
                     self.refs.gyms[id]
                 );

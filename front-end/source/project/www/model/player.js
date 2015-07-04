@@ -42,6 +42,7 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
             img: ko.observable(),
             mass: ko.observable()
         };
+        this.gyms = [];
         this.body = [];
         for(var i = 0; i < 16; i++) {
             this.body.push({
@@ -66,6 +67,8 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
                 self.public.name(model.name);
                 self.public.img(model.img);
                 self.public.mass(model.public.level * 10);
+
+                self.gyms = model.gyms;
 
                 $.each(model.body, function(i, muscle){
                     self.body[i].stress(muscle.stress);
