@@ -10,7 +10,7 @@ define([
         _div$,
         strings = component.strings;
 
-    var PATH = 'components/jobbing/';
+    var PATH = 'components/job/';
     var LEFT_SIDE_START_POSITION = {x: 89, y: 74};
     var RIGHT_SIDE_START_POSITION = {x: 0, y: 74};
     var AREA = {width: 195, height: 298};
@@ -187,7 +187,7 @@ define([
             this.items(arr);
             this.weight(weight);
 
-            timer('jobbing').show(60)
+            timer('job').show(60)
                 .then(function(){
                     _defer.reject(strings.jobTimeIsUp());
                 });
@@ -233,5 +233,5 @@ define([
         };
     }
 
-    return component.add(ViewModel, html, 'jobbing');
+    return component.add(ViewModel, html, 'job');
 });

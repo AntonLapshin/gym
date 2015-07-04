@@ -32,7 +32,7 @@ define(['jquery', 'toastr', 'model/player', 'server/server', 'plugins/component'
             };
 
             this.on('energy.decrease', function(value){
-                toastr['warning']('-' + value, c.strings.decEnergy());
+                toastr['warning']('-' + value + '<span class="glyphicon glyphicon-flash"></span>', c.strings.decEnergy());
             });
 
             this.on('record', function(args){
