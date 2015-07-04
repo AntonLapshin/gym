@@ -1,7 +1,9 @@
 @import url('bootstrap/css/bootstrap.min.css');
+@import url('lib/toastr.min.css');
 @import url('lib/bootstrap-slider.min.css');
 @import url('components/sw/style.css');
 @import url('components/gyms/style.css');
+@import url('components/journal/style.css');
 @import url('components/workout/style.css');
 @import url('components/execute/style.css');
 @import url('components/timer/style.css');

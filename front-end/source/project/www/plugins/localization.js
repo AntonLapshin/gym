@@ -5,6 +5,8 @@ define(['ko'], function(ko){
 
     var _strings =
     {
+        decEnergy:         ['Затраты энергии', 'TBD'],
+
         gymsTitle:      ['Тренажерные залы',        'Gyms'],
         gymsBtnEnter:   ['Войти',                   'Enter'],
         gym0name:      ['Качалка в подвале',       'Underground gym'],
@@ -77,9 +79,15 @@ define(['ko'], function(ko){
         manFr1:        ['Небольшая усталость', 'TBD'],
         manFr2:        ['Средняя усталость', 'TBD'],
         manFr3:        ['Сильная усталость', 'TBD'],
-        manFr4:        ['Очень сильная усталость', 'TBD']
-    };
+        manFr4:        ['Очень сильная усталость', 'TBD'],
 
+        journalHeader: ['Журнал тренировки', 'TBD'],
+
+        mesWorldRecord:     ['Новый мировой рекорд!', 'TBD'],
+        mesPresonalRecord:  ['Новый персональный рекорд!', 'TBD'],
+        mesWorldRecordDesc: ['Вы установили новый мировой рекорд, выполнив упражнение {0} с весом {1}', 'TBD'],
+        mesPersonalRecordDesc: ['Вы установили новый персональный рекорд, выполнив упражнение {0} с весом {1}', 'TBD'],
+    };
 
     var _localization = {
 

@@ -45,7 +45,10 @@
             </button>
         </div>
     </div>
+    <!-- ko if: selectedExercise -->
     <div class="exExecute well text-center" data-bind="visible:selectedExercise">
         <execute params="name:'workout'"></execute>
+        <journal params="name:'workout'"></journal>
     </div>
+    <!-- /ko -->
 </div>

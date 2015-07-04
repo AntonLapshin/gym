@@ -1,0 +1,10 @@
+<div class="journal text-center" data-bind="visible:isVisible">
+    <h3 data-bind="text: strings.journalHeader"></h3>
+    <table data-bind="foreach: journal">
+        <tr>
+            <td class="text-right"><b data-bind="text: name"></b></td>
+            <td>:&nbsp</td>
+            <td class="text-left" data-bind="text: approaches"></td>
+        </tr>
+    </table>
+</div>

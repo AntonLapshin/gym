@@ -466,6 +466,17 @@ define(['jquery'], function ($) {
 
         saveUser: function (userSetExp) {
             console.log('User has been saved: ' + JSON.stringify(userSetExp));
+        },
+
+        execute: function(args){
+            return $.Deferred(function(defer){
+                defer.resolve({
+                    repeatsMax: 12,
+                    repeats: args.repeats > 12 ? 12 : args.repeats,
+                    energy: 3,
+                    record: 'WR'
+                });
+            });
         }
     }
 });

@@ -1,4 +1,4 @@
-define(['jquery', 'model/player', 'server/server', 'plugins/component'], function ($, Player, server, c) {
+define(['jquery', 'toastr', 'model/player', 'server/server', 'plugins/component'], function ($, toastr, Player, server, c) {
 
     var _events = {};
 
@@ -12,6 +12,38 @@ define(['jquery', 'model/player', 'server/server', 'plugins/component'], functio
             var deferRefs = server.loadRefs().then(function(data){
                 self.refs = data;
             });
+
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": true,
+                "progressBar": false,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "3000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+
+            this.on('energy.decrease', function(value){
+                toastr['warning']('-' + value, c.strings.decEnergy());
+            });
+
+            this.on('record', function(args){
+                var name = self.getExercise(args._id).name;
+                var weight = args.weight;
+                var title = args.type === 'WR' ? c.strings.mesWorldRecord : c.strings.mesPresonalRecord;
+                var mes = args.type === 'WR' ? c.strings.mesWorldRecordDesc : c.strings.mesPersonalRecordDesc;
+                mes = c.format(mes(), name(), weight);
+                toastr['success'](mes, title());
+            });
+
             return $.when.apply(this, [deferPlayer, deferRefs]);
         },
         getMuscles: function(){
@@ -33,18 +65,22 @@ define(['jquery', 'model/player', 'server/server', 'plugins/component'], functio
 
             return muscles;
         },
+        getExercise: function(id){
+            var self = this;
+            return $.extend(
+                {
+                    name: c.strings[c.format('ex{0}name', id)],
+                    desc: c.strings[c.format('ex{0}desc', id)],
+                    img: c.format('components/workout/ex{0}.jpg', id)
+                },
+                self.refs.exercises[id]
+            );
+        },
         getExercises: function(gymId){
             var self = this;
             var exercisesIds = this.refs.gyms[gymId].exercises;
             return $.map(exercisesIds, function(id){
-                return $.extend(
-                    {
-                        name: c.strings[c.format('ex{0}name', id)],
-                        desc: c.strings[c.format('ex{0}desc', id)],
-                        img: c.format('components/workout/ex{0}.jpg', id)
-                    },
-                    self.refs.exercises[id]
-                );
+                return self.getExercise(id);
             });
         },
         getGyms: function(){

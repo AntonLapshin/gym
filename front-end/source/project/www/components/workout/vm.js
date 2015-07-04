@@ -2,17 +2,19 @@ define([
     'ko',
     'text!./view.html',
     'plugins/component',
+    'server/server',
     'slider',
     'components/execute/vm',
+    'components/journal/vm',
     'model/game'
-], function (ko, html, c, slider, execute, game) {
+], function (ko, html, c, server, slider, execute, journal, game) {
 
-    var _defer,
-        _exercises,
+    var _exercises,
         VISIBLE_COUNT = 3,
         _index = 0,
         _weight = 0,
         _repeats = 0,
+        _gymId,
         _weightSlider = null,
         _repeatsSlider = null;
 
@@ -27,7 +29,6 @@ define([
         this.right = ko.observable(false);
         this.weightDesc = ko.observable('');
         this.repeatsDesc = ko.observable('');
-        this.history = ko.observableArray();
 
         var self = this;
 
@@ -60,27 +61,18 @@ define([
             });
         };
 
-        this.show = function (exercises) {
+        this.show = function (gymId) {
+            var exercises = game.getExercises(gymId);
+            _gymId = gymId;
             var self = this;
             exercises.forEach(function (ex) {
                 ex.active = ko.observable(false);
             });
             exercises[0].active(true);
             _exercises = exercises;
+            journal('workout').show();
             this.setVisibleExercises(0);
             this.isVisible(true);
-            game.on('workout.executed', function(approach){
-                self.disabled(true);
-                execute('workout')
-                    .show(approach.repeats, approach.repeatsFact)
-                    .then(function(){
-                        self.disabled(false);
-                    });
-                self.history().push(approach);
-            });
-            return $.Deferred(function (defer) {
-                _defer = defer;
-            });
         };
 
         this.prev = function () {
@@ -109,25 +101,38 @@ define([
             self.selectedExercise(this);
         };
 
-        this.execute = function(){
-            _defer.notify({
+        this.execute = function () {
+
+            var args = {
+                gymId: _gymId,
                 exerciseId: this.selectedExercise()._id,
                 weight: _weight,
                 repeats: _repeats
-            });
+            };
+
+            server.execute(args)
+                .then(function (result) {
+                    self.disabled(true);
+                    execute('workout')
+                        .show(result.repeats, result.repeatsMax)
+                        .then(function () {
+                            self.disabled(false);
+                            var approach = {
+                                _id: args.exerciseId,
+                                weight: args.weight,
+                                repeats: result.repeats
+                            };
+                            journal('workout').push(approach);
+                            game.fire('energy.decrease', result.energy);
+                            if (result.record)
+                                game.fire('record', { _id: args.exerciseId, weight: args.weight, type: result.record });
+                        });
+                });
         };
 
         this.test = function () {
             var self = this;
-            this.show(game.getExercises(1))
-                .progress(function(approach){
-                    game.fire('workout.executed', {
-                        exerciseId: approach.exerciseId,
-                        weight: approach.weight,
-                        repeats: approach.repeats,
-                        repeatsFact: approach.repeats
-                    });
-                });
+            this.show(0);
         }
     }
 

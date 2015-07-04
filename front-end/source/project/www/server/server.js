@@ -59,6 +59,10 @@ define(['jquery'], function($){
 
         saveMe: function(playerSetExp){
             return _server.saveMe(playerSetExp);
+        },
+
+        execute: function(args){
+            return _server.execute(args);
         }
     }
 });
