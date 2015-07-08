@@ -7,27 +7,26 @@ define([
     'c/mass/vm',
     'c/money/vm',
     'c/friends/vm'
-], function (ko, html, component, ava, battery, mass, money, friends) {
+], function (ko, html, c, ava, battery, mass, money, friends) {
 
     function ViewModel() {
 
-        this.show = function(player){
-            ava('private').show(player.public);
-            battery('private').show(player.private.energyMax, player.private.energy);
-            mass('private').show(player.public.mass);
-            money('private').show(player.private.money);
-            friends('private').show(player.private.friends);
-            this.isVisible(true);
+        this.init = function(player){
+            ava('private').show().init(player.public);
+            battery('private').show().init(player.private.energyMax, player.private.energy);
+            mass('private').show().init(player.public.mass);
+            money('private').show().init(player.private.money);
+            friends('private').show().init(player.private.friends);
         };
 
         this.test = function () {
             var self = this;
             require(['model/game'], function(game){
-                self.show(game.player);
+                self.show().init(game.player);
             });
         };
 
     }
 
-    return component.add(ViewModel, html, 'private');
+    return c.add(ViewModel, html, 'private');
 });

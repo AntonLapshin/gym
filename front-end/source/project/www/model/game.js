@@ -1,10 +1,9 @@
 define(['jquery', 'toastr', 'model/player', 'server/server', 'plugins/component'], function ($, toastr, Player, server, c) {
 
-    var _events = {};
-
     return {
         player: null,
         refs: null,
+        server: server,
         init: function(){
             this.player = new Player();
             var deferPlayer = this.player.load();
@@ -31,17 +30,23 @@ define(['jquery', 'toastr', 'model/player', 'server/server', 'plugins/component'
                 "hideMethod": "fadeOut"
             };
 
-            this.on('energy.decrease', function(value){
+            c.on('energy.decrease', function(value){
                 toastr['warning']('-' + value + '<span class="glyphicon glyphicon-flash"></span>', c.strings.decEnergy());
+                self.player.updateValue(self.player.private.energy, self.player.private.energy() - 3);
             });
 
-            this.on('record', function(args){
+            c.on('record', function(args){
                 var name = self.getExercise(args._id).name;
                 var weight = args.weight;
                 var title = args.type === 'WR' ? c.strings.mesWorldRecord : c.strings.mesPresonalRecord;
                 var mes = args.type === 'WR' ? c.strings.mesWorldRecordDesc : c.strings.mesPersonalRecordDesc;
                 mes = c.format(mes(), name(), weight);
                 toastr['success'](mes, title());
+            });
+
+            c.on('money.earn', function(value){
+                toastr['success']('+' + value + '<span class="glyphicon glyphicon-usd"></span>', c.strings.earnMoney());
+                self.player.updateValue(self.player.private.money, self.player.private.money() + value);
             });
 
             return $.when.apply(this, [deferPlayer, deferRefs]);
@@ -95,19 +100,6 @@ define(['jquery', 'toastr', 'model/player', 'server/server', 'plugins/component'
                     self.refs.gyms[id]
                 );
             });
-        },
-        on: function(event, el){
-            if (!_events.hasOwnProperty(event)) {
-                _events[event] = [];
-            }
-            _events[event].push(el);
-        },
-        fire: function(event, args){
-            if (_events.hasOwnProperty(event)) {
-                $.each(_events[event], function(i, el){
-                    el(args);
-                });
-            }
         }
     }
 });

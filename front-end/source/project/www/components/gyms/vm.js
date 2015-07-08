@@ -11,7 +11,13 @@ define([
         this.strings = c.strings;
         this.gyms = ko.observableArray();
 
-        this.show = function (gyms) {
+        this.show = function () {
+            var gyms = game.getGyms();
+            gyms.forEach(function (gym) {
+                gym.active = false;
+                gym.disabled = true;
+            });
+            gyms[0].active = true;
             this.gyms(gyms);
             this.isVisible(true);
             return $.Deferred(function (defer) {
@@ -21,21 +27,14 @@ define([
 
         var self = this;
 
-        this.select = function(){
+        this.select = function () {
             var index = self.gyms().indexOf(this);
             _defer.resolve(index);
         };
 
-        this.test = function(){
-            var gyms = game.getGyms();
-            gyms.forEach(function(gym){
-                gym.active = false;
-                gym.disabled = true;
-            });
-            gyms[0].active = true;
-            gyms[0].disabled = false;
-            this.show(gyms)
-                .then(function(index){
+        this.test = function () {
+            this.show()
+                .then(function (index) {
                     console.log('Selected gym is ' + index);
                 });
         }

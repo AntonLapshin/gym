@@ -39,9 +39,8 @@ define([
             this.journal(output);
         };
 
-        this.show = function(){
+        this.init = function(){
             this.model([]);
-            this.isVisible(true);
             this.update();
         };
 
@@ -51,7 +50,7 @@ define([
         };
 
         this.test = function(){
-            this.show();
+            this.show().init();
             this.push({ _id: 0, weight: 70, repeats: 10 });
         }
 

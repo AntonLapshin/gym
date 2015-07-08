@@ -61,7 +61,7 @@ define([
             });
         };
 
-        this.show = function (gymId) {
+        this.init = function (gymId) {
             var exercises = game.getExercises(gymId);
             _gymId = gymId;
             var self = this;
@@ -70,9 +70,8 @@ define([
             });
             exercises[0].active(true);
             _exercises = exercises;
-            journal('workout').show();
+            journal('workout').show().init();
             this.setVisibleExercises(0);
-            this.isVisible(true);
         };
 
         this.prev = function () {
@@ -110,11 +109,12 @@ define([
                 repeats: _repeats
             };
 
-            server.execute(args)
+            server.gymExecute(args)
                 .then(function (result) {
                     self.disabled(true);
                     execute('workout')
-                        .show(result.repeats, result.repeatsMax)
+                        .show()
+                        .init(result.repeats, result.repeatsMax)
                         .then(function () {
                             self.disabled(false);
                             var approach = {
@@ -123,16 +123,16 @@ define([
                                 repeats: result.repeats
                             };
                             journal('workout').push(approach);
-                            game.fire('energy.decrease', result.energy);
+                            c.fire('energy.decrease', result.energy);
                             if (result.record)
-                                game.fire('record', { _id: args.exerciseId, weight: args.weight, type: result.record });
+                                c.fire('record', { _id: args.exerciseId, weight: args.weight, type: result.record });
                         });
                 });
         };
 
         this.test = function () {
             var self = this;
-            this.show(0);
+            this.show().init(0);
         }
     }
 

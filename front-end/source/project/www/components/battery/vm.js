@@ -12,7 +12,7 @@ define([
         this.value = null;
 
         // max and value are ko.observable
-        this.show = function (max, value, type) {
+        this.init = function (max, value, type) {
             this.max = max;
             this.value = value;
 
@@ -31,7 +31,6 @@ define([
                     return (this.value() / this.max()) * 100 + '%';
                 return this.value() + '/' + this.max();
             }, this);
-            this.isVisible(true);
         };
 
         this.click = function () {
@@ -41,7 +40,7 @@ define([
         this.test = function () {
             var max = ko.observable(155),
                 value = ko.observable(115);
-            this.show(max, value);
+            this.show().init(max, value);
 
             var p = 0;
 

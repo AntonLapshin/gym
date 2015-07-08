@@ -19,7 +19,7 @@ define([
         this.test = function(){
             var self = this;
             require(['model/game'], function(game){
-                self.show(game.player.public);
+                self.show().init(game.player.public);
             });
         };
     }

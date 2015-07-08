@@ -468,7 +468,7 @@ define(['jquery'], function ($) {
             console.log('User has been saved: ' + JSON.stringify(userSetExp));
         },
 
-        execute: function(args){
+        gymExecute: function(args){
             return $.Deferred(function(defer){
                 defer.resolve({
                     repeatsMax: 12,
@@ -477,6 +477,18 @@ define(['jquery'], function ($) {
                     record: 'WR'
                 });
             });
+        },
+
+        jobGet: function(){
+            return $.Deferred(function(defer){
+                defer.resolve(125); // weight
+            })
+        },
+
+        jobComplete: function(){
+            return $.Deferred(function(defer){
+                defer.resolve(5); // money
+            })
         }
     }
 });

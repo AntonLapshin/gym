@@ -1,13 +1,11 @@
 .money {
-    display: inline-block;
-    cursor: pointer;
-    padding: 0 5px 1px 5px !important;
+  display: inline-block;
+  cursor: pointer;
+  padding: 0 5px 1px 5px !important;
 }
-
-.money:hover{
-    background-color: rgba(35, 56, 27, 0.10);
+.money:hover {
+  background-color: rgba(35, 56, 27, 0.1);
 }
-
 .money span {
-    vertical-align: middle;
+  vertical-align: middle;
 }

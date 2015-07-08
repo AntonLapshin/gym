@@ -49,10 +49,9 @@ define([
 
         var self = this;
 
-        this.show = function (repeatsPlan, repeatsFactMax) {
+        this.init = function (repeatsPlan, repeatsFactMax) {
             calcExecutePlan(repeatsPlan, repeatsFactMax);
             this.start();
-            this.isVisible(true);
             return $.Deferred(function (defer) {
                 _defer = defer;
             });
@@ -119,7 +118,7 @@ define([
         };
 
         this.test = function () {
-            this.show(1, 1)
+            this.show().init(1, 1)
                 .then(function(){
                     console.log('finished');
                 });

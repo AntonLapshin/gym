@@ -2,22 +2,22 @@ define([
     'ko',
     'text!./view.html',
     'plugins/component'
-], function (ko, html, component) {
+], function (ko, html, c) {
 
     function ViewModel(){
 
-        this.title = component.strings.socialFriends;
+        this.title = c.strings.socialFriends;
 
         this.test = function(){
             var v = ko.observable(10);
-            this.show(v);
+            this.show().init(v);
             v(5);
         };
 
         this.click = function(){
-            alert('add friends');
+            c.fire('friends.add');
         };
     }
 
-    return component.add(ViewModel, html, 'friends');
+    return c.add(ViewModel, html, 'friends');
 });

@@ -1,4 +1,6 @@
-define(['ko', 'plugins/localization', 'plugins/format'], function (ko, strings, format) {
+define(['ko', 'jquery', 'plugins/localization', 'plugins/format'], function (ko, $, strings, format) {
+
+    var _events = {};
 
     ko.bindingHandlers.loaded = {
         init: function(elemDom) {
@@ -27,9 +29,17 @@ define(['ko', 'plugins/localization', 'plugins/format'], function (ko, strings, 
         vm.name = name;
         vm.model = ko.observable(null);
         vm.isVisible = ko.observable(false);
-        vm.show = function(model){
+        vm.show = function(){
             vm.isVisible(true);
+            return vm;
+        };
+        vm.hide = function(){
+            vm.isVisible(false);
+            return vm;
+        };
+        vm.init = function(model){
             vm.model(model);
+            return vm;
         };
         _viewModels[name] = vm;
 
@@ -68,6 +78,19 @@ define(['ko', 'plugins/localization', 'plugins/format'], function (ko, strings, 
             }
 
             return component.viewModel;
+        },
+        on: function(event, el){
+            if (!_events.hasOwnProperty(event)) {
+                _events[event] = [];
+            }
+            _events[event].push(el);
+        },
+        fire: function(event, args){
+            if (_events.hasOwnProperty(event)) {
+                $.each(_events[event], function(i, el){
+                    el(args);
+                });
+            }
         }
     };
 

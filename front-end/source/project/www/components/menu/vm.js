@@ -9,8 +9,8 @@ define([
 
     var _items = [
         { name: strings.menuHome, active: ko.observable(true) },
-        { name: strings.menuTraining, active: ko.observable(false) },
-        { name: strings.menuRest, active: ko.observable(false) },
+        { name: strings.menuJob, active: ko.observable(false) },
+        { name: strings.menuWorkout, active: ko.observable(false) },
         { name: strings.menuAwards, active: ko.observable(false) },
         { name: strings.menuShop, active: ko.observable(false) }
     ];
@@ -20,11 +20,17 @@ define([
 
         this.items = ko.observableArray(_items);
 
-        this.show = function () {
-            this.isVisible(true);
+        this.init = function () {
             return $.Deferred(function (defer) {
                 _defer = defer;
             });
+        };
+
+        this.selectByIndex = function(index){
+            _items.forEach(function(item){
+                item.active(false);
+            });
+            _items[index].active(true);
         };
 
         this.select = function(){
@@ -37,12 +43,12 @@ define([
         };
 
         this.test = function () {
-            this.show()
+            this.show().init()
                 .progress(function(index){
                     console.log('Selected item is ' + index);
                 });
         };
-    };
+    }
 
     return component.add(ViewModel, html, 'menu');
 });

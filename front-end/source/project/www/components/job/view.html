@@ -1,7 +1,6 @@
 <div class="job" data-bind="visible: isVisible, loaded: true">
     <!-- ko if: weight() -->
-    <div class="summary-weight">
-        Собрано: <span data-bind="text: summaryWeight"></span> кг (<span data-bind="text: weight"></span> кг)
+    <div class="summary-weight" data-bind="text: textStatus">
     </div>
 
     <div class="timer bottom-right opacity-medium">

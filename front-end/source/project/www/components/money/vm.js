@@ -2,22 +2,22 @@ define([
     'ko',
     'text!./view.html',
     'plugins/component'
-], function (ko, html, component) {
+], function (ko, html, c) {
 
     function ViewModel(){
 
-        this.title = component.strings.bankMoney;
+        this.title = c.strings.bankMoney;
 
         this.test = function(){
             var v = ko.observable(10);
-            this.show(v);
+            this.show().init(v);
             v(200);
         };
 
         this.click = function(){
-            alert('buy money');
+            c.fire('money.add');
         };
     }
 
-    return component.add(ViewModel, html, 'money');
+    return c.add(ViewModel, html, 'money');
 });

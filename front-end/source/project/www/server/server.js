@@ -61,8 +61,17 @@ define(['jquery'], function($){
             return _server.saveMe(playerSetExp);
         },
 
-        execute: function(args){
-            return _server.execute(args);
+        gymExecute: function(args){
+            return _server.gymExecute(args);
+        },
+
+        jobGet: function(){
+            return _server.jobGet();
+        },
+
+        jobComplete: function(){
+            return _server.jobComplete();
         }
+
     }
 });

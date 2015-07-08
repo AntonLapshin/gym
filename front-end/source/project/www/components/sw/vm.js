@@ -9,15 +9,14 @@ define([
 
     function ViewModel() {
 
-        this.show = function(){
-            this.isVisible(true);
+        this.init = function(){
             return $.Deferred(function(defer){
                 _defer = defer;
             });
         };
 
         this.test = function () {
-            this.show().progress(function(state){
+            this.show().init().progress(function(state){
                 console.log(state)
             });
         };

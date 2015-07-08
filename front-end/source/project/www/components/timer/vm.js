@@ -2,7 +2,7 @@ define([
     'ko',
     'text!./view.html',
     'plugins/component'
-], function (ko, html, component) {
+], function (ko, html, c) {
 
     var _defer,
         _interval,
@@ -19,9 +19,9 @@ define([
             this.value(min + ':' + sec);
         };
 
-        this.show = function (seconds) {
-            if (_interval)
-                return;
+        this.init = function (seconds) {
+            //if (_interval)
+            //    return;
 
             _seconds = seconds;
 
@@ -36,20 +36,18 @@ define([
                 }
             }, 1000);
 
-            this.isVisible(true);
-
             return $.Deferred(function(defer){
                 _defer = defer;
             });
         };
 
         this.test = function () {
-            this.show(2)
+            this.show().init(2)
                 .then(function(){
                     console.log('finished');
                 });
         }
     }
 
-    return component.add(ViewModel, html, 'timer');
+    return c.add(ViewModel, html, 'timer');
 });

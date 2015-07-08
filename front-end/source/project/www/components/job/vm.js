@@ -3,18 +3,17 @@ define([
     'text!./view.html',
     'plugins/component',
     'components/timer/vm',
+    'model/game',
     'bootbox'
-], function (ko, html, component, timer, bootbox) {
+], function (ko, html, c, timer, game, bootbox) {
 
-    var _defer,
-        _div$,
-        strings = component.strings;
-
+    var TIMEOUT = 60;
     var PATH = 'components/job/';
     var LEFT_SIDE_START_POSITION = {x: 89, y: 74};
     var RIGHT_SIDE_START_POSITION = {x: 0, y: 74};
     var AREA = {width: 195, height: 298};
     var BASE_WEIGHT = 20;
+    var isAlreadyFinished = false;
 
     var DISK_ARRAY =
         [
@@ -104,6 +103,9 @@ define([
             }
             return weight;
         }, this);
+        this.textStatus = ko.computed(function(){
+            return c.format(c.strings.jobStatus(), this.summaryWeight(), this.weight());
+        }, this);
         this.itemsLeft = ko.computed(function () {
             return getDiskArrayForArea(this.items(), 'right');
         }, this);
@@ -154,29 +156,38 @@ define([
             return arr;
         }, this);
 
-        this.show = function (weight) {
+        this.init = function () {
             var self = this;
-            //bootbox.dialog({
-            //    message: component.format(strings.jobAsk(), weight),
-            //    title: strings.jobTitle(),
-            //    buttons: {
-            //        yes: {
-            //            label: strings.YES(),
-            //            className: "btn-success",
-            //            callback: function() {
-            //                self.start(weight);
-            //            }
-            //        },
-            //        no: {
-            //            label: strings.NO(),
-            //            className: "btn-danger",
-            //            callback: function() {
-            //                _defer.reject();
-            //            }
-            //        }
-            //    }
-            //});
 
+            game.server.jobGet()
+                .then(function(weight){
+                    bootbox.dialog({
+                        message: c.format(c.strings.jobAsk(), weight),
+                        title: c.strings.jobTitle(),
+                        buttons: {
+                            yes: {
+                                label: c.strings.YES(),
+                                className: "btn-success",
+                                callback: function() {
+                                    self.start(weight);
+                                }
+                            },
+                            no: {
+                                label: c.strings.NO(),
+                                className: "btn-danger",
+                                callback: function() {
+                                }
+                            }
+                        }
+                    });
+                });
+
+            return this;
+        };
+
+        this.start = function(weight){
+            isAlreadyFinished = false;
+            var self = this;
             this.itemsSelected([]);
             var itemsLeft = getDiskArray('left');
             var itemsRight = getDiskArray('right');
@@ -187,15 +198,16 @@ define([
             this.items(arr);
             this.weight(weight);
 
-            timer('job').show(60)
+            timer('job').show().init(TIMEOUT)
                 .then(function(){
-                    _defer.reject(strings.jobTimeIsUp());
+                    if (isAlreadyFinished)
+                        return;
+                    bootbox.dialog({
+                        message: c.strings.jobTimeIsUp(),
+                        title: c.strings.jobTitle()
+                    });
+                    c.fire('home');
                 });
-            this.isVisible(true);
-
-            return $.Deferred(function(defer){
-                _defer = defer;
-            });
         };
 
         this.select = function (item) {
@@ -215,23 +227,30 @@ define([
             this.items(arrNew);
             this.itemsSelected(arrSelected);
             if (this.summaryWeight() == this.weight()) {
-                _defer.resolve();
+                game.server.jobComplete().then(function(money){
+                    isAlreadyFinished = true;
+                    bootbox.dialog({
+                        message: c.strings.jobSuccess(),
+                        title: c.strings.jobTitle()
+                    });
+                    c.fire('home');
+                    c.fire('money.earn', money);
+                });
             }
             else if (this.summaryWeight() > this.weight()) {
-                _defer.reject(strings.jobWrongWeight());
+                isAlreadyFinished = true;
+                bootbox.dialog({
+                    message: c.strings.jobWrongWeight(),
+                    title: c.strings.jobTitle()
+                });
+                c.fire('home');
             }
         };
 
         this.test = function () {
-            this.show(105)
-                .then(function(){
-                    console.log('finished');
-                })
-                .fail(function(message){
-                    console.log(message);
-                });
+            this.show().init();
         };
     }
 
-    return component.add(ViewModel, html, 'job');
+    return c.add(ViewModel, html, 'job');
 });

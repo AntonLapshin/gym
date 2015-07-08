@@ -5,9 +5,9 @@ define(['ko'], function(ko){
 
     var _strings =
     {
-        decEnergy:         ['Затраты энергии', 'TBD'],
+        decEnergy:      ['Затраты энергии', 'TBD'],
+        earnMoney:      ['Заработано', 'TBD'],
 
-        gymsTitle:      ['Тренажерные залы',        'Gyms'],
         gymsBtnEnter:   ['Войти',                   'Enter'],
         gym0name:      ['Качалка в подвале',       'Underground gym'],
         gym0desc:      ['Старый заброшенный подвал, переделанный под тренажерный зал. Здесь довольно сыро и совсем мало спортивного инвентаря.',
@@ -36,15 +36,18 @@ define(['ko'], function(ko){
         trExecute:      ['Выполнить',               'Execute'],
 
         menuHome:       ['Домой',                   'Home'],
-        menuTraining:   ['Тренировки',              'Gym'],
+        menuWorkout:    ['Тренировка',              'Workout'],
         menuRest:       ['Отдых',                   'Rest'],
         menuAwards:     ['Достижения',              'Awards'],
         menuShop:       ['Магазин',                 'Shop'],
+        menuJob:        ['Работа',                  'Job'],
 
         jobTitle:       ['Работа',                  'Job'],
         jobAsk:         ['Необходимо собрать штангу весом {0} кг. Вы готовы?',                 'TBD'],
         jobTimeIsUp:    ['Время вышло',             'Time is up'],
         jobWrongWeight: ['Вес превышен',            'Wrong weight'],
+        jobSuccess:     ['Вес собран',              'Success'],
+        jobStatus:      ['Собрано: {0}кг. Нужно собрать: {1}кг', 'TBD'],
 
         YES:            ['Да',                      'Yes'],
         NO:             ['Нет',                     'No'],

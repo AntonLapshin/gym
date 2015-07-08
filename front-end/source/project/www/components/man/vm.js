@@ -31,17 +31,17 @@ define([
         shadowFrom: true
     };
 
-    function showFrazzleMap(vm){
+    function showFrazzleMap(vm) {
         vm.canvas$ = $('<canvas class="frazzle" width="480px" height="550px"/>');
         vm.elem$.find('img.img-man').before(vm.canvas$);
         var context = vm.canvas$[0].getContext('2d');
 
-        $.each(vm.muscles(), function(j, m){
+        $.each(vm.muscles(), function (j, m) {
 
             var map = m.map.split(',');
             context.beginPath();
             context.moveTo(map[0], map[1]);
-            for(var i = 2; i < map.length - 1; i = i + 2){
+            for (var i = 2; i < map.length - 1; i = i + 2) {
                 context.lineTo(map[i], map[i + 1]);
             }
 
@@ -51,7 +51,7 @@ define([
         });
     }
 
-    function hideFrazzleMap(vm){
+    function hideFrazzleMap(vm) {
         vm.canvas$.remove();
     }
 
@@ -69,33 +69,32 @@ define([
             var win = window.open(url, '_blank');
             win.focus();
         };
-        this.show = function(model){
+        this.init = function (model) {
             this.model(model);
-            this.src(component.format('components/man/{0}.png', model.public.level()));
-
+            this.src(component.format('components/man/{0}.png', this.model().public.level()));
 
             this.muscles(game.getMuscles());
             var self = this;
-            sw('man').show().progress(function(state){
+            sw('man').show().init().progress(function (state) {
                 if (state)
                     showFrazzleMap(self);
                 else
                     hideFrazzleMap(self);
             });
-            this.isVisible(true);
+            return this;
         };
-        this.loaded = function(elem$){
+        this.loaded = function (elem$) {
             elem$.find('.img-man').maphilight({fillColor: 'ff0000', strokeOpacity: 0, fillOpacity: 0.3, fade: true});
             this.elem$ = elem$;
         };
-        this.test = function(){
-            this.show(game.player);
+        this.test = function () {
+            this.show().init(game.player);
         };
-        this.hover = function(e, muscle){
-            var pos = this.elem$.position();
-            muscleinfo('man').show(muscle, { x: e.clientX - pos.left, y: e.clientY - pos.top });
+        this.hover = function (e, muscle) {
+            var pos = this.elem$.offset();
+            muscleinfo('man').show().init(muscle, {x: e.clientX - pos.left, y: e.clientY - pos.top});
         };
-        this.out = function(){
+        this.out = function () {
             muscleinfo('man').hide();
         };
     }

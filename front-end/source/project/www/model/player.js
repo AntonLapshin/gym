@@ -22,6 +22,21 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
         });
     }
 
+    function updateValue(field, value){
+        if (!value)
+            return;
+        var oldValue = field() || 0;
+        if (oldValue === value)
+            return;
+        var newValue = oldValue + (value > oldValue ? 1 : -1);
+        field(newValue);
+        var delay = Math.abs(value - newValue) > 50 ? 1 :
+            Math.pow(Math.min(value, newValue) / Math.max(value, newValue), 2) * 50;
+        setTimeout(function(){
+            updateValue(field, value);
+        }, delay);
+    }
+
     function Player() {
         var self = this;
 
@@ -56,9 +71,9 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
             return getMe().then(function(model){
                 self._id(model._id);
 
-                self.private.money(model.private.money);
-                self.private.energy(model.private.energy);
-                self.private.friends(model.private.friends);
+                updateValue(self.private.money, model.private.money);
+                updateValue(self.private.energy, model.private.energy);
+                updateValue(self.private.friends, model.private.friends);
                 self.private.energyMax(model.private.energyMax);
                 self.private.reg.lastUpdateTime = model.private.reg.lastUpdateTime;
                 self.private.reg.lastCheckLevelUpTime = model.private.reg.lastCheckLevelUpTime;
@@ -76,6 +91,8 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
                 });
             });
         };
+
+        this.updateValue = updateValue;
     }
 
     return Player;
