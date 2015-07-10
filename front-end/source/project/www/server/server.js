@@ -49,6 +49,10 @@ define(['jquery'], function($){
             return this.proxy('loadMe', id);
         },
 
+        loadPlayer: function(id){
+            return this.proxy('loadPlayer', id);
+        },
+
         loadPlayers: function(ids){
             return this.proxy('loadPlayers', ids);
         },

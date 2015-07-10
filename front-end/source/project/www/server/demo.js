@@ -2,9 +2,6 @@ define(['jquery'], function ($) {
 
     var _ME = {
         _id: 5653333,
-        jobbing: {
-            nextTime: new Date()
-        },
         private: {
             money: 200,
             energy: 65,
@@ -12,119 +9,140 @@ define(['jquery'], function ($) {
             reg: {
                 lastUpdateTime: new Date(),
                 lastCheckLevelUpTime: new Date()
-            }
+            },
+            job: {
+                nextTime: new Date()
+            },
+            gyms: [0, 1],
+            body: [
+                {
+                    _id: 0,
+                    stress: 0.2,
+                    frazzle: 0.7
+                },
+                {
+                    _id: 1,
+                    stress: 0.7,
+                    frazzle: 0.9
+                },
+                {
+                    _id: 2,
+                    stress: 0.3,
+                    frazzle: 0.1
+                },
+                {
+                    _id: 3,
+                    stress: 0.2,
+                    frazzle: 0.1
+                },
+                {
+                    _id: 4,
+                    stress: 1,
+                    frazzle: 1
+                },
+                {
+                    _id: 5,
+                    stress: 1,
+                    frazzle: 1
+                },
+                {
+                    _id: 6,
+                    stress: 0.3,
+                    frazzle: 0.2
+                },
+                {
+                    _id: 7,
+                    stress: 0,
+                    frazzle: 0
+                },
+                {
+                    _id: 8,
+                    stress: 0.5,
+                    frazzle: 0.6
+                },
+                {
+                    _id: 9,
+                    stress: 0,
+                    frazzle: 0
+                },
+                {
+                    _id: 10,
+                    stress: 1,
+                    frazzle: 1
+                },
+                {
+                    _id: 11,
+                    stress: 1,
+                    frazzle: 1
+                },
+                {
+                    _id: 12,
+                    stress: 0.8,
+                    frazzle: 0.8
+                },
+                {
+                    _id: 13,
+                    stress: 0.3,
+                    frazzle: 0.3
+                },
+                {
+                    _id: 14,
+                    stress: 0.5,
+                    frazzle: 0.5
+                },
+                {
+                    _id: 15,
+                    stress: 0,
+                    frazzle: 0
+                }
+            ]
         },
         public: {
-            level: 120
-        },
-        gyms: [0, 1],
-        body: [
-            {
-                _id: 0,
-                stress: 0.2,
-                frazzle: 0.7
-            },
-            {
-                _id: 1,
-                stress: 0.7,
-                frazzle: 0.9
-            },
-            {
-                _id: 2,
-                stress: 0.3,
-                frazzle: 0.1
-            },
-            {
-                _id: 3,
-                stress: 0.2,
-                frazzle: 0.1
-            },
-            {
-                _id: 4,
-                stress: 1,
-                frazzle: 1
-            },
-            {
-                _id: 5,
-                stress: 1,
-                frazzle: 1
-            },
-            {
-                _id: 6,
-                stress: 0.3,
-                frazzle: 0.2
-            },
-            {
-                _id: 7,
-                stress: 0,
-                frazzle: 0
-            },
-            {
-                _id: 8,
-                stress: 0.5,
-                frazzle: 0.6
-            },
-            {
-                _id: 9,
-                stress: 0,
-                frazzle: 0
-            },
-            {
-                _id: 10,
-                stress: 1,
-                frazzle: 1
-            },
-            {
-                _id: 11,
-                stress: 1,
-                frazzle: 1
-            },
-            {
-                _id: 12,
-                stress: 0.8,
-                frazzle: 0.8
-            },
-            {
-                _id: 13,
-                stress: 0.3,
-                frazzle: 0.3
-            },
-            {
-                _id: 14,
-                stress: 0.5,
-                frazzle: 0.5
-            },
-            {
-                _id: 15,
-                stress: 0,
-                frazzle: 0
-            }
-        ]
+            level: 120,
+            awards: [],
+            exercises: [ { _id: 0, pr: 112 }, { _id: 1, pr: 200 }, { _id: 2, pr: 140 }]
+        }
     };
 
     var _PLAYERS = [
         {
             _id: 1,
             public: {
-                level: 5
+                level: 5,
+                awards: [],
+                exercises: [ { _id: 0, pr: 112 }, { _id: 1, pr: 200 }]
             }
         },
         {
-            _id: 2,
+            _id: 60981233,
             public: {
-                level: 15
+                level: 12,
+                awards: [],
+                exercises: [ { _id: 0, pr: 112 }, { _id: 1, pr: 180 }, { _id: 2, pr: 110 }]
             }
         },
         {
             _id: 3,
             public: {
-                level: 7
+                level: 7,
+                awards: [],
+                exercises: [ { _id: 0, pr: 112 }, { _id: 1, pr: 180 }, { _id: 2, pr: 110 }]
+            }
+        },
+        {
+            _id: 5653333,
+            public: {
+                level: 120,
+                awards: [],
+                exercises: [ { _id: 0, pr: 112 }, { _id: 1, pr: 180 }, { _id: 2, pr: 110 }]
             }
         },
         {
             _id: 4,
             public: {
-                level: 6
+                level: 120,
+                awards: [],
+                exercises: [ { _id: 0, pr: 112 }, { _id: 1, pr: 180 }, { _id: 2, pr: 110 }]
             }
         }
     ];
@@ -231,7 +249,7 @@ define(['jquery'], function ($) {
         "exercises": [
             {
                 // Жим лежа
-                _id: 0, min: 20, max: 500, step: 2.5, coeff: 1, power: 30, energy: 5, record: null, body: [
+                _id: 0, min: 20, max: 500, step: 2.5, coeff: 1, power: 30, energy: 5, wr: { _id: 5653333, value: 230 }, body: [
                 {"_id": 2, "stress": 0.5},
                 {"_id": 4, "stress": 0.8},
                 {"_id": 5, "stress": 0.3},
@@ -240,7 +258,7 @@ define(['jquery'], function ($) {
             },
             {
                 // Присед
-                _id: 1, min: 20, max: 600, step: 2.5, coeff: 1, power: 40, energy: 7, record: null, body: [
+                _id: 1, min: 20, max: 600, step: 2.5, coeff: 1, power: 40, energy: 7, wr: null, body: [
                 {"_id": 11, "stress": 0.7},
                 {"_id": 12, "stress": 0.8},
                 {"_id": 13, "stress": 1.0},
@@ -257,7 +275,7 @@ define(['jquery'], function ($) {
                 coeff: 1,
                 power: 40,
                 energy: 6,
-                record: null,
+                wr: null,
                 body: [
                     {"_id": 1, "stress": 0.4},
                     {"_id": 2, "stress": 0.3},
@@ -273,7 +291,7 @@ define(['jquery'], function ($) {
             },
             {
                 // Т-тяга
-                _id: 3, min: 10, max: 300, step: 2.5, coeff: 0.4, power: 25, energy: 4, record: null, body: [
+                _id: 3, min: 10, max: 300, step: 2.5, coeff: 0.4, power: 25, energy: 4, wr: null, body: [
                 {"_id": 1, "stress": 0.2},
                 {"_id": 2, "stress": 0.3},
                 {"_id": 3, "stress": 0.7},
@@ -292,7 +310,7 @@ define(['jquery'], function ($) {
                 coeff: 0.7,
                 power: 15,
                 energy: 3,
-                record: null,
+                wr: null,
                 body: [
                     {"_id": 3, "stress": 1.0},
                     {"_id": 5, "stress": 0.3}
@@ -445,6 +463,12 @@ define(['jquery'], function ($) {
         loadMe: function (id) {
             return $.Deferred(function (defer) {
                 defer.resolve(_ME);
+            });
+        },
+
+        loadPlayer: function(id){
+            return $.Deferred(function (defer) {
+                defer.resolve($.grep(_PLAYERS, function(p) { return p._id === id; })[0]);
             });
         },
 

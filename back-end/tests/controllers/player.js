@@ -128,7 +128,7 @@ module.exports = {
     },
     frazzle: function(test){
         var exercise = Db.getRefs().exercises[0];
-        Player.find(PLAYER_ID_TEST, 'body').then(
+        Player.find(PLAYER_ID_TEST, 'public.body').then(
             function (body) {
                 return Player.frazzle(PLAYER_ID_TEST, body, exercise, 0.5);
             }
@@ -151,7 +151,7 @@ module.exports = {
             }
         ).then(
             function () {
-                return Player.find(PLAYER_ID_TEST, 'body');
+                return Player.find(PLAYER_ID_TEST, 'public.body');
             }
         ).then(
             function (body) {
@@ -170,13 +170,13 @@ module.exports = {
     },
     updateState: function(test){
         var exercise = Db.getRefs().exercises[0];
-        Player.find(PLAYER_ID_TEST, 'body').then(
+        Player.find(PLAYER_ID_TEST, 'public.body').then(
             function (body) {
                 return Player.frazzle(PLAYER_ID_TEST, body, exercise, 0.5);
             }
         ).then(
             function () {
-                return Player.find(PLAYER_ID_TEST, 'body');
+                return Player.find(PLAYER_ID_TEST, 'public.body');
             }
         ).then(
             function (body) {
@@ -200,7 +200,7 @@ module.exports = {
             }
         ).then(
             function () {
-                return Player.find(PLAYER_ID_TEST, 'body');
+                return Player.find(PLAYER_ID_TEST, 'public.body');
             }
         ).then(
             function (body) {

@@ -19,6 +19,7 @@ define(['jquery', 'plugins/format'], function ($, vk, format) {
         {"id": 60981233, "img": "https://pp.vk.me/c620823/v620823043/190fc/LJjNunV8d7c.jpg", "name": "Anton Chaldaev"},
         {"id": 243782603, "img": "https://pp.vk.me/c407822/v407822609/b820/bWlD4bP140g.jpg", "name": "Andrey Moerchuk"},
         {"id": 5188175, "img": "https://pp.vk.me/c616030/v616030119/17bb4/-Mf2RNRB04k.jpg", "name": "Marsel Khakimov"},
+        {"id": 5653333, "img": "https://pp.vk.me/c619116/v619116629/17703/4Und2nzDjzI.jpg", "name": "Anton Lapshin"},
         {"id": 233219052, "img": "https://pp.vk.me/c619420/v619420700/b913/i5LtaPd0NCg.jpg", "name": "Andriy Rozman"},
         {"id": 147936855, "img": "https://pp.vk.me/c619116/v619116629/17703/4Und2nzDjzI.jpg", "name": "Danik Boychuk"},
         {
@@ -78,6 +79,12 @@ define(['jquery', 'plugins/format'], function ($, vk, format) {
         getMe: function () {
             return $.Deferred(function (defer) {
                 defer.resolve(_MYSELF);
+            });
+        },
+
+        getPlayer: function (id) {
+            return $.Deferred(function (defer) {
+                defer.resolve($.grep(_PLAYERS, function(p) { return p.id === id; })[0]);
             });
         },
 

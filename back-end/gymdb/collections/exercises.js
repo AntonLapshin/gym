@@ -1,7 +1,7 @@
 exports.exercises = [
     {
         // Жим лежа
-        _id: 0, min: 20, max: 500, step: 2.5, coeff: 1, power: 30, energy: 5, record: null, body: [
+        _id: 0, min: 20, max: 500, step: 2.5, coeff: 1, power: 30, energy: 5, wr: null, body: [
         {"_id": 2, "stress": 0.5},
         {"_id": 4, "stress": 0.8},
         {"_id": 5, "stress": 0.3},
@@ -10,7 +10,7 @@ exports.exercises = [
     },
     {
         // Присед
-        _id: 1, min: 20, max: 600, step: 2.5, coeff: 1, power: 40, energy: 7, record: null, body: [
+        _id: 1, min: 20, max: 600, step: 2.5, coeff: 1, power: 40, energy: 7, wr: null, body: [
         {"_id": 11, "stress": 0.7},
         {"_id": 12, "stress": 0.8},
         {"_id": 13, "stress": 1.0},
@@ -27,7 +27,7 @@ exports.exercises = [
         coeff: 1,
         power: 40,
         energy: 6,
-        record: null,
+        wr: null,
         body: [
             {"_id": 1, "stress": 0.4},
             {"_id": 2, "stress": 0.3},
@@ -43,7 +43,7 @@ exports.exercises = [
     },
     {
         // Т-тяга
-        _id: 3, min: 10, max: 300, step: 2.5, coeff: 0.4, power: 25, energy: 4, record: null, body: [
+        _id: 3, min: 10, max: 300, step: 2.5, coeff: 0.4, power: 25, energy: 4, wr: null, body: [
         {"_id": 1, "stress": 0.2},
         {"_id": 2, "stress": 0.3},
         {"_id": 3, "stress": 0.7},
@@ -62,7 +62,7 @@ exports.exercises = [
         coeff: 0.7,
         power: 15,
         energy: 3,
-        record: null,
+        wr: null,
         body: [
             {"_id": 3, "stress": 1.0},
             {"_id": 5, "stress": 0.3}

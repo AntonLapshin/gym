@@ -1,5 +1,9 @@
 .workout {
 
+  h2 {
+    margin-top: 10px;
+  }
+
   button {
     line-height: 1;
 
@@ -9,11 +13,17 @@
     }
   }
 
+  .label {
+    cursor: pointer;
+  }
+
   .well {
     margin-bottom: 5px;
     padding: 10px;
+    border-radius: 0;
+    box-shadow: none;
 
-    h2 {
+    h3 {
       margin-top: 0;
     }
   }
@@ -37,7 +47,9 @@
   }
 
   .exSetup {
+    position: relative;
     background-color: rgba(237, 230, 219, 0.13);
+    padding-bottom: 15px;
   }
 
   .exExecute {
@@ -54,6 +66,12 @@
 
   .executeBtn {
     font-size: 2em;
+    position: absolute;
+    padding: 9px 10px 5px 10px;
+    top: 50%;
+    left: 50%;
+    margin-left:-20px;
+    margin-top:-20px;
   }
 
 }

@@ -1,0 +1,12 @@
+.pr {
+  display: inline-block;
+  border: 1px solid #dedede;
+  background-color: #f4f4f4;
+  padding: 3px 5px 4px 5px;
+}
+.pr span {
+  vertical-align: middle;
+}
+.pr span.label {
+  cursor: pointer;
+}

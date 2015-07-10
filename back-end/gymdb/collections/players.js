@@ -4,9 +4,6 @@ exports.START_MONEY = 125;
 exports.newPlayer = function (id, level) {
     return {
         _id: id,
-        job: {
-            nextTime: new Date()
-        },
         private: {
             money: exports.START_MONEY,
             energy: exports.ENERGY_MAX,
@@ -14,94 +11,98 @@ exports.newPlayer = function (id, level) {
             reg: {
                 lastUpdateTime: new Date(),
                 lastCheckLevelUpTime: new Date()
+            },
+            job: {
+                nextTime: new Date()
             }
         },
         public: {
-            level: level
-        },
-        gyms: [0],
-        body: [
-            {
-                _id: 0,
-                stress: 0,
-                frazzle: 0
-            },
-            {
-                _id: 1,
-                stress: 0,
-                frazzle: 0
-            },
-            {
-                _id: 2,
-                stress: 0,
-                frazzle: 0
-            },
-            {
-                _id: 3,
-                stress: 0,
-                frazzle: 0
-            },
-            {
-                _id: 4,
-                stress: 0,
-                frazzle: 0
-            },
-            {
-                _id: 5,
-                stress: 0,
-                frazzle: 0
-            },
-            {
-                _id: 6,
-                stress: 0,
-                frazzle: 0
-            },
-            {
-                _id: 7,
-                stress: 0,
-                frazzle: 0
-            },
-            {
-                _id: 8,
-                stress: 0,
-                frazzle: 0
-            },
-            {
-                _id: 9,
-                stress: 0,
-                frazzle: 0
-            },
-            {
-                _id: 10,
-                stress: 0,
-                frazzle: 0
-            },
-            {
-                _id: 11,
-                stress: 0,
-                frazzle: 0
-            },
-            {
-                _id: 12,
-                stress: 0,
-                frazzle: 0
-            },
-            {
-                _id: 13,
-                stress: 0,
-                frazzle: 0
-            },
-            {
-                _id: 14,
-                stress: 0,
-                frazzle: 0
-            },
-            {
-                _id: 15,
-                stress: 0,
-                frazzle: 0
-            }
-        ]
+            level: level,
+            gyms: [0],
+            exercises: [],
+            body: [
+                {
+                    _id: 0,
+                    stress: 0,
+                    frazzle: 0
+                },
+                {
+                    _id: 1,
+                    stress: 0,
+                    frazzle: 0
+                },
+                {
+                    _id: 2,
+                    stress: 0,
+                    frazzle: 0
+                },
+                {
+                    _id: 3,
+                    stress: 0,
+                    frazzle: 0
+                },
+                {
+                    _id: 4,
+                    stress: 0,
+                    frazzle: 0
+                },
+                {
+                    _id: 5,
+                    stress: 0,
+                    frazzle: 0
+                },
+                {
+                    _id: 6,
+                    stress: 0,
+                    frazzle: 0
+                },
+                {
+                    _id: 7,
+                    stress: 0,
+                    frazzle: 0
+                },
+                {
+                    _id: 8,
+                    stress: 0,
+                    frazzle: 0
+                },
+                {
+                    _id: 9,
+                    stress: 0,
+                    frazzle: 0
+                },
+                {
+                    _id: 10,
+                    stress: 0,
+                    frazzle: 0
+                },
+                {
+                    _id: 11,
+                    stress: 0,
+                    frazzle: 0
+                },
+                {
+                    _id: 12,
+                    stress: 0,
+                    frazzle: 0
+                },
+                {
+                    _id: 13,
+                    stress: 0,
+                    frazzle: 0
+                },
+                {
+                    _id: 14,
+                    stress: 0,
+                    frazzle: 0
+                },
+                {
+                    _id: 15,
+                    stress: 0,
+                    frazzle: 0
+                }
+            ]
+        }
     };
 };
 

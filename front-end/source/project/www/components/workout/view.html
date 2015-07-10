@@ -4,7 +4,7 @@
             <span class="glyphicon glyphicon-chevron-left"></span>
         </button>
         <ul class="nav nav-pills" data-bind="foreach: exercises">
-            <li role="presentation" data-bind="css: {active:active}, click: $parent.select">
+            <li role="presentation" data-bind="css: {active:active, disabled:disabled}, click: $parent.select">
                 <a href="#" class="text-center">
                     <img alt="..." src="" data-bind="attr:{src:img}" class="img-thumbnail"/>
 
@@ -19,16 +19,26 @@
         </button>
     </div>
     <div class="exSetup text-center well" data-bind="visible:selectedExercise">
-        <div data-bind="with:selectedExercise">
-            <h2 data-bind="text:name"></h2>
+        <div class="row">
+            <div class="col-md-6" data-bind="with:selectedExercise">
+                <h2 data-bind="text:name"></h2>
 
-            <p data-bind="text:desc"></p>
+                <p data-bind="text:desc"></p>
+            </div>
+            <div class="col-md-6" style="padding-top: 15px;">
+                <wr params="name:'workout'"></wr>
+                <pr params="name:'workout'"></pr>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-6 text-center">
                 <h4>
                     <span class="label label-default" data-bind="text:strings.trChooseWeight"></span>
                     <span class="label label-warning" data-bind="text:weightDesc"></span>
+                    <span class="label label-primary" data-bind="text:strings.prMini, attr: {title:strings.prDesc}, visible: (selectedExercise()? selectedExercise().pr : 0) < weight()"
+                          data-toggle="tooltip" data-placement="bottom" data-delay="500"></span>
+                    <span class="label label-danger" data-bind="text:strings.wrMini, attr: {title:strings.wrDesc}, , visible: (selectedExercise()? (selectedExercise().wr ? selectedExercise().wr.value : 0) : 0) < weight()"
+                          data-toggle="tooltip" data-placement="bottom" data-delay="500"></span>
                 </h4>
                 <input class="weightSlider" data-slider-id='weightSlider' type="text" data-slider-tooltip="hide"/>
             </div>
@@ -39,7 +49,8 @@
                 </h4>
                 <input class="repeatsSlider" data-slider-id='repeatsSlider' type="text" data-slider-tooltip="hide"/>
             </div>
-            <button type="button" class="btn btn-success executeBtn" data-bind="click:execute, attr: { disabled: disabled }">
+            <button type="button" class="btn btn-success executeBtn"
+                    data-bind="click:execute, attr: { disabled: disabled }">
                 <span class="glyphicon glyphicon-flash"></span>
                 <span data-bind="text: strings.trExecuteBtn"></span>
             </button>

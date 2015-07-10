@@ -73,15 +73,15 @@ function frazzle(playerId, body, exercise, effect) {
         var e = muscleBody.stress + muscleExercise.stress * effect;
         if (e > 1) e = 1;
         e = round2(e);
-        setClause['body.' + muscleExercise._id + '.frazzle'] = f;
-        setClause['body.' + muscleExercise._id + '.stress'] = e;
+        setClause['public.body.' + muscleExercise._id + '.frazzle'] = f;
+        setClause['public.body.' + muscleExercise._id + '.stress'] = e;
     }
 
     return update(playerId, { $set: setClause });
 }
 
 function updateState(id) {
-    return find(id, ['private', 'body', 'public']).then(
+    return find(id, ['private', 'public']).then(
         function (player) {
             var setClause = getUpdateClause(player);
             if (setClause == null) {
@@ -134,12 +134,12 @@ function getUpdateClause(player) {
         'private.reg.lastUpdateTime': now
     };
 
-    for (var i = 0; i < player.body.length; i++) {
-        var muscle = player.body[i];
+    for (var i = 0; i < player.public.body.length; i++) {
+        var muscle = player.public.body[i];
         muscle.frazzle = round2(muscle.frazzle - frazzleDecrease);
         if (muscle.frazzle < 0)muscle.frazzle = 0;
 
-        setClause['body.' + i + '.frazzle'] = muscle.frazzle;
+        setClause['public.body.' + i + '.frazzle'] = muscle.frazzle;
     }
     return setClause;
 }
@@ -147,7 +147,7 @@ function getUpdateClause(player) {
 // Calculate prob of level increase. Returns clause.
 function getClauseAfterCheckLevelUp(player, setClause) {
     var getPowerAll = function () {
-        var muscles = Db.dics.muscles;
+        var muscles = Db.getRefs().muscles;
         var powerAll = 0;
         for (var i = 0; i < muscles.length; i++) {
             powerAll += muscles[i].power;
@@ -163,9 +163,9 @@ function getClauseAfterCheckLevelUp(player, setClause) {
     var powerAll = getPowerAll();
     var stress = 0;
 
-    for (var i = 0; i < player.body.length; i++) {
-        var muscleBody = player.body[i];
-        var muscles = Db.dics.muscles;
+    for (var i = 0; i < player.public.body.length; i++) {
+        var muscleBody = player.public.body[i];
+        var muscles = Db.getRefs().muscles;
         var muscle = muscles[muscleBody._id];
 
         stress += muscle.power * muscleBody.stress / powerAll;
@@ -176,8 +176,8 @@ function getClauseAfterCheckLevelUp(player, setClause) {
     if (Math.random() < p) {
         setClause['public.level'] = player.public.level + 1;
         for (i = 0; i < player.body.length; i++) {
-            setClause['body.' + i + '.frazzle'] = 0;
-            setClause['body.' + i + '.stress'] = 0;
+            setClause['public.body.' + i + '.frazzle'] = 0;
+            setClause['public.body.' + i + '.stress'] = 0;
         }
     }
 

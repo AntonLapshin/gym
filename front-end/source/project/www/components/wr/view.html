@@ -1,0 +1,14 @@
+<div class="wr" data-bind="visible:isVisible">
+    <span class="label label-danger" data-bind="text: strings.wrMini, attr: {title:strings.wr}"
+          data-toggle="tooltip" data-placement="bottom" data-delay="500"></span>
+    <!-- ko if: model() -->
+    <span data-bind="text: model().value"></span>
+    <span data-bind="text: strings.trMeasureWeight"></span>
+    <a data-bind="text: model().player.public.name, click:click"></a>
+    <!-- /ko -->
+
+    <!-- ko if: !model() -->
+    <span data-bind="text: strings.wrNone"></span>
+    <!-- /ko -->
+
+</div>

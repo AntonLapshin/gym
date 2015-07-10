@@ -6,8 +6,11 @@ define([
     'slider',
     'components/execute/vm',
     'components/journal/vm',
+    //'components/player/vm',
+    'components/wr/vm',
+    'components/pr/vm',
     'model/game'
-], function (ko, html, c, server, slider, execute, journal, game) {
+], function (ko, html, c, server, slider, execute, journal, wr, pr, game) {
 
     var _exercises,
         VISIBLE_COUNT = 3,
@@ -28,6 +31,7 @@ define([
         this.left = ko.observable(false);
         this.right = ko.observable(false);
         this.weightDesc = ko.observable('');
+        this.weight = ko.observable();
         this.repeatsDesc = ko.observable('');
 
         var self = this;
@@ -48,6 +52,7 @@ define([
             _weightSlider = div$.find('.weightSlider').slider({
                 formatter: function (value) {
                     _weight = value;
+                    self.weight(value.toFixed(1));
                     self.weightDesc(value.toFixed(1) + ' ' + c.strings.trMeasureWeight());
                     return 'Current value: ' + value;
                 }
@@ -71,6 +76,8 @@ define([
             exercises[0].active(true);
             _exercises = exercises;
             journal('workout').show().init();
+            wr('workout').show();
+            pr('workout').show();
             this.setVisibleExercises(0);
         };
 
@@ -98,6 +105,11 @@ define([
             _repeatsSlider.slider('setAttribute', 'step', 1);
             _repeatsSlider.slider('setValue', 10);
             self.selectedExercise(this);
+
+            wr('workout').init(self.selectedExercise().wr);
+            pr('workout').init(self.selectedExercise().pr);
+            //if (this.wr)
+            //    player('workout').init(this.wr._id);
         };
 
         this.execute = function () {
@@ -132,7 +144,7 @@ define([
 
         this.test = function () {
             var self = this;
-            this.show().init(0);
+            this.show().init(1);
         }
     }
 

@@ -1,6 +1,9 @@
 @import url('bootstrap/css/bootstrap.min.css');
 @import url('lib/toastr.min.css');
 @import url('lib/bootstrap-slider.min.css');
+@import url('components/wr/style.css');
+@import url('components/pr/style.css');
+@import url('components/player/style.css');
 @import url('components/sw/style.css');
 @import url('components/gyms/style.css');
 @import url('components/journal/style.css');
@@ -29,6 +32,9 @@ body {
   top: 0;
   width: 700px;
   height: 800px;
+}
+#container .label {
+  padding: .2em .4em .2em .4em;
 }
 .glyphicon {
   top: 0;

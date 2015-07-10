@@ -1,0 +1,17 @@
+.wr {
+  display: inline-block;
+  border: 1px solid #dedede;
+  background-color: #f4f4f4;
+  padding: 3px 5px 4px 5px;
+}
+.wr span,
+.wr a {
+  vertical-align: middle;
+}
+.wr span.label,
+.wr a.label {
+  cursor: pointer;
+}
+.wr a {
+  cursor: pointer;
+}

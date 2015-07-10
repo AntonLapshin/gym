@@ -1,0 +1,13 @@
+<div class="pr" data-bind="visible:isVisible">
+    <span class="label label-primary" data-bind="text: strings.prMini, attr: {title:strings.pr}"
+          data-toggle="tooltip" data-placement="bottom" data-delay="500"></span>
+    <!-- ko if: model() -->
+    <span data-bind="text: model()"></span>
+    <span data-bind="text: strings.trMeasureWeight"></span>
+    <!-- /ko -->
+
+    <!-- ko if: !model() -->
+    <span data-bind="text: strings.wrNone"></span>
+    <!-- /ko -->
+
+</div>

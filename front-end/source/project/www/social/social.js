@@ -33,6 +33,10 @@ define(function(){
             return _social.getMe();
         },
 
+        getPlayer: function(id){
+            return _social.getPlayer(id);
+        },
+
         getPlayers: function (ids) {
             return _social.getUsers(ids);
         },

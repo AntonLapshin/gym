@@ -72,12 +72,18 @@ define(['jquery', 'toastr', 'model/player', 'server/server', 'plugins/component'
         },
         getExercise: function(id){
             var self = this;
+            var ownExercise = $.grep(this.player.public.exercises, function(ex){
+                return ex._id === id;
+            });
+            var ownExerciseExists = ownExercise.length > 0;
             return $.extend(
                 {
                     name: c.strings[c.format('ex{0}name', id)],
                     desc: c.strings[c.format('ex{0}desc', id)],
-                    img: c.format('components/workout/ex{0}.jpg', id)
+                    img: c.format('components/workout/ex{0}.jpg', id),
+                    disabled: !ownExerciseExists
                 },
+                ownExerciseExists ? ownExercise[0] : {},
                 self.refs.exercises[id]
             );
         },
@@ -90,7 +96,7 @@ define(['jquery', 'toastr', 'model/player', 'server/server', 'plugins/component'
         },
         getGyms: function(){
             var self = this;
-            return $.map(this.player.gyms, function(id){
+            return $.map(this.player.private.gyms, function(id){
                 return $.extend(
                     {
                         name: c.strings[c.format('gym{0}name', id)],

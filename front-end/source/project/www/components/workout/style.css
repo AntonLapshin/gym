@@ -1,3 +1,6 @@
+.workout h2 {
+  margin-top: 10px;
+}
 .workout button {
   line-height: 1;
 }
@@ -5,11 +8,16 @@
   background-color: #aaa;
   border: 1px solid #888;
 }
+.workout .label {
+  cursor: pointer;
+}
 .workout .well {
   margin-bottom: 5px;
   padding: 10px;
+  border-radius: 0;
+  box-shadow: none;
 }
-.workout .well h2 {
+.workout .well h3 {
   margin-top: 0;
 }
 .workout .nav {
@@ -27,7 +35,9 @@
   background-color: rgba(237, 230, 219, 0.13);
 }
 .workout .exSetup {
+  position: relative;
   background-color: rgba(237, 230, 219, 0.13);
+  padding-bottom: 15px;
 }
 .workout .exExecute {
   background-color: rgba(237, 230, 219, 0.13);
@@ -40,4 +50,10 @@
 }
 .workout .executeBtn {
   font-size: 2em;
+  position: absolute;
+  padding: 9px 10px 5px 10px;
+  top: 50%;
+  left: 50%;
+  margin-left: -20px;
+  margin-top: -20px;
 }
