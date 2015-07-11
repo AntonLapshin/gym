@@ -1,0 +1,19 @@
+.buy span,
+.buy div {
+  vertical-align: middle;
+}
+.buy .glyphicon-plus-sign {
+  color: #347bb7;
+}
+.buy div {
+  display: inline-block;
+}
+.buy div .glyphicon {
+  color: #ffe635;
+}
+.buy div span {
+  font-size: 1em;
+}
+.buy div.label {
+  padding: .2em .4em .3em .4em !important;
+}

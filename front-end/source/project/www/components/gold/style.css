@@ -1,9 +1,12 @@
-.energy {
+.gold {
   display: inline-block;
   cursor: pointer;
   padding: .2em .4em .3em .3em !important;
 }
-.energy span {
+.gold span {
   vertical-align: middle;
   font-size: 1em;
+}
+.gold .glyphicon {
+  color: #ffe635;
 }

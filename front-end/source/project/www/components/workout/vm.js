@@ -6,11 +6,12 @@ define([
     'slider',
     'components/execute/vm',
     'components/journal/vm',
-    //'components/player/vm',
     'components/wr/vm',
     'components/pr/vm',
+    'components/buy/vm',
+    'components/energy/vm',
     'model/game'
-], function (ko, html, c, server, slider, execute, journal, wr, pr, game) {
+], function (ko, html, c, server, slider, execute, journal, wr, pr, buy, energy, game) {
 
     var _exercises,
         VISIBLE_COUNT = 3,
@@ -78,6 +79,8 @@ define([
             journal('workout').show().init();
             wr('workout').show();
             pr('workout').show();
+            buy('workout').show();
+            energy('workout').show();
             this.setVisibleExercises(0);
         };
 
@@ -106,10 +109,12 @@ define([
             _repeatsSlider.slider('setValue', 10);
             self.selectedExercise(this);
 
-            wr('workout').init(self.selectedExercise().wr);
-            pr('workout').init(self.selectedExercise().pr);
-            //if (this.wr)
-            //    player('workout').init(this.wr._id);
+            wr('workout').init(this.wr);
+            pr('workout').init(this.pr);
+            if (this.disabled)
+                buy('workout').init(this.cost);
+            buy('workout')[this.disabled ? 'show' : 'hide']();
+            energy('workout').init(this.energy);
         };
 
         this.execute = function () {

@@ -22,11 +22,14 @@ define(['ko'], function(ko){
         ex1name:        ['Присед',                  'Ex 2'],
         ex1desc:        ['Базовое упражнение',
                          'TBD'],
-        ex2name:        ['Тяга к поясу в наклоне',  'Ex 3'],
+        ex2name:        ['Становая тяга',           'Ex 3'],
         ex2desc:        ['Базовое упражнение',
                          'TBD'],
-        ex3name:        ['Становая тяга',           'Ex 4'],
-        ex3desc:        ['Базовое упражнение',
+        ex3name:        ['Тяга к поясу в наклоне',  'Ex 4'],
+        ex3desc:        ['Упражнение Арнольда',
+                         'TBD'],
+        ex4name:        ['Подъемы на бицепс',  'Ex 5'],
+        ex4desc:        ['Бицуха',
                          'TBD'],
 
         trChooseWeight: ['Выберите вес',            'Choose the weight'],
@@ -53,6 +56,7 @@ define(['ko'], function(ko){
         NO:             ['Нет',                     'No'],
         bankMoney:      ['Не хватает денег? Нажми, чтобы пополнить счет.', 'TBD'],
         bankEnergy:     ['Нажми, чтобы восстановить силы.', 'TBD'],
+        bankGold:       ['Купить золото.', 'TBD'],
         socialFriends:  ['Нажми, чтобы пригласить в игру друзей.', 'TBD'],
         massAdd:        ['Не хватает массы? Нажми и мы придумаем как тебе помочь', 'TBD'],
         massUnit:       ['кг', 'kg'],
@@ -97,7 +101,9 @@ define(['ko'], function(ko){
         prDesc:         ['Будет установлен персональный рекорд', 'TBD'],
         wrMini:         ['АР', 'AR'],
         prMini:         ['ПР', 'PR'],
-        wrNone:         ['не установлен', 'none']
+        wrNone:         ['не установлен', 'none'],
+
+        buy:            ['Купить', 'Buy']
     };
 
     var _localization = {

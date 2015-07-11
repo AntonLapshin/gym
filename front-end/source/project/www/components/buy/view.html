@@ -1,0 +1,9 @@
+<div class="buy" data-bind="visible:isVisible">
+    <!-- ko if: model() -->
+    <button class="buy-button">
+        <span class="glyphicon glyphicon-plus-sign"></span>
+        <span data-bind="text: strings.buy"></span>
+        <gold params="name:'buy'"></gold>
+    </button>
+    <!-- /ko -->
+</div>

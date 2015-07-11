@@ -24,13 +24,14 @@
                 <h2 data-bind="text:name"></h2>
 
                 <p data-bind="text:desc"></p>
+                <buy params="name: 'workout'"></buy>
             </div>
             <div class="col-md-6" style="padding-top: 15px;">
                 <wr params="name:'workout'"></wr>
                 <pr params="name:'workout'"></pr>
             </div>
         </div>
-        <div class="row">
+        <div class="row" data-bind="visible:(selectedExercise() ? !selectedExercise().disabled : true)">
             <div class="col-md-6 text-center">
                 <h4>
                     <span class="label label-default" data-bind="text:strings.trChooseWeight"></span>
@@ -49,10 +50,10 @@
                 </h4>
                 <input class="repeatsSlider" data-slider-id='repeatsSlider' type="text" data-slider-tooltip="hide"/>
             </div>
-            <button type="button" class="btn btn-success executeBtn"
+            <button class="btn btn-success executeBtn"
                     data-bind="click:execute, attr: { disabled: disabled }">
-                <span class="glyphicon glyphicon-flash"></span>
-                <span data-bind="text: strings.trExecuteBtn"></span>
+                <span data-bind="text: strings.trExecute"></span>
+                <energy params="name:'workout'"></energy>
             </button>
         </div>
     </div>

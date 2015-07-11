@@ -291,7 +291,7 @@ define(['jquery'], function ($) {
             },
             {
                 // Т-тяга
-                _id: 3, min: 10, max: 300, step: 2.5, coeff: 0.4, power: 25, energy: 4, wr: null, body: [
+                _id: 3, cost: 1, min: 10, max: 300, step: 2.5, coeff: 0.4, power: 25, energy: 4, wr: null, body: [
                 {"_id": 1, "stress": 0.2},
                 {"_id": 2, "stress": 0.3},
                 {"_id": 3, "stress": 0.7},
@@ -304,6 +304,7 @@ define(['jquery'], function ($) {
             {
                 // Подъемы на бицепс
                 _id: 4,
+                cost: 2,
                 min: 5,
                 max: 200,
                 step: 1,

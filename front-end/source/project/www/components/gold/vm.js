@@ -6,7 +6,7 @@ define([
 
     function ViewModel(){
 
-        this.title = component.strings.bankEnergy;
+        this.title = component.strings.bankGold;
 
         this.test = function(){
             var v = ko.observable(10);
@@ -15,9 +15,9 @@ define([
         };
 
         this.click = function(){
-            c.fire('energy.add');
+            c.fire('gold.add');
         };
     }
 
-    return component.add(ViewModel, html, 'energy');
+    return component.add(ViewModel, html, 'gold');
 });

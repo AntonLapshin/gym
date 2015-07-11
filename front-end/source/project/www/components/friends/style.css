@@ -1,11 +1,9 @@
 .friends {
   display: inline-block;
   cursor: pointer;
-  padding: 0 5px 1px 5px !important;
-}
-.friends:hover {
-  background-color: rgba(35, 56, 27, 0.1);
+  padding: .2em .4em .3em .3em !important;
 }
 .friends span {
   vertical-align: middle;
+  font-size: 1em;
 }
