@@ -106,6 +106,12 @@ define(['jquery', 'plugins/format'], function ($, vk, format) {
             });
         },
 
+        getFriendsQty: function(){
+            return $.Deferred(function (defer) {
+                defer.resolve(3);
+            });
+        },
+
         isUserInGroup: function (id) {
             return $.Deferred(function (defer) {
                 VK.api('groups.isMember', {user_id: id, group_id: ID_GROUP}, function (data) {

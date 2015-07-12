@@ -6,8 +6,9 @@ define([
     'c/battery/vm',
     'c/mass/vm',
     'c/money/vm',
+    'c/gold/vm',
     'c/friends/vm'
-], function (ko, html, c, ava, battery, mass, money, friends) {
+], function (ko, html, c, ava, battery, mass, money, gold, friends) {
 
     function ViewModel() {
 
@@ -16,6 +17,7 @@ define([
             battery('private').show().init(player.private.energyMax, player.private.energy);
             mass('private').show().init(player.public.mass);
             money('private').show().init(player.private.money);
+            gold('private').show().init(player.private.gold);
             friends('private').show().init(player.private.friends);
         };
 

@@ -2,13 +2,13 @@ define([
     'ko',
     'text!./view.html',
     'plugins/component'
-], function (ko, html, component) {
+], function (ko, html, c) {
 
     function ViewModel() {
 
         this.red = ko.observable();
         this.yellow = ko.observable();
-        this.title = component.strings.bankEnergy;
+        this.title = c.strings.bankEnergy;
         this.value = null;
 
         // max and value are ko.observable
@@ -34,7 +34,7 @@ define([
         };
 
         this.click = function () {
-            alert('global event: buy battery');
+            c.fire('energy.add');
         };
 
         this.test = function () {
@@ -55,5 +55,5 @@ define([
         };
     }
 
-    return component.add(ViewModel, html, 'battery');
+    return c.add(ViewModel, html, 'battery');
 });

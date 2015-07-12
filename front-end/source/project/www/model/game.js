@@ -59,7 +59,7 @@ define(['jquery', 'toastr', 'model/player', 'server/server', 'plugins/component'
 
             var muscles = $.map(maps, function(view){
                 var ref = $.grep(self.refs.muscles, function(m) { return m._id === view._id; })[0];
-                var player = $.grep(self.player.body, function(p) { return p._id === view._id; })[0];
+                var player = $.grep(self.player.private.body, function(p) { return p._id === view._id; })[0];
                 var map = $.map(view.map.split(','), function(c, i) { return i % 2 == 0 ? c - 50 : c; }).join(',');
                 return $.extend(
                     { map: map },

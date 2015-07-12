@@ -50,10 +50,6 @@
 }
 .workout .executeBtn {
   font-size: 1em;
-  position: absolute;
   padding: 9px 10px 5px 10px;
-  top: 50%;
-  left: 50%;
-  margin-left: -55px;
-  margin-top: -20px;
+  margin-top: 20px;
 }

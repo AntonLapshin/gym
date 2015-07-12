@@ -1,9 +1,13 @@
-.main .menu {
-  left: 200px;
-  position: absolute;
-  top: 37px;
+main .main {
+  height: 0;
 }
-.main .menu-container {
+main .main .menu {
+  left: 398px;
+  position: absolute;
+  top: 0;
+}
+main .main .menu-container {
   position: relative;
-  top: 120px;
+  top: 154px;
+  z-index: -1;
 }

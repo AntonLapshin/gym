@@ -92,7 +92,7 @@ define([
         };
         this.hover = function (e, muscle) {
             var pos = this.elem$.offset();
-            muscleinfo('man').show().init(muscle, {x: e.clientX - pos.left, y: e.clientY - pos.top});
+            muscleinfo('man').show().init(muscle, {x: e.clientX - pos.left - 150, y: e.clientY - pos.top - 150});
         };
         this.out = function () {
             muscleinfo('man').hide();

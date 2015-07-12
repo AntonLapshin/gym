@@ -93,6 +93,8 @@ define([
     }
 
     function ViewModel() {
+        var self = this;
+
         this.weight = ko.observable();
         this.items = ko.observableArray([]);
         this.itemsSelected = ko.observableArray([]);
@@ -156,9 +158,7 @@ define([
             return arr;
         }, this);
 
-        this.init = function () {
-            var self = this;
-
+        this.start = function(weight){
             game.server.jobGet()
                 .then(function(weight){
                     bootbox.dialog({
@@ -169,7 +169,27 @@ define([
                                 label: c.strings.YES(),
                                 className: "btn-success",
                                 callback: function() {
-                                    self.start(weight);
+                                    isAlreadyFinished = false;
+                                    self.itemsSelected([]);
+                                    var itemsLeft = getDiskArray('left');
+                                    var itemsRight = getDiskArray('right');
+                                    var arr = [];
+                                    var i;
+                                    for (i = 0; i < itemsLeft.length; i++) arr.push(itemsLeft[i]);
+                                    for (i = 0; i < itemsRight.length; i++) arr.push(itemsRight[i]);
+                                    self.items(arr);
+                                    self.weight(weight);
+
+                                    timer('job').show().init(TIMEOUT)
+                                        .then(function(){
+                                            if (isAlreadyFinished)
+                                                return;
+                                            bootbox.dialog({
+                                                message: c.strings.jobTimeIsUp(),
+                                                title: c.strings.jobTitle()
+                                            });
+                                            c.fire('home');
+                                        });
                                 }
                             },
                             no: {
@@ -180,33 +200,6 @@ define([
                             }
                         }
                     });
-                });
-
-            return this;
-        };
-
-        this.start = function(weight){
-            isAlreadyFinished = false;
-            var self = this;
-            this.itemsSelected([]);
-            var itemsLeft = getDiskArray('left');
-            var itemsRight = getDiskArray('right');
-            var arr = [];
-            var i;
-            for (i = 0; i < itemsLeft.length; i++) arr.push(itemsLeft[i]);
-            for (i = 0; i < itemsRight.length; i++) arr.push(itemsRight[i]);
-            this.items(arr);
-            this.weight(weight);
-
-            timer('job').show().init(TIMEOUT)
-                .then(function(){
-                    if (isAlreadyFinished)
-                        return;
-                    bootbox.dialog({
-                        message: c.strings.jobTimeIsUp(),
-                        title: c.strings.jobTitle()
-                    });
-                    c.fire('home');
                 });
         };
 
@@ -248,7 +241,7 @@ define([
         };
 
         this.test = function () {
-            this.show().init();
+            this.show().init().start();
         };
     }
 

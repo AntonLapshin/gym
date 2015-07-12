@@ -11,6 +11,7 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
         return serverPlayers;
     }
 
+    // Private + Public
     function getMe(){
         return social.getMe().then(function (socialPlayer) {
             return $.Deferred(function (defer) {
@@ -22,6 +23,7 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
         });
     }
 
+    // Public
     function getPlayer(id){
         return social.getPlayer(id).then(function (socialPlayer) {
             return $.Deferred(function (defer) {
@@ -84,6 +86,7 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
 
         this.private = {
             money: ko.observable(),
+            gold: ko.observable(),
             energy: ko.observable(),
             friends: ko.observable(),
             energyMax: ko.observable(),
@@ -105,12 +108,21 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
                 // private
                 updateValue(self.private.money, model.private.money);
                 updateValue(self.private.energy, model.private.energy);
+                updateValue(self.private.gold, model.private.gold);
                 updateValue(self.private.friends, model.private.friends);
                 self.private.energyMax(model.private.energyMax);
                 self.private.gyms = model.private.gyms;
                 $.each(model.private.body, function(i, muscle){
                     self.private.body[i].stress(muscle.stress);
                     self.private.body[i].frazzle(muscle.frazzle);
+                });
+
+                // Update friends
+                social.getFriendsQty().then(function(friends){
+                    if (friends !== model.private.friends) {
+                        updateValue(self.private.friends, model.private.friends);
+                        server.saveFriendsQty(friends);
+                    }
                 });
             });
         };

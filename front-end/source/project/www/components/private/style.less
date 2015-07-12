@@ -1,24 +1,53 @@
 .private {
-  width: 200px;
-  height: 120px;
-  background-color: #ffffff;
+  width: 700px;
+  height: 130px;
+  background: url('back.jpg');
   position: absolute;
+
+  .info {
+    position: absolute;
+    top: 0;
+    width: 120px;
+    height: 130px;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-left: 1px solid rgba(0, 0, 0, 0.8);
+    border-right: 1px solid rgba(0, 0, 0, 0.8);
+  }
+
+  .info-ava {
+    left: 160px;
+  }
+
+  .info-money {
+    left: 279px;
+  }
+
+  .bricks {
+    position: absolute;
+    top: 130px;
+    background: url('bricks.jpg');
+    height: 24px;
+    width: 100%;
+    z-index: -1;
+  }
 
   .ava {
     top: 10px;
+    left: 17px;
+  }
+
+  .battery, .mass, .money, .friends, .gold {
+    position: absolute;
     left: 10px;
   }
 
-  .battery, .mass, .money, .friends {
-    position: absolute;
-  }
-
   .battery {
-    top: 0;
-    left: 26px;
+    top: 100px;
+    left: 33px;
   }
 
   .mass {
+    display: none;
     bottom: 10px;
     left: 20px;
     text-align: center;
@@ -26,12 +55,14 @@
   }
 
   .money {
-    top: 25px;
-    left: 110px;
+    top: 10px;
   }
 
   .friends {
+    top: 30px;
+  }
+
+  .gold {
     top: 50px;
-    left: 110px;
   }
 }

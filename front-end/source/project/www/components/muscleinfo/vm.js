@@ -8,6 +8,7 @@ define([
 
     function draw(ctx, start){
         var end = ctx.elem$.position();
+        end = { left: 300, top: 0 };
 
         if (ctx.svg$)
             ctx.svg$.remove();
@@ -17,7 +18,7 @@ define([
                 '<circle cx="{0}" cy="{1}" r="2" fill="{5}"/>' +
                 '<circle cx="{2}" cy="{3}" r="2" fill="{5}"/>' +
             '</svg>';
-        svgHtml = component.format(svgHtml, start.x, start.y - 10, end.left, end.top + 20, 1, 'rgba(220, 184, 148, 0.37)');
+        svgHtml = component.format(svgHtml, start.x, start.y - 10, end.left, end.top + 20, 1, 'rgba(255, 255, 255, 0.37)');
         ctx.svg$ = $(svgHtml);
         if ($('img.img-man').length > 0)
             $('img.img-man').before(ctx.svg$);

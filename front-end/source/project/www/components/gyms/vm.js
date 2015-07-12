@@ -5,13 +5,11 @@ define([
     'model/game'
 ], function (ko, html, c, game) {
 
-    var _defer;
-
     function ViewModel() {
         this.strings = c.strings;
         this.gyms = ko.observableArray();
 
-        this.show = function () {
+        this.init = function () {
             var gyms = game.getGyms();
             gyms.forEach(function (gym) {
                 gym.active = false;
@@ -19,17 +17,13 @@ define([
             });
             gyms[0].active = true;
             this.gyms(gyms);
-            this.isVisible(true);
-            return $.Deferred(function (defer) {
-                _defer = defer;
-            });
         };
 
         var self = this;
 
         this.select = function () {
             var index = self.gyms().indexOf(this);
-            _defer.resolve(index);
+            c.fire('gyms.select', index);
         };
 
         this.test = function () {

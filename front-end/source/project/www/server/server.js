@@ -61,6 +61,10 @@ define(['jquery'], function($){
             return this.proxy('loadTop');
         },
 
+        saveFriendsQty: function(friends){
+            return _server.saveFriendsQty(friends);
+        },
+
         saveMe: function(playerSetExp){
             return _server.saveMe(playerSetExp);
         },

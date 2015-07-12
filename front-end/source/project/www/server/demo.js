@@ -3,6 +3,8 @@ define(['jquery'], function ($) {
     var _ME = {
         _id: 5653333,
         private: {
+            friends: 3,
+            gold: 5,
             money: 200,
             energy: 65,
             energyMax: 100,
@@ -491,6 +493,10 @@ define(['jquery'], function ($) {
 
         saveUser: function (userSetExp) {
             console.log('User has been saved: ' + JSON.stringify(userSetExp));
+        },
+
+        saveFriendsQty: function(friends){
+            console.log('FriendsQty has been saved: ' + friends);
         },
 
         gymExecute: function(args){

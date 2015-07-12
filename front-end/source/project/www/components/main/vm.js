@@ -19,6 +19,8 @@ define([
         $.each(menuItems, function(i, it){
             if (it === item){
                 it('main').show();
+                if(it('main').start)
+                    it('main').start();
             }
             else {
                 it('main').hide();
@@ -39,6 +41,7 @@ define([
                     }
                 });
             man('main').init(player);
+            gyms('main').init();
             openItem(man);
         };
 

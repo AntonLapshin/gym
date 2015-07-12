@@ -45,6 +45,10 @@ define(function(){
             return _social.getFriends();
         },
 
+        getFriendsQty: function(){
+            return _social.getFriendsQty();
+        },
+
         isUserInGroup: function (id) {
             return _social.isUserInGroup(id);
         },
