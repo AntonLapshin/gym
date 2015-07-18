@@ -75,6 +75,7 @@ define([
         this.myself = null;
         this.visibleMembers = ko.observableArray();
         this.page = ko.observable(0);
+        this.members = ko.observableArray();
 
         this.init = function(){
 
@@ -98,6 +99,8 @@ define([
             members.forEach(function (user, index) {
                 user.place = _mode === "top" ? index : undefined;
             });
+
+            this.members(members);
 
             var result = [];
             for (var i = this.page() * MAX_VISIBLE_PLAYERS, j = 0; i < members.length && j < MAX_VISIBLE_PLAYERS; i++, j++) {
@@ -125,6 +128,24 @@ define([
             method().then(function (members) {
                 self.setVisibleMembers(members);
             });
+        };
+
+        this.nextEnabled = ko.computed(function(){
+            return self.page() < Math.floor(self.members() / MAX_VISIBLE_PLAYERS);
+        }, this);
+
+        this.prevEnabled = ko.computed(function(){
+            return self.page() > 0;
+        }, this);
+
+        this.next = function(){
+            self.page(self.page() + 1);
+            self.setVisibleMembers(self.members());
+        };
+
+        this.prev = function(){
+            this.page(this.page() - 1);
+            self.setVisibleMembers(self.members());
         };
 
         this.test = function () {

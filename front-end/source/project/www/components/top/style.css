@@ -24,3 +24,17 @@
 .top .top-friends {
   left: 405px;
 }
+.top .left,
+.top .right {
+  position: absolute;
+  top: 50%;
+  margin-top: -28px;
+  font-size: 10px;
+  padding: 3px 5px;
+}
+.top .left {
+  left: 0;
+}
+.top .right {
+  right: 0;
+}
