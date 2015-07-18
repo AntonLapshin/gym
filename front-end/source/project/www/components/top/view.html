@@ -1,6 +1,6 @@
 <div class="top" data-bind="visible: isVisible()">
     <div class="text-center" data-bind="foreach: visibleMembers">
-        <member params="name: 'top' + $index()"></member>
+        <member params="name: 'top' + $index(), model: $data"></member>
     </div>
     <sw params="name: 'top'"></sw>
     <span class="top-players" data-bind="text: strings.topPlayers"></span>

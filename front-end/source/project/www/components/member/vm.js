@@ -8,11 +8,20 @@ define([
     function ViewModel() {
         var self = this;
 
-        this.init = function(model){
+        this.autoShow = function(model){
+            self.show().init(model);
+        };
+
+        this.set = function(model){
             if (model._id === -1){
                 model.public.img = social.getUnknowImg();
             }
             this.model(model);
+            return self;
+        };
+
+        this.init = function(model){
+            this.set(model);
         };
 
         this.click = function () {

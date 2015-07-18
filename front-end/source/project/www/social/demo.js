@@ -100,7 +100,7 @@ define(['jquery', 'plugins/format'], function ($, vk, format) {
 
         getFriends: function () {
             var __PLAYERS = [].concat(_PLAYERS);
-            var players = [__PLAYERS[0], __PLAYERS[4], __PLAYERS[6]];
+            var players = [__PLAYERS[0], __PLAYERS[1], __PLAYERS[2]];
             return $.Deferred(function (defer) {
                 defer.resolve(players);
             });

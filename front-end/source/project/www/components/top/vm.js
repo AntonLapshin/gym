@@ -73,7 +73,6 @@ define([
 
         this.strings = c.strings;
         this.myself = null;
-        this.members = ko.observableArray();
         this.visibleMembers = ko.observableArray();
         this.page = ko.observable(0);
 
@@ -100,19 +99,15 @@ define([
                 user.place = _mode === "top" ? index : undefined;
             });
 
-            this.members(members);
-
             var result = [];
-            for (var i = this.page() * MAX_VISIBLE_PLAYERS, j = 0; i < this.members().length && j < MAX_VISIBLE_PLAYERS; i++, j++) {
-                result.push(this.members()[i]);
+            for (var i = this.page() * MAX_VISIBLE_PLAYERS, j = 0; i < members.length && j < MAX_VISIBLE_PLAYERS; i++, j++) {
+                result.push(members[i]);
             }
             for (; i < MAX_VISIBLE_PLAYERS; i++) {
                 result.push(Player(-1));
             }
+            this.visibleMembers([]);
             this.visibleMembers(result);
-
-            for(j = 0; j < MAX_VISIBLE_PLAYERS; j++)
-                member('top' + j).show().init(result[j]);
         };
 
         this.toAllTop = function() {

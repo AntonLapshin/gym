@@ -45,8 +45,8 @@ define(['ko', 'jquery', 'plugins/localization', 'plugins/format'], function (ko,
 
         if (typeof viewModel === 'function'){
             viewModel.call(this, name);
-            if (params && this.autoShow)
-                this.autoShow(params);
+            if (params && params.model && this.autoShow)
+                this.autoShow(params.model);
         }
 
         return vm;
@@ -56,7 +56,7 @@ define(['ko', 'jquery', 'plugins/localization', 'plugins/format'], function (ko,
         var name = getName(params, viewName);
         if (_viewModels[name]){
             if (params && typeof viewModel === 'function' && _viewModels[name].set)
-                _viewModels[name].set(params);
+                _viewModels[name].set(params.model);
             return _viewModels[name];
         }
 
