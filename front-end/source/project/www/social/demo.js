@@ -89,8 +89,8 @@ define(['jquery', 'plugins/format'], function ($, vk, format) {
         },
 
         getPlayers: function (ids) {
-            var players = $.grep([].concat(_PLAYERS), function () {
-                return $.inArray(this._id, ids) !== -1;
+            var players = $.grep([].concat(_PLAYERS), function (p) {
+                return $.inArray(p.id, ids) !== -1;
             });
 
             return $.Deferred(function (defer) {

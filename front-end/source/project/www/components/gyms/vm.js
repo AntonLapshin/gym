@@ -6,32 +6,48 @@ define([
 ], function (ko, html, c, game) {
 
     function ViewModel() {
+        var self = this;
+
         this.strings = c.strings;
+        this.selectedGym = ko.observable(null);
         this.gyms = ko.observableArray();
 
         this.init = function () {
             var gyms = game.getGyms();
-            gyms.forEach(function (gym) {
-                gym.active = false;
-                gym.disabled = true;
-            });
-            gyms[0].active = true;
             this.gyms(gyms);
+            this.selectedGym(gyms[0]);
         };
-
-        var self = this;
 
         this.select = function () {
             var index = self.gyms().indexOf(this);
             c.fire('gyms.select', index);
         };
 
+        this.getIndex = function(){
+            return self.gyms().indexOf(self.selectedGym());
+        };
+
+        this.nextEnabled = ko.computed(function(){
+            return self.gyms().indexOf(self.selectedGym()) < self.gyms().length - 1;
+        }, this);
+
+        this.prevEnabled = ko.computed(function(){
+            return self.gyms().indexOf(self.selectedGym()) > 0;
+        }, this);
+
+        this.next = function(){
+            var nextGym = self.gyms()[self.getIndex() + 1];
+            self.selectedGym(nextGym);
+        };
+
+        this.prev = function(){
+            var prevGym = self.gyms()[self.getIndex() - 1];
+            self.selectedGym(prevGym);
+        };
+
         this.test = function () {
-            this.show()
-                .then(function (index) {
-                    console.log('Selected gym is ' + index);
-                });
-        }
+            this.show().init();
+        };
     }
 
     return c.add(ViewModel, html, 'gyms');

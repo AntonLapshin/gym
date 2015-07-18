@@ -2,6 +2,11 @@ define(['jquery'], function ($) {
 
     var _ME = {
         _id: 5653333,
+        public: {
+            level: 120,
+            awards: [],
+            exercises: [ { _id: 0, pr: 112 }, { _id: 1, pr: 200 }, { _id: 2, pr: 140 }]
+        },
         private: {
             friends: 3,
             gold: 5,
@@ -98,17 +103,12 @@ define(['jquery'], function ($) {
                     frazzle: 0
                 }
             ]
-        },
-        public: {
-            level: 120,
-            awards: [],
-            exercises: [ { _id: 0, pr: 112 }, { _id: 1, pr: 200 }, { _id: 2, pr: 140 }]
         }
     };
 
     var _PLAYERS = [
         {
-            _id: 1,
+            _id: 253300936,
             public: {
                 level: 5,
                 awards: [],
@@ -124,7 +124,7 @@ define(['jquery'], function ($) {
             }
         },
         {
-            _id: 3,
+            _id: 159489458,
             public: {
                 level: 7,
                 awards: [],
@@ -140,7 +140,7 @@ define(['jquery'], function ($) {
             }
         },
         {
-            _id: 4,
+            _id: 243782603,
             public: {
                 level: 120,
                 awards: [],
@@ -476,8 +476,8 @@ define(['jquery'], function ($) {
         },
 
         loadPlayers: function (ids) {
-            var players = $.grep([].concat(_PLAYERS), function () {
-                return $.inArray(this._id, ids) !== -1;
+            var players = $.grep([].concat(_PLAYERS), function (p) {
+                return $.inArray(p._id, ids) !== -1;
             });
 
             return $.Deferred(function (defer) {

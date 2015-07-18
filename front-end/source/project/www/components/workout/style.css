@@ -1,13 +1,6 @@
 .workout h2 {
   margin-top: 10px;
 }
-.workout button {
-  line-height: 1;
-}
-.workout button[disabled] {
-  background-color: #aaa;
-  border: 1px solid #888;
-}
 .workout .label {
   cursor: pointer;
 }
@@ -27,9 +20,6 @@
 .workout .nav img {
   width: 100px;
   height: 100px;
-}
-.workout button {
-  vertical-align: middle;
 }
 .workout .exSelect {
   background-color: rgba(237, 230, 219, 0.13);

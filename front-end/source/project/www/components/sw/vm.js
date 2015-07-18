@@ -4,14 +4,15 @@ define([
     'plugins/component'
 ], function (ko, html, component) {
 
-    var _defer,
-        _state = false;
+    var _state = false;
 
     function ViewModel() {
+        var self = this;
+        this.defer = null;
 
         this.init = function(){
             return $.Deferred(function(defer){
-                _defer = defer;
+                self.defer = defer;
             });
         };
 
@@ -24,7 +25,7 @@ define([
         this.click = function(e){
             $(e.click.arguments[1].currentTarget).prev('input').click();
             _state = !_state;
-            _defer.notify(_state);
+            self.defer.notify(_state);
         }
     }
 

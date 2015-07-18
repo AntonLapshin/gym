@@ -13,7 +13,7 @@ define([
     function ViewModel() {
 
         this.init = function(player){
-            ava('private').show().init(player.public);
+            ava('private').show().init(player);
             battery('private').show().init(player.private.energyMax, player.private.energy);
             mass('private').show().init(player.public.mass);
             money('private').show().init(player.private.money);

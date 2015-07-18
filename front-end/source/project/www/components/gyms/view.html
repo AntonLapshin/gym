@@ -1,41 +1,28 @@
 <div class="gyms" data-bind="visible: isVisible, loaded: true">
 
-    <div id="carousel-example-generic" class="carousel slide" data-interval="false" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators" data-bind="foreach: gyms">
-            <li data-target="#carousel-example-generic"
-                data-bind="attr: { 'data-slide-to':$index }, css: { active: active }"></li>
-        </ol>
+    <!-- ko with: selectedGym() -->
 
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox" data-bind="foreach: gyms">
-            <div class="item" data-bind="css: {active:active}">
-                <img data-bind="attr: {src:img,alt:name}">
+    <div class="meta text-center">
+        <h3 data-bind="text:name"></h3>
 
-                <div class="carousel-caption">
-                    <h3 data-bind="text:name"></h3>
-
-                    <p data-bind="text:desc"></p>
-                    <button type="button" class="btn btn-primary" aria-label="Left Align"
-                            data-bind="attr: {disabled:disabled}, click: $parent.select,
-                            css:{'btn-primary':!disabled,'btn-danger':disabled}">
-                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-                        <span data-bind="text: $parent.strings.gymsBtnEnter"></span>
-                    </button>
-                    <br/>
-                    <br/>
-                </div>
-            </div>
-        </div>
-
-        <!-- Controls -->
-        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+        <p data-bind="text:desc"></p>
+        <button type="button" class="btn btn-primary" aria-label="Left Align"
+                data-bind="attr: {disabled:disabled}, click: $parent.select,
+        css:{'btn-primary':!disabled,'btn-danger':disabled}">
+            <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+            <span data-bind="text: $parent.strings.gymsBtnEnter"></span>
+        </button>
     </div>
+
+    <button class="btn btn-primary left"
+            data-bind="click: $parent.prev, css: { disabled: !$parent.prevEnabled() }">
+        <span class="glyphicon glyphicon-chevron-left"></span></button>
+    <button class="btn btn-primary right"
+            data-bind="click: $parent.next, css: { disabled: !$parent.nextEnabled() }">
+        <span class="glyphicon glyphicon-chevron-right"></span></button>
+
+    <img alt="" src="" data-bind="attr:{src:img,alt:name}"/>
+
+    <!-- /ko -->
+
 </div>

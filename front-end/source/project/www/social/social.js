@@ -38,7 +38,7 @@ define(function(){
         },
 
         getPlayers: function (ids) {
-            return _social.getUsers(ids);
+            return _social.getPlayers(ids);
         },
 
         getFriends: function () {

@@ -2,48 +2,45 @@ define([
     'ko',
     'text!./view.html',
     'plugins/component',
-    'c/info/vm',
     'social/social'
-], function (ko, html, component, info, social) {
+], function (ko, html, c, social) {
 
     function ViewModel() {
-        this.user = ko.observable();
-        this.show = function (params) {
-            this.set(params);
-            this.isVisible(true);
+        var self = this;
+
+        this.init = function(model){
+            if (model._id === -1){
+                model.public.img = social.getUnknowImg();
+            }
+            this.model(model);
         };
-        this.set = function(params){
-            if (params && params.user)
-                this.user(params.user);
-        };
+
         this.click = function () {
-            if (this.user().id == 0) // may be "0"
+            if (self.model()._id == -1) // may be "0"
             {
                 social.invite();
                 return;
             }
-            var url = social.getUserUrl(this.user().id);
-            var win = window.open(url, '_blank');
-            win.focus();
+            c.fire('player.click', self.model()._id);
         };
         this.test = function () {
-            var self = this;
-            require(['controllers/users'], function (UsersController) {
-                UsersController.getMe()
-                    .then(function (user) {
-                        self.show({ user: user });
-                    });
+            require(['model/game'], function(game){
+                self.show().init(game.player);
             });
+
+            //require(['model/player'], function(Player){
+            //    self.show().init(Player(-1));
+            //});
         };
 
         this.hover = function (item) {
-            info.show(item.user());
+            //info.show(item.user());
         };
 
         this.out = function () {
-            info.hide();
+            //info.hide();
         };
     }
 
-    return component.add(ViewModel, html, 'member');
+    return c.add(ViewModel, html, 'member');
 });

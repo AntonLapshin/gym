@@ -51,7 +51,7 @@ define(['jquery', 'toastr', 'model/player', 'server/server', 'plugins/component'
 
             return $.when.apply(this, [deferPlayer, deferRefs]);
         },
-        getMuscles: function(){
+        getMuscles: function(isPrivate){
             var self = this;
             var maps = $.grep(this.refs.muscles_view, function(m){
                 return m._id == self.player.public.level();
@@ -59,7 +59,7 @@ define(['jquery', 'toastr', 'model/player', 'server/server', 'plugins/component'
 
             var muscles = $.map(maps, function(view){
                 var ref = $.grep(self.refs.muscles, function(m) { return m._id === view._id; })[0];
-                var player = $.grep(self.player.private.body, function(p) { return p._id === view._id; })[0];
+                var player = isPrivate ? $.grep(self.player.private.body, function(p) { return p._id === view._id; })[0] : {};
                 var map = $.map(view.map.split(','), function(c, i) { return i % 2 == 0 ? c - 50 : c; }).join(',');
                 return $.extend(
                     { map: map },
@@ -94,17 +94,23 @@ define(['jquery', 'toastr', 'model/player', 'server/server', 'plugins/component'
                 return self.getExercise(id);
             });
         },
+        getGym: function(id){
+            var self = this;
+            var ownGymExists = this.player.private.gyms.indexOf(id) !== -1;
+            return $.extend(
+                {
+                    name: c.strings[c.format('gym{0}name', id)],
+                    desc: c.strings[c.format('gym{0}desc', id)],
+                    img: c.format('components/gyms/gym{0}.jpg', id),
+                    disabled: !ownGymExists
+                },
+                self.refs.gyms[id]
+            );
+        },
         getGyms: function(){
             var self = this;
-            return $.map(this.player.private.gyms, function(id){
-                return $.extend(
-                    {
-                        name: c.strings[c.format('gym{0}name', id)],
-                        desc: c.strings[c.format('gym{0}desc', id)],
-                        img: c.format('components/gyms/gym{0}.jpg', id)
-                    },
-                    self.refs.gyms[id]
-                );
+            return $.map(this.refs.gyms, function(gym){
+                return self.getGym(gym._id);
             });
         }
     }

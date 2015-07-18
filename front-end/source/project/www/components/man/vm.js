@@ -5,8 +5,9 @@ define([
     'model/game',
     'maphilight',
     'c/muscleinfo/vm',
-    'c/sw/vm'
-], function (ko, html, component, game, mphl, muscleinfo, sw) {
+    'c/sw/vm',
+    'c/ava/vm'
+], function (ko, html, component, game, mphl, muscleinfo, sw, ava) {
 
     $.fn.maphilight.defaults = {
         fill: true,
@@ -56,6 +57,8 @@ define([
     }
 
     function ViewModel() {
+        var self = this;
+
         this.strings = component.strings;
         this.src = ko.observable();
         this.muscles = ko.observableArray();
@@ -70,25 +73,36 @@ define([
             win.focus();
         };
         this.init = function (model) {
+            this.update(model);
+
+            return this;
+        };
+        this.update = function(model){
             this.model(model);
             this.src(component.format('components/man/{0}.png', this.model().public.level()));
-
-            this.muscles(game.getMuscles());
-            var self = this;
-            sw('man').show().init().progress(function (state) {
-                if (state)
-                    showFrazzleMap(self);
-                else
-                    hideFrazzleMap(self);
-            });
-            return this;
+            this.muscles(game.getMuscles(!!model.private));
+            if (!model.private){
+                ava('man').show().init(model.public);
+            }else {
+                sw('man').show().init().progress(function (state) {
+                    if (state)
+                        showFrazzleMap(self);
+                    else
+                        hideFrazzleMap(self);
+                });
+            }
         };
         this.loaded = function (elem$) {
             elem$.find('.img-man').maphilight({fillColor: 'ff0000', strokeOpacity: 0, fillOpacity: 0.3, fade: true});
             this.elem$ = elem$;
         };
         this.test = function () {
-            this.show().init(game.player);
+            require(['model/player'], function(Player){
+                var player = new Player(5653333);
+                player.load();
+                self.show().init(player);
+            });
+            //this.show().init(game.player);
         };
         this.hover = function (e, muscle) {
             var pos = this.elem$.offset();

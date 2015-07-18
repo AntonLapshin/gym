@@ -2,6 +2,8 @@
 @import url('lib/toastr.min.css');
 @import url('lib/bootstrap-slider.min.css');
 
+@import url('components/member/style.css');
+@import url('components/top/style.css');
 @import url('components/gold/style.css');
 @import url('components/buy/style.css');
 @import url('components/wr/style.css');
@@ -44,6 +46,22 @@ body {
   .label {
     padding: .2em .4em .2em .4em;
   }
+
+  button {
+    border-radius: 0;
+    vertical-align: middle;
+    line-height: 1;
+
+    &.disabled{
+      background-color: #aaa;
+      border: 1px solid #888;
+    }
+  }
+
+}
+
+.modal-content {
+  border-radius: 0;
 }
 
 .glyphicon {

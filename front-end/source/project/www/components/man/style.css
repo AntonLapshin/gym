@@ -10,6 +10,11 @@
   width: 700px;
   height: 700px;
 }
+.man .ava {
+  position: absolute;
+  left: 220px;
+  top: 150px;
+}
 .man .img-background {
   width: 480px;
   height: 550px;

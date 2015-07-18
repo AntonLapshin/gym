@@ -1,8 +1,6 @@
 <div class="man" data-bind="visible:isVisible, loaded">
 
     <img class="img-back" src="components/gyms/gym0.jpg"/>
-    <muscleinfo params="name: 'man'"></muscleinfo>
-
     <div class="shadow"></div>
 
     <!-- ko if: model -->
@@ -15,11 +13,20 @@
               shape="poly"
               href="javascript:;">
     </map>
+
+    <!-- ko if: !model().private -->
+    <ava params="name:'man'"></ava>
     <!-- /ko -->
 
+    <muscleinfo params="name: 'man'"></muscleinfo>
+
+    <!-- ko if: model().private -->
     <div class="frazzle-map">
         <h5 data-bind="text: strings.showFrazzle"></h5>
         <sw params="name: 'man'"></sw>
     </div>
+    <!-- /ko -->
+
+    <!-- /ko -->
 
 </div>

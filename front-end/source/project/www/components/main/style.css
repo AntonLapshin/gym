@@ -11,3 +11,8 @@ main .main .menu-container {
   top: 154px;
   z-index: -1;
 }
+main .main .top {
+  position: absolute;
+  left: 0;
+  top: 854px;
+}

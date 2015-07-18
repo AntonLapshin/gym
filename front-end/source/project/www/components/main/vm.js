@@ -8,11 +8,13 @@ define([
     'c/menu/vm',
     'c/man/vm',
     'c/job/vm',
-    'c/gyms/vm'
-], function (ko, $, html, c, game, private, menu, man, job, gyms) {
+    'c/gyms/vm',
+    'c/workout/vm',
+    'c/top/vm',
+], function (ko, $, html, c, game, private, menu, man, job, gyms, workout, top) {
 
     var menuItems = [
-        man, job, gyms
+        man, job, gyms, workout
     ];
 
     function openItem(item){
@@ -42,7 +44,13 @@ define([
                 });
             man('main').init(player);
             gyms('main').init();
+            top('main').show().init().toAllTop();
             openItem(man);
+
+            c.on('gyms.select', function(id){
+                gyms('main').hide();
+                workout('main').show().init(id);
+            });
         };
 
         this.test = function () {

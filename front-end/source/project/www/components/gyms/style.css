@@ -1,4 +1,21 @@
-.gyms .item img {
+.gyms .meta {
+  position: absolute;
+  color: white;
+  width: 100%;
+}
+.gyms img {
   width: 100%;
   height: 100%;
+}
+.gyms .left,
+.gyms .right {
+  position: absolute;
+  top: 50%;
+  margin-top: -15px;
+}
+.gyms .left {
+  left: 0;
+}
+.gyms .right {
+  right: 0;
 }

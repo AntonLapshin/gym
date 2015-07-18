@@ -31,16 +31,18 @@ define([
         this.init = function(muscle, position){
             this.model(muscle);
 
-            var b = battery('muscleinfo');
-            var fr = Math.floor(100 - muscle.frazzle() * 100);
+            if (muscle.frazzle){
+                var b = battery('muscleinfo');
+                var fr = Math.floor(100 - muscle.frazzle() * 100);
 
-            if (!b.value) {
-                var max = ko.observable(100),
-                    value = ko.observable(fr);
-                b.show().init(max, value, '%');
-            }
-            else {
-                b.value(fr);
+                if (!b.value) {
+                    var max = ko.observable(100),
+                        value = ko.observable(fr);
+                    b.show().init(max, value, '%');
+                }
+                else {
+                    b.value(fr);
+                }
             }
 
             this.position = position;
@@ -69,6 +71,9 @@ define([
                 stress: ko.observable(0.2)
             };
             this.show().init(muscle, { x: 100, y: 400 });
+            setTimeout(function(){
+                $('.muscleinfo').css('background-color', 'black');
+            }, 1000);
         };
 
         this.loaded = function(elem$){

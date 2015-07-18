@@ -1,34 +1,26 @@
-.top{
-    /*padding: 3px;*/
-    border-top: 1px solid #afd458;
-    text-align: center;
-    position: absolute;
-    width: 100%;
-    height: 120px;
-    left: 0;
-    bottom: 0;
-    padding-top: 10px;
+.top {
+  background-image: url('background.jpg');
+  width: 100%;
+  height: 116px;
+  position: relative;
+  padding-top: 5px;
+  /* ----------------- SWITCH -------------- */
 }
-
-.top ul { padding: 0; margin: 0}
-
-.top .switch {
-    margin-top: 10px;
+.top .member {
+  display: inline-block;
 }
-
-/* ----------------- SWITCH -------------- */
-.top .switch {
-    width: 240px;
+.top .sw {
+  margin-top: -10px;
 }
-
-.top .switch-label {
-    width: 116px;
+.top .top-players,
+.top .top-friends {
+  position: absolute;
+  color: white;
+  bottom: 12px;
 }
-
-.switch-input:checked + .modetop ~ .switch-selection {
-    left: 120px;
+.top .top-players {
+  left: 220px;
 }
-
-.top .switch-selection {
-    width: 116px;
+.top .top-friends {
+  left: 405px;
 }

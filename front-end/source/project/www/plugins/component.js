@@ -67,6 +67,7 @@ define(['ko', 'jquery', 'plugins/localization', 'plugins/format'], function (ko,
         random: random,
         format: format,
         strings: strings,
+        viewModels: _viewModels,
         add: function(viewModel, html, name){
             var component = {
                 viewModel: function (params) {

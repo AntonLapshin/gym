@@ -6,7 +6,7 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
                 return serverPlayer._id == socialPlayer.id;
             })[0];
 
-            $.extend(serverPlayer, socialPlayer);
+            $.extend(serverPlayer.public, socialPlayer);
         });
         return serverPlayers;
     }
@@ -65,16 +65,14 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
         self.loadPublic = function(model){
             self._id = model._id;
             self.public.level(model.public.level);
-            self.public.name = model.name;
-            self.public.img = model.img;
+            self.public.name = model.public.name;
+            self.public.img = model.public.img;
             self.public.mass(model.public.level * 10);
             self.public.exercises = model.public.exercises;
         };
 
         self.load = function(){
-            return getPlayer(id).then(function(model){
-                self.loadPublic(model);
-            });
+            return getPlayer(id).then(self.loadPublic);
         };
 
     }

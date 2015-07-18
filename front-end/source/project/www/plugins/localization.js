@@ -12,9 +12,11 @@ define(['ko'], function(ko){
         gym0name:      ['Качалка в подвале',       'Underground gym'],
         gym0desc:      ['Старый заброшенный подвал, переделанный под тренажерный зал. Здесь довольно сыро и совсем мало спортивного инвентаря.',
                          'TBD'],
-        gyms1name:      ['Зал 2',                   'Gym 2'],
-        gyms1desc:      ['Тренажерный зал в школе',
-                        'TBD'],
+        gym1name:      ['Зал 2',                   'Gym 2'],
+        gym1desc:      ['Тренажерный зал в школе', 'TBD'],
+
+        gym2name:      ['Зал 3',                   'Gym 3'],
+        gym2desc:      ['Тренажерный зал', 'TBD'],
 
         ex0name:        ['Жим лёжа',                'Ex 1'],
         ex0desc:        ['Базовое упражнение',
@@ -102,6 +104,9 @@ define(['ko'], function(ko){
         wrMini:         ['АР', 'AR'],
         prMini:         ['ПР', 'PR'],
         wrNone:         ['не установлен', 'none'],
+
+        topPlayers:     ['Топ игроков', 'Top Players'],
+        topFriends:     ['Топ друзей', 'Top Friends'],
 
         buy:            ['Купить', 'Buy']
     };
