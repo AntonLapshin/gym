@@ -11,3 +11,6 @@
   width: 55px;
   height: 55px;
 }
+.member .ava:hover {
+  opacity: 0.5;
+}

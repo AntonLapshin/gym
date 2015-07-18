@@ -1,6 +1,6 @@
-<div class="member" data-bind="visible: isVisible, click: click, event: { mouseover: function() { hover($data); }, mouseout: out }">
+<div class="member" data-bind="visible: isVisible, click: click, event: { mouseover: function() { hover($data); }, mouseout: out }, loaded: true">
     <!-- ko if: model -->
     <img class="ava" src="" data-bind="attr: { src: model().public.img, title: model().public.name }"
-         data-toggle="tooltip" data-placement="right"/>
+         data-toggle="tooltip" data-placement="bottom"/>
     <!-- /ko -->
 </div>

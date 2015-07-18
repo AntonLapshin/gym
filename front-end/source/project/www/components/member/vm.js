@@ -32,6 +32,14 @@ define([
             }
             c.fire('player.click', self.model()._id);
         };
+
+        // hack
+        this.loaded = function(elem$){
+            setTimeout(function() {
+                elem$.find('img.ava').tooltip();
+            }, 1000);
+        };
+
         this.test = function () {
             require(['model/game'], function(game){
                 self.show().init(game.player);

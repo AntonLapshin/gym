@@ -55,7 +55,7 @@ define(['ko', 'jquery', 'plugins/localization', 'plugins/format'], function (ko,
     function getViewModel(params, viewName, viewModel){
         var name = getName(params, viewName);
         if (_viewModels[name]){
-            if (params && typeof viewModel === 'function' && _viewModels[name].set)
+            if (params && params.model && typeof viewModel === 'function' && _viewModels[name].set)
                 _viewModels[name].set(params.model);
             return _viewModels[name];
         }
