@@ -4,41 +4,42 @@ define([
     'plugins/component'
 ], function (ko, html, c) {
 
-    var _defer,
-        _interval,
-        _seconds;
-
     function ViewModel() {
+        var self = this;
         this.value = ko.observable('');
+        this.defer = null;
+        this.interval = null;
+        this.seconds = null;
 
         this.setValue = function () {
-            var min = Math.floor(_seconds / 60);
-            var sec = Math.floor(_seconds % 60);
+            var min = Math.floor(self.seconds / 60);
+            var sec = Math.floor(self.seconds % 60);
             if (sec < 10)
                 sec = '0' + sec;
             this.value(min + ':' + sec);
         };
 
         this.init = function (seconds) {
-            //if (_interval)
-            //    return;
-
-            _seconds = seconds;
+            this.stop();
+            this.seconds = seconds;
 
             this.setValue();
-            var self = this;
-            _interval = setInterval(function () {
-                _seconds--;
+            this.interval = setInterval(function () {
+                self.seconds--;
                 self.setValue();
-                if (_seconds === 0) {
-                    _defer.resolve();
-                    clearInterval(_interval);
+                if (self.seconds === 0) {
+                    self.defer.resolve();
+                    self.stop();
                 }
             }, 1000);
 
             return $.Deferred(function(defer){
-                _defer = defer;
+                self.defer = defer;
             });
+        };
+
+        this.stop = function(){
+            clearInterval(self.interval);
         };
 
         this.test = function () {

@@ -7,6 +7,7 @@
 .job .disc {
   position: absolute;
   cursor: pointer;
+  -webkit-filter: drop-shadow(3px 3px 1px rgba(0, 0, 0, 0.3));
 }
 .job .disc:hover {
   opacity: 0.5;
@@ -14,32 +15,35 @@
 .job ul {
   list-style-type: none;
   position: absolute;
+  margin: 0;
+  padding: 0;
 }
 .job .area-left {
-  left: 25px;
-  top: 122px;
-  width: 195px;
-  height: 288px;
+  left: 16px;
+  top: 184px;
+  width: 273px;
+  height: 511px;
 }
 .job .area-right {
-  left: 276px;
-  top: 122px;
-  width: 195px;
-  height: 288px;
+  left: 406px;
+  top: 184px;
+  width: 273px;
+  height: 511px;
 }
 .job .side-left {
-  left: 0;
-  top: 0;
-  width: 89px;
-  height: 115px;
+  left: 16px;
+  top: 40px;
+  width: 115px;
+  height: 128px;
 }
 .job .side-right {
-  left: 385px;
-  top: 0;
-  width: 89px;
-  height: 115px;
+  left: 560px;
+  top: 40px;
+  width: 115px;
+  height: 128px;
 }
 .job .summary-weight {
+  display: none;
   margin-left: -5px;
   position: absolute;
   top: 0;
@@ -54,7 +58,8 @@
 }
 .job .timer {
   right: 10px;
-  font-size: 3em;
+  bottom: -10px;
+  font-size: 5em;
   font-weight: bold;
   text-shadow: 1px 1px 1px white;
   color: rgba(0, 58, 210, 0.69);

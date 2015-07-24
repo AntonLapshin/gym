@@ -3,35 +3,31 @@
     <div class="summary-weight" data-bind="text: textStatus">
     </div>
 
-    <div class="timer bottom-right opacity-medium">
-        <!--<span data-bind="text: timeShort"></span>-->
-    </div>
-
     <ul class="area-left" data-bind="foreach: itemsLeft">
         <li data-bind="attr:{title:header},style:{ left:x,top:y},click:function(){$parent.select($data);}"
-            class="disc" data-toggle="tooltip">
-            <img data-bind="attr: { src: img }"/>
+            class="disc" data-toggle="tooltip" data-placement="right">
+            <img data-bind="attr: { src: img }, style: {'transform': 'rotate(' + deg + 'deg)'}"/>
         </li>
     </ul>
     <ul class="area-right" data-bind="foreach: itemsRight">
         <li data-bind="attr:{title:header},style:{ left:x,top:y},click:function(){$parent.select($data);}"
-            class="disc" data-toggle="tooltip">
-            <img data-bind="attr: { src: img }"/>
+            class="disc" data-toggle="tooltip" data-placement="right">
+            <img data-bind="attr: { src: img }, style: {'transform': 'rotate(' + deg + 'deg)'}"/>
         </li>
     </ul>
     <ul class="side-left" data-bind="foreach: itemsSideLeft">
         <li class="disc" data-bind="attr: { title: header, }, style: { left: x, top: y }"
-            data-toggle="tooltip">
+            data-toggle="tooltip" data-placement="right">
             <img data-bind="attr: { src: img }"/>
         </li>
     </ul>
-    <ul class="side-right" data-bind="foreach: itemsSideRight"
-        data-toggle="tooltip">
-        <li class="disc" data-bind="attr: { title: header }, style: { left: x, top: y }">
+    <ul class="side-right" data-bind="foreach: itemsSideRight">
+        <li class="disc" data-bind="attr: { title: header }, style: { left: x, top: y }"
+            data-toggle="tooltip" data-placement="right">
             <img data-bind="attr: { src: img }"/>
         </li>
     </ul>
 
-    <timer params="name:'jobbing'"></timer>
+    <timer params="name:'job'"></timer>
     <!-- /ko -->
 </div>

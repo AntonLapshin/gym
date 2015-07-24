@@ -1,74 +1,71 @@
 define([
     'ko',
+    'jquery',
     'text!./view.html',
     'plugins/component',
     'components/timer/vm',
     'model/game',
     'bootbox'
-], function (ko, html, c, timer, game, bootbox) {
+], function (ko, $, html, c, timer, game, bootbox) {
 
     var TIMEOUT = 60;
     var PATH = 'components/job/';
-    var LEFT_SIDE_START_POSITION = {x: 89, y: 74};
-    var RIGHT_SIDE_START_POSITION = {x: 0, y: 74};
-    var AREA = {width: 195, height: 298};
+    var LEFT_SIDE_START_POSITION = {x: 114, y: 64};
+    var RIGHT_SIDE_START_POSITION = {x: 0, y: 64};
+    var AREA = {width: 273, height: 511};
     var BASE_WEIGHT = 20;
-    var isAlreadyFinished = false;
 
     var DISK_ARRAY =
         [
-            {weight: 25, header: '25', width: 9, height: 83, size: 91, img: '25kg'},
-            {weight: 20, header: '20', width: 8, height: 77, size: 83, img: '20kg'},
-            {weight: 15, header: '15', width: 7, height: 65, size: 72, img: '15kg'},
-            {weight: 10, header: '10', width: 7, height: 60, size: 63, img: '10kg'},
-            {weight: 5, header: '5', width: 7, height: 51, size: 54, img: '5kg'},
-            {weight: 2.5, header: '2.5', width: 6, height: 41, size: 48, img: '2500g'},
-            {weight: 1.25, header: '1.25', width: 4, height: 32, size: 36, img: '1250g'},
-            {weight: 0.625, header: '0.625', width: 3, height: 27, size: 28, img: '625g'}
+            {weight: 25, header: '25', width: 15, size: 128, img: '25kg'},
+            {weight: 20, header: '20', width: 12, size: 119, img: '20kg'},
+            {weight: 15, header: '15', width: 11, size: 99, img: '15kg'},
+            {weight: 10, header: '10', width: 10, size: 90, img: '10kg'},
+            {weight: 5, header: '5', width: 12, size: 76, img: '5kg'},
+            {weight: 2.5, header: '2.5', width: 10, size: 66, img: '2500g'},
+            {weight: 1.25, header: '1.25', width: 5, size: 49, img: '1250g'},
+            {weight: 0.625, header: '0.625', width: 4, size: 41, img: '625g'}
         ];
 
-    function getRandom(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    var INDEX_ARRAY = [0, 1, 2, 3, 4, 5, 6, 7];
 
     function getDiskArray(side) {
         var area;
 
-        var indexArray = [];
-        var diskArray = [];
+        var indexArray = [].concat(INDEX_ARRAY).sort(function() {
+            return .5 - Math.random();
+        });
+
         var x = 0;
         var y = 0;
-
-        for (var i = 0; i < DISK_ARRAY.length; i++)indexArray.push(i);
-
         var j = 0;
-        while (diskArray.length < DISK_ARRAY.length && j < 100) {
-            var rndIndex = getRandom(0, indexArray.length - 1);
-            if (indexArray[rndIndex] == -1) {
-                j++;
-                continue;
-            }
-            var disk = DISK_ARRAY[rndIndex];
-            if (x + disk.size < AREA.width && y + disk.size < AREA.height) {
-                var item = {
-                    weight: disk.weight,
-                    id: rndIndex,
-                    x: x,
-                    y: y,
-                    side: side
-                };
-                diskArray.push(item);
-                x += disk.size;
-                indexArray[rndIndex] = -1;
-                if (x + 83 > AREA.width) {
-                    x = 0;
-                    y += 85;
-                }
-            }
-            j++;
-        }
 
-        return diskArray;
+        return $.map(indexArray, function (i) {
+            var disk = DISK_ARRAY[i];
+
+            var gap = c.random(2, 15);
+
+            if (x + disk.size + gap > AREA.width) {
+                x = c.random(0, 15);
+                y = y + 128 + c.random(0, 15);
+            }
+
+            if (y + disk.size > AREA.height) {
+                return null;
+            }
+
+            var item = {
+                weight: disk.weight,
+                id: i,
+                x: x,
+                y: y,
+                side: side,
+                deg: c.random(0, 360)
+            };
+
+            x = x + disk.size + gap;
+            return item;
+        });
     }
 
     function getDiskArrayForArea(items, excludeSide) {
@@ -82,10 +79,11 @@ define([
             var diskArea = {
                 id: item.id,
                 weight: disk.weight,
-                header: disk.header + ' кг',
+                header: disk.header + c.strings.massUnit(),
                 img: PATH + disk.img + '.png',
                 x: item.x + 'px',
-                y: item.y + 'px'
+                y: item.y + 'px',
+                deg: item.deg
             };
             arr.push(diskArea);
         }
@@ -105,7 +103,7 @@ define([
             }
             return weight;
         }, this);
-        this.textStatus = ko.computed(function(){
+        this.textStatus = ko.computed(function () {
             return c.format(c.strings.jobStatus(), this.summaryWeight(), this.weight());
         }, this);
         this.itemsLeft = ko.computed(function () {
@@ -127,10 +125,10 @@ define([
                 var disk = DISK_ARRAY[item.id];
                 x = x - disk.width;
                 var sideDisk = {
-                    header: disk.header + ' кг',
+                    header: disk.header + c.strings.massUnit(),
                     img: PATH + disk.img + '-side.png',
                     x: x + 'px',
-                    y: Math.floor(y - disk.height / 2) + 'px'
+                    y: Math.floor(y - disk.size / 2) + 'px'
                 };
                 arr.push(sideDisk);
             }
@@ -147,10 +145,10 @@ define([
 
                 var disk = DISK_ARRAY[item.id];
                 var sideDisk = {
-                    header: disk.header + ' кг',
+                    header: disk.header + c.strings.massUnit(),
                     img: PATH + disk.img + '-side.png',
                     x: x + 'px',
-                    y: Math.floor(y - disk.height / 2) + 'px'
+                    y: Math.floor(y - disk.size / 2) + 'px'
                 };
                 x = x + disk.width;
                 arr.push(sideDisk);
@@ -158,9 +156,20 @@ define([
             return arr;
         }, this);
 
-        this.start = function(weight){
+        this.onShow = function(){
+            this.reset();
+        };
+
+        this.reset = function(){
+            timer('job').hide();
+            self.itemsSelected([]);
+            self.items([]);
+            self.weight(null);
+        };
+
+        this.start = function () {
             game.server.jobGet()
-                .then(function(weight){
+                .then(function (weight) {
                     bootbox.dialog({
                         message: c.format(c.strings.jobAsk(), weight),
                         title: c.strings.jobTitle(),
@@ -168,8 +177,8 @@ define([
                             yes: {
                                 label: c.strings.YES(),
                                 className: "btn-success",
-                                callback: function() {
-                                    isAlreadyFinished = false;
+                                callback: function () {
+
                                     self.itemsSelected([]);
                                     var itemsLeft = getDiskArray('left');
                                     var itemsRight = getDiskArray('right');
@@ -181,9 +190,7 @@ define([
                                     self.weight(weight);
 
                                     timer('job').show().init(TIMEOUT)
-                                        .then(function(){
-                                            if (isAlreadyFinished)
-                                                return;
+                                        .then(function () {
                                             bootbox.dialog({
                                                 message: c.strings.jobTimeIsUp(),
                                                 title: c.strings.jobTitle()
@@ -195,7 +202,7 @@ define([
                             no: {
                                 label: c.strings.NO(),
                                 className: "btn-danger",
-                                callback: function() {
+                                callback: function () {
                                 }
                             }
                         }
@@ -220,22 +227,22 @@ define([
             this.items(arrNew);
             this.itemsSelected(arrSelected);
             if (this.summaryWeight() == this.weight()) {
-                game.server.jobComplete().then(function(money){
-                    isAlreadyFinished = true;
+                game.server.jobComplete().then(function (money) {
                     bootbox.dialog({
                         message: c.strings.jobSuccess(),
                         title: c.strings.jobTitle()
                     });
+                    timer('job').stop();
                     c.fire('home');
                     c.fire('money.earn', money);
                 });
             }
             else if (this.summaryWeight() > this.weight()) {
-                isAlreadyFinished = true;
                 bootbox.dialog({
                     message: c.strings.jobWrongWeight(),
                     title: c.strings.jobTitle()
                 });
+                timer('job').stop();
                 c.fire('home');
             }
         };

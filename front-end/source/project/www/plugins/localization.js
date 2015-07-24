@@ -48,7 +48,7 @@ define(['ko'], function(ko){
         menuJob:        ['Работа',                  'Job'],
 
         jobTitle:       ['Работа',                  'Job'],
-        jobAsk:         ['Необходимо собрать штангу весом {0} кг. Вы готовы?',                 'TBD'],
+        jobAsk:         ['Необходимо собрать штангу весом {0} кг. Вес грифа составляет 20кг. Вы готовы?',                 'TBD'],
         jobTimeIsUp:    ['Время вышло',             'Time is up'],
         jobWrongWeight: ['Вес превышен',            'Wrong weight'],
         jobSuccess:     ['Вес собран',              'Success'],

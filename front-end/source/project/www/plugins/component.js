@@ -31,6 +31,8 @@ define(['ko', 'jquery', 'plugins/localization', 'plugins/format'], function (ko,
         vm.isVisible = ko.observable(false);
         vm.show = function(){
             vm.isVisible(true);
+            if (vm.onShow)
+                vm.onShow();
             return vm;
         };
         vm.hide = function(){

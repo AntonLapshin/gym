@@ -512,7 +512,7 @@ define(['jquery'], function ($) {
 
         jobGet: function(){
             return $.Deferred(function(defer){
-                defer.resolve(125); // weight
+                defer.resolve(70); // weight
             })
         },
 

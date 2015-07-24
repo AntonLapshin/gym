@@ -8,6 +8,11 @@
     position: absolute;
     cursor: pointer;
 
+    -webkit-filter: drop-shadow(3px 3px 1px rgba(0,0,0,0.3));
+//    filter: url("data:image/svg+xml;utf8,<svg height='0' xmlns='http://www.w3.org/2000/svg'><filter id='drop-shadow'><feGaussianBlur in='SourceAlpha' stdDeviation='4'/><feOffset dx='12' dy='12' result='offsetblur'/><feFlood flood-color='rgba(0,0,0,0.5)'/><feComposite in2='offsetblur' operator='in'/><feMerge><feMergeNode/><feMergeNode in='SourceGraphic'/></feMerge></filter></svg>#drop-shadow");
+//    -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+//    filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+
     &:hover{
       opacity: 0.5;
     }
@@ -16,37 +21,40 @@
   ul {
     list-style-type: none;
     position: absolute;
+    margin: 0;
+    padding: 0;
   }
 
   .area-left {
-    left: 25px;
-    top: 122px;
-    width: 195px;
-    height: 288px;
+    left: 16px;
+    top: 184px;
+    width: 273px;
+    height: 511px;
   }
 
   .area-right {
-    left: 276px;
-    top: 122px;
-    width: 195px;
-    height: 288px;
+    left: 406px;
+    top: 184px;
+    width: 273px;
+    height: 511px;
   }
 
   .side-left {
-    left: 0;
-    top: 0;
-    width: 89px;
-    height: 115px;
+    left: 16px;
+    top: 40px;
+    width: 115px;
+    height: 128px;
   }
 
   .side-right {
-    left: 385px;
-    top: 0;
-    width: 89px;
-    height: 115px;
+    left: 560px;
+    top: 40px;
+    width: 115px;
+    height: 128px;
   }
 
   .summary-weight {
+    display: none;
     margin-left: -5px;
     position: absolute;
     top: 0;
@@ -62,7 +70,8 @@
 
   .timer {
     right: 10px;
-    font-size: 3em;
+    bottom: -10px;
+    font-size: 5em;
     font-weight: bold;
     text-shadow: 1px 1px 1px white;
     color: rgba(0, 58, 210, 0.69);
