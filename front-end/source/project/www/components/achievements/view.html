@@ -1,0 +1,10 @@
+<div class="achievements" data-bind="visible: isVisible()">
+    <ul data-bind="foreach: model">
+        <li data-bind="css: { completed: completed }">
+            <span class="glyphicon glyphicon-unchecked"></span>
+            <span class="glyphicon glyphicon-check"></span>
+            <h5 data-bind="text: name"></h5>
+            <span data-bind="text: desc"></span>
+        </li>
+    </ul>
+</div>

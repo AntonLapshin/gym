@@ -25,6 +25,7 @@
 @import url('components/private/style.css');
 @import url('components/muscleinfo/style.css');
 @import url('components/man/style.css');
+@import url('components/achievements/style.css');
 @import url('components/main/style.css');
 body {
   font-family: 'Roboto Condensed', sans-serif;

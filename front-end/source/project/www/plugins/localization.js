@@ -34,6 +34,14 @@ define(['ko'], function(ko){
         ex4desc:        ['Бицуха',
                          'TBD'],
 
+        ach0name:       ['Новичок', 'TBD'],
+        ach0desc:       ['Выполнил первую тренировку до полной усталости', 'TBD'],
+        ach1name:       ['Сбор штанги', 'TBD'],
+        ach1desc:       ['Подтвердил умение собирать вес для штанги', 'TBD'],
+        ach2name:       ['Жим лежа 80 кг', 'TBD'],
+        ach2desc:       ['Установлен личный рекорд 80 кг в жиме лежа', 'TBD'],
+
+
         trChooseWeight: ['Выберите вес',            'Choose the weight'],
         trChooseRepeats: ['Количество повторений',  'Number of repeats'],
         trMeasureWeight: ['кг',                     'kg'],

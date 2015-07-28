@@ -112,6 +112,24 @@ define(['jquery', 'toastr', 'model/player', 'server/server', 'plugins/component'
             return $.map(this.refs.gyms, function(gym){
                 return self.getGym(gym._id);
             });
+        },
+        getAchievement: function(id){
+            var self = this;
+            var ownAchievementExists = this.player.private.achievements.indexOf(id) !== -1;
+            return $.extend(
+                {
+                    name: c.strings[c.format('ach{0}name', id)],
+                    desc: c.strings[c.format('ach{0}desc', id)],
+                    completed: ownAchievementExists
+                },
+                self.refs.achievements[id]
+            );
+        },
+        getAchievements: function(){
+            var self = this;
+            return $.map(this.refs.achievements, function(achievement){
+                return self.getAchievement(achievement._id);
+            });
         }
     }
 });

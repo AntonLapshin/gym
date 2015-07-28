@@ -20,6 +20,7 @@ define(['jquery'], function ($) {
             job: {
                 nextTime: new Date()
             },
+            achievements: [0],
             gyms: [0, 1],
             body: [
                 {
@@ -347,6 +348,17 @@ define(['jquery'], function ($) {
                         {level: 10, gold: 100}
                     ]
                 }
+            }
+        ],
+        achievements: [
+            {
+                _id: 0
+            },
+            {
+                _id: 1
+            },
+            {
+                _id: 2
             }
         ],
         "muscles_view": [

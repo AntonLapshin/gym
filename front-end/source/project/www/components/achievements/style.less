@@ -1,0 +1,77 @@
+.achievements {
+//  background-image: url('background.jpg');
+  background: url("http://enjoycss.com/bg-img/default/3_6.png");
+  background-position: 50% 50%;
+  width: 100%;
+  height: 700px;
+  padding: 20px;
+
+  ul {
+    padding: 0;
+
+    li {
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &.completed {
+        .glyphicon-unchecked{
+          display: none;
+        }
+
+        .glyphicon-check {
+          display: inherit;
+        }
+
+        background-color: #6EAD53;
+
+        color: white;
+//        h4, .glyphicon {
+//          color: white;
+//        }
+      }
+
+      cursor: pointer;
+//      -webkit-box-shadow: inset 1px 1px 1px 0 rgba(0, 0, 0, 0.24);
+//      -moz-box-shadow: inset 1px 1px 1px 0 rgba(0, 0, 0, 0.24);
+//      box-shadow: inset 1px 1px 1px 0 rgba(0, 0, 0, 0.24);
+//      border: 1px solid #292929;
+      box-shadow: 1px 2px 3px black;
+      opacity: 0.95;
+      list-style: none;
+      padding: 5px 5px 2px 5px;
+      margin-bottom: 5px;
+      background-color: #505050;
+      color: #B9B8B8;
+
+      .glyphicon-check {
+        display: none;
+      }
+
+      .glyphicon {
+        float: left;
+        font-size: 2em;
+        margin-right: 5px;
+      }
+
+      h5 {
+        padding: 0;
+        margin: 0;
+        font-weight: bold;
+      }
+
+      .glyphicon, h5 {
+        text-shadow: 1px 1px 1px #000000;
+//        text-shadow: 0px 1px 1px #4d4d4d;
+//        color: white;
+      }
+
+//      span {
+//        color: black;
+//      }
+
+    }
+  }
+
+}

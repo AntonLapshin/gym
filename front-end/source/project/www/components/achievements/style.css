@@ -1,0 +1,50 @@
+.achievements {
+  background: url("http://enjoycss.com/bg-img/default/3_6.png");
+  background-position: 50% 50%;
+  width: 100%;
+  height: 700px;
+  padding: 20px;
+}
+.achievements ul {
+  padding: 0;
+}
+.achievements ul li {
+  cursor: pointer;
+  box-shadow: 1px 2px 3px black;
+  opacity: 0.95;
+  list-style: none;
+  padding: 5px 5px 2px 5px;
+  margin-bottom: 5px;
+  background-color: #505050;
+  color: #B9B8B8;
+}
+.achievements ul li:hover {
+  opacity: 1;
+}
+.achievements ul li.completed {
+  background-color: #6EAD53;
+  color: white;
+}
+.achievements ul li.completed .glyphicon-unchecked {
+  display: none;
+}
+.achievements ul li.completed .glyphicon-check {
+  display: inherit;
+}
+.achievements ul li .glyphicon-check {
+  display: none;
+}
+.achievements ul li .glyphicon {
+  float: left;
+  font-size: 2em;
+  margin-right: 5px;
+}
+.achievements ul li h5 {
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+}
+.achievements ul li .glyphicon,
+.achievements ul li h5 {
+  text-shadow: 1px 1px 1px #000000;
+}

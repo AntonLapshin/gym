@@ -51,7 +51,7 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
     }
 
     function PlayerPublic(id, self){
-        var self = self || this;
+        self = self || this;
 
         self._id = id;
         self.public = {
@@ -89,6 +89,7 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
             friends: ko.observable(),
             energyMax: ko.observable(),
             gyms: [],
+            achievements: [],
             body: []
         };
         for(var i = 0; i < 16; i++) {
@@ -110,6 +111,7 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
                 updateValue(self.private.friends, model.private.friends);
                 self.private.energyMax(model.private.energyMax);
                 self.private.gyms = model.private.gyms;
+                self.private.achievements = model.private.achievements;
                 $.each(model.private.body, function(i, muscle){
                     self.private.body[i].stress(muscle.stress);
                     self.private.body[i].frazzle(muscle.frazzle);
