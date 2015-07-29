@@ -51,7 +51,7 @@ define(['ko'], function(ko){
         menuHome:       ['Домой',                   'Home'],
         menuWorkout:    ['Тренировка',              'Workout'],
         menuRest:       ['Отдых',                   'Rest'],
-        menuAwards:     ['Достижения',              'Awards'],
+        menuAchievements: ['Достижения',              'Achievements'],
         menuShop:       ['Магазин',                 'Shop'],
         menuJob:        ['Работа',                  'Job'],
 

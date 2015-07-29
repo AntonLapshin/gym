@@ -1,14 +1,23 @@
+.workout {
+  width: 100%;
+  height: 700px;
+  padding: 4px 6px 4px 4px;
+  background: url('background.png');
+  color: white;
+}
 .workout h2 {
   margin-top: 10px;
+  text-shadow: 1px 1px 1px #000000;
 }
 .workout .label {
   cursor: pointer;
 }
 .workout .well {
+  border: none;
   margin-bottom: 5px;
   padding: 10px;
   border-radius: 0;
-  box-shadow: none;
+  box-shadow: inset 1px 2px 3px black;
 }
 .workout .well h3 {
   margin-top: 0;
@@ -23,6 +32,31 @@
 }
 .workout .exSelect {
   background-color: rgba(237, 230, 219, 0.13);
+}
+.workout .exSelect .left {
+  margin-right: 10px;
+}
+.workout .exSelect .right {
+  margin-left: 10px;
+}
+.workout .exSelect li a {
+  border-radius: 0;
+  padding: 5px;
+}
+.workout .exSelect li a .img-thumbnail {
+  border-radius: 0;
+  border-color: #434343;
+}
+.workout .exSelect li a h5 {
+  margin-top: 5px;
+  margin-bottom: 0;
+  color: #E6E6E6;
+}
+.workout .exSelect li a:hover h5 {
+  color: black;
+}
+.workout .exSelect li a:hover .img-thumbnail {
+  border-color: #908f8e;
 }
 .workout .exSetup {
   position: relative;

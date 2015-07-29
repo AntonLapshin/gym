@@ -1,6 +1,6 @@
 <div class="workout" data-bind="visible: isVisible, loaded">
     <div class="exSelect text-center well">
-        <button type="button" class="btn btn-primary left" data-bind="click:prev,attr:{disabled:!left()}">
+        <button type="button" class="btn btn-primary left" data-bind="click:prev,css:{disabled:!left()}">
             <span class="glyphicon glyphicon-chevron-left"></span>
         </button>
         <ul class="nav nav-pills" data-bind="foreach: exercises">
@@ -14,7 +14,7 @@
                 </a>
             </li>
         </ul>
-        <button type="button" class="btn btn-primary right" data-bind="click:next,attr:{disabled:!right()}">
+        <button type="button" class="btn btn-primary right" data-bind="click:next,css:{disabled:!right()}">
             <span class="glyphicon glyphicon-chevron-right"></span>
         </button>
     </div>

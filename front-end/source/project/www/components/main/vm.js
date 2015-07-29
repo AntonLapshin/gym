@@ -11,10 +11,11 @@ define([
     'c/gyms/vm',
     'c/workout/vm',
     'c/top/vm',
-], function (ko, $, html, c, game, private, menu, man, job, gyms, workout, top) {
+    'c/achievements/vm'
+], function (ko, $, html, c, game, private, menu, man, job, gyms, workout, top, achievements) {
 
     var menuItems = [
-        man, job, gyms, workout
+        man, job, gyms, achievements, workout, workout
     ];
 
     function openItem(item){
@@ -36,14 +37,11 @@ define([
             private('main').show().init(player);
             menu('main').show().init()
                 .progress(function(index){
-                    switch(index){
-                        case 0: openItem(man); break;
-                        case 1: openItem(job); break;
-                        case 2: openItem(gyms); break;
-                    }
+                    openItem(menuItems[index]);
                 });
             man('main').init(player);
             gyms('main').init();
+            achievements('main').init();
             top('main').show().init().toAllTop();
             openItem(man);
 

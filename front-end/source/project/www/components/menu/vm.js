@@ -11,7 +11,7 @@ define([
         { name: strings.menuHome, active: ko.observable(true) },
         { name: strings.menuJob, active: ko.observable(false) },
         { name: strings.menuWorkout, active: ko.observable(false) },
-        { name: strings.menuAwards, active: ko.observable(false) },
+        { name: strings.menuAchievements, active: ko.observable(false) },
         { name: strings.menuShop, active: ko.observable(false) }
     ];
 
