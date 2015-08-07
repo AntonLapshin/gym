@@ -4,10 +4,11 @@ define([
     'text!./view.html',
     'plugins/component',
     'model/refs',
+    'model/player',
     'c/muscleinfo/vm',
     'c/sw/vm',
     'c/ava/vm'
-], function (ko, $, html, component, Refs, muscleinfo, sw, ava) {
+], function (ko, $, html, c, Refs, Player, muscleinfo, sw, ava) {
 
     function showFrazzleMap(vm) {
         vm.frazzle$ = $('<canvas class="frazzle" width="480px" height="550px"/>');
@@ -22,7 +23,7 @@ define([
             }
 
             context.closePath();
-            context.fillStyle = component.format('rgba(255,0,0,{0})', m.frazzle() / 2);
+            context.fillStyle = c.format('rgba(255,0,0,{0})', m.frazzle() / 2);
             context.fill();
         });
     }
@@ -55,7 +56,7 @@ define([
     function ViewModel() {
         var self = this;
 
-        this.strings = component.strings;
+        this.strings = c.strings;
         this.src = ko.observable();
         this.muscles = ko.observableArray();
         this.click = function () {
@@ -70,16 +71,16 @@ define([
         };
         this.init = function (model) {
             this.update(model);
-
             return this;
         };
         this.update = function(model){
             this.model(model);
-            this.src(component.format('components/man/{0}.png', model.public.level()));
+            this.src(c.format('components/man/{0}.png', model.public.level()));
             this.muscles(Refs.getMuscles(!!model.private));
             if (!model.private){
-                ava('man').show().init(model.public);
+                ava('man').show().init(model);
             }else {
+                ava('man').hide();
                 sw('man').show().init().progress(function (state) {
                     if (state)
                         showFrazzleMap(self);
@@ -109,18 +110,17 @@ define([
             this.elem$ = elem$;
         };
         this.test = function () {
-            //require(['model/player'], function(Player){
-            //    var player = new Player(5653333);
-            //    player.load();
-            //    self.show().init(player);
-            //});
-            require(['model/game'], function(game){
-                self.show().init(game.player);
+            var player = new Player(5653333);
+            player.load().then(function(){
+                self.show().init(player);
             });
+            //require(['model/game'], function(game){
+            //    self.show().init(game.player);
+            //});
         };
     }
 
-    return component.add(ViewModel, html, 'man');
+    return c.add(ViewModel, html, 'man');
 });
 
 //    <muscleinfo params="name: 'man'"></muscleinfo>

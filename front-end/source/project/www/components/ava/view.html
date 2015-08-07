@@ -1,5 +1,5 @@
 <div class="ava" data-bind="click:click,visible:isVisible, loaded: true">
-    <!-- ko if: model -->
+    <!-- ko if: model() -->
     <img class="avatar" alt="" src="" data-bind="attr: { src: model().public.img }"/>
     <img class="frame" alt="" src="components/ava/frame.png" data-bind="attr: { title: model() ? model().public.name : '' }"
          data-toggle="tooltip" data-placement="right"/>

@@ -4,6 +4,7 @@ define([
     'text!./view.html',
     'plugins/component',
     'model/game',
+    'model/player',
     'c/private/vm',
     'c/menu/vm',
     'c/man/vm',
@@ -12,7 +13,7 @@ define([
     'c/workout/vm',
     'c/top/vm',
     'c/achievements/vm'
-], function (ko, $, html, c, game, private, menu, man, job, gyms, workout, top, achievements) {
+], function (ko, $, html, c, game, Player, private, menu, man, job, gyms, workout, top, achievements) {
 
     var menuItems = [
         man, job, gyms, achievements, workout, workout
@@ -32,11 +33,12 @@ define([
     }
 
     function ViewModel() {
-
         this.init = function (player) {
             private('main').show().init(player);
             menu('main').show().init()
                 .progress(function(index){
+                    if (index === 0)
+                        man('main').update(game.player);
                     openItem(menuItems[index]);
                 });
             man('main').init(player);
@@ -49,6 +51,20 @@ define([
                 gyms('main').hide();
                 workout('main').show().init(id);
             });
+
+            c.on('player.click', function(id){
+                if (game.player._id !== id){
+                    var player = new Player(id);
+                    player.load().then(function(){
+                        man('main').update(player);
+                        openItem(man);
+                        menu('main').selectByIndex(-1);
+                    });
+                }
+                else {
+                    menu('main').selectByIndex(0);
+                }
+            });
         };
 
         this.test = function () {
@@ -56,7 +72,6 @@ define([
         };
 
         c.on('home', function(){
-            openItem(man);
             menu('main').selectByIndex(0);
         });
     }

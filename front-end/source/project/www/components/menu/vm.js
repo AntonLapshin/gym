@@ -30,16 +30,15 @@ define([
             _items.forEach(function(item){
                 item.active(false);
             });
-            _items[index].active(true);
+            if (index >= 0) {
+                _items[index].active(true);
+                _defer.notify(index);
+            }
         };
 
         this.select = function(){
-            _items.forEach(function(item){
-                item.active(false);
-            });
-            this.active(true);
             var index = self.items().indexOf(this);
-            _defer.notify(index);
+            self.selectByIndex(index);
         };
 
         this.test = function () {

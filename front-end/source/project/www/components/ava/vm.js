@@ -7,6 +7,10 @@ define([
 
     function ViewModel() {
         this.click = function () {
+            if (this.model().private) {
+                c.fire('player.click', this.model()._id);
+                return;
+            }
             if (this.model()._id == 0) // may be "0"
             {
                 social.invite();
