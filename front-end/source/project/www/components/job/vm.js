@@ -4,9 +4,9 @@ define([
     'text!./view.html',
     'plugins/component',
     'components/timer/vm',
-    'model/game',
+    'server/server',
     'bootbox'
-], function (ko, $, html, c, timer, game, bootbox) {
+], function (ko, $, html, c, timer, server, bootbox) {
 
     var TIMEOUT = 60;
     var PATH = 'components/job/';
@@ -168,7 +168,7 @@ define([
         };
 
         this.start = function () {
-            game.server.jobGet()
+            server.jobGet()
                 .then(function (weight) {
                     bootbox.dialog({
                         message: c.format(c.strings.jobAsk(), weight),
@@ -227,7 +227,7 @@ define([
             this.items(arrNew);
             this.itemsSelected(arrSelected);
             if (this.summaryWeight() == this.weight()) {
-                game.server.jobComplete().then(function (money) {
+                server.jobComplete().then(function (money) {
                     bootbox.dialog({
                         message: c.strings.jobSuccess(),
                         title: c.strings.jobTitle()

@@ -1,11 +1,11 @@
-define(['jquery'], function($){
+define(['jquery', 'plugins/component'], function($, c){
 
     var _server,
         _requests = {
             loadTop: {
                 lastDateTime: 0,
                 data: null,
-                timeout: 5 * 1000 * 60
+                //timeout: 5 * 1000 * 60
             },
             loadRefs: {
                 lastDateTime: 0,
@@ -31,6 +31,7 @@ define(['jquery'], function($){
                         _requests[funcName].lastDateTime = Date.now();
                         _requests[funcName].data = data;
                     }
+                    c.fire('server.response', data);
                     defer.resolve(data);
                 });
             });
@@ -62,23 +63,23 @@ define(['jquery'], function($){
         },
 
         saveFriendsQty: function(friends){
-            return _server.saveFriendsQty(friends);
+            return this.proxy('saveFriendsQty', friends);
         },
 
         saveMe: function(playerSetExp){
-            return _server.saveMe(playerSetExp);
+            return this.proxy('saveMe', playerSetExp);
         },
 
         gymExecute: function(args){
-            return _server.gymExecute(args);
+            return this.proxy('gymExecute', args);
         },
 
         jobGet: function(){
-            return _server.jobGet();
+            return this.proxy('jobGet');
         },
 
         jobComplete: function(){
-            return _server.jobComplete();
+            return this.proxy('jobComplete');
         }
 
     }

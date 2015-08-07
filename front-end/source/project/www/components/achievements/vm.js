@@ -3,8 +3,8 @@ define([
     'jquery',
     'text!./view.html',
     'plugins/component',
-    'model/game'
-], function (ko, $, html, c, game) {
+    'model/refs'
+], function (ko, $, html, c, Refs) {
 
     function ViewModel() {
         var self = this;
@@ -12,7 +12,7 @@ define([
         this.strings = c.strings;
 
         this.init = function(){
-            this.model(game.getAchievements());
+            this.model(Refs.getAchievements());
             return self;
         };
 

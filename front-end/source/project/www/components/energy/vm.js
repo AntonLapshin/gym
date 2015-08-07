@@ -2,11 +2,11 @@ define([
     'ko',
     'text!./view.html',
     'plugins/component'
-], function (ko, html, component) {
+], function (ko, html, c) {
 
     function ViewModel(){
 
-        this.title = component.strings.bankEnergy;
+        this.title = c.strings.bankEnergy;
 
         this.test = function(){
             var v = ko.observable(10);
@@ -19,5 +19,5 @@ define([
         };
     }
 
-    return component.add(ViewModel, html, 'energy');
+    return c.add(ViewModel, html, 'energy');
 });

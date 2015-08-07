@@ -25,7 +25,6 @@ requirejs.config({
         vk: '//vk.com/js/api/xd_connection',
         fb: '//connect.facebook.net/en_US/all',
         bootstrap: 'bootstrap/js/bootstrap.min',
-        maphilight: 'lib/jquery.maphilight.min',
         slider: 'lib/bootstrap-slider.min',
         bootbox: '//cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min',
         toastr: 'lib/toastr.min',

@@ -499,7 +499,9 @@ define(['jquery'], function ($) {
 
         loadTop: function () {
             return $.Deferred(function (defer) {
-                defer.resolve([].concat(_PLAYERS));
+                var answer = [].concat(_PLAYERS);
+                answer.achievement = { _id: 1 };
+                defer.resolve(answer);
             });
         },
 

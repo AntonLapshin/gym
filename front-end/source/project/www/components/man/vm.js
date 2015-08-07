@@ -1,44 +1,19 @@
 define([
     'ko',
+    'jquery',
     'text!./view.html',
     'plugins/component',
-    'model/game',
-    'maphilight',
+    'model/refs',
     'c/muscleinfo/vm',
     'c/sw/vm',
     'c/ava/vm'
-], function (ko, html, component, game, mphl, muscleinfo, sw, ava) {
-
-    $.fn.maphilight.defaults = {
-        fill: true,
-        fillColor: 'ff0000',
-        fillOpacity: 0.5,
-        stroke: true,
-        strokeColor: 'ff0000',
-        strokeOpacity: 1,
-        strokeWidth: 1,
-        fade: true,
-        alwaysOn: false,
-        neverOn: false,
-        groupBy: false,
-        wrapClass: true,
-        shadow: true,
-        shadowX: 1,
-        shadowY: 1,
-        shadowRadius: 15,
-        shadowColor: '000000',
-        shadowOpacity: 0.8,
-        shadowPosition: 'outside',
-        shadowFrom: true
-    };
+], function (ko, $, html, component, Refs, muscleinfo, sw, ava) {
 
     function showFrazzleMap(vm) {
-        vm.canvas$ = $('<canvas class="frazzle" width="480px" height="550px"/>');
-        vm.elem$.find('img.img-man').before(vm.canvas$);
-        var context = vm.canvas$[0].getContext('2d');
-
+        vm.frazzle$ = $('<canvas class="frazzle" width="480px" height="550px"/>');
+        vm.elem$.find('img.img-map').before(vm.frazzle$);
+        var context = vm.frazzle$[0].getContext('2d');
         $.each(vm.muscles(), function (j, m) {
-
             var map = m.map.split(',');
             context.beginPath();
             context.moveTo(map[0], map[1]);
@@ -53,7 +28,28 @@ define([
     }
 
     function hideFrazzleMap(vm) {
-        vm.canvas$.remove();
+        vm.frazzle$.remove();
+    }
+
+    function showMuscle(vm, m){
+        vm.highlight$ = $('<canvas class="highlight" width="480px" height="550px"/>');
+        vm.elem$.find('img.img-map').before(vm.highlight$);
+        var context = vm.highlight$[0].getContext('2d');
+
+        var map = m.map.split(',');
+        context.beginPath();
+        context.moveTo(map[0], map[1]);
+        for (var i = 2; i < map.length - 1; i = i + 2) {
+            context.lineTo(map[i], map[i + 1]);
+        }
+
+        context.closePath();
+        context.fillStyle = 'rgba(0,255,0,.4)';
+        context.fill();
+    }
+
+    function hideMuscle(vm){
+        vm.highlight$.remove();
     }
 
     function ViewModel() {
@@ -79,8 +75,8 @@ define([
         };
         this.update = function(model){
             this.model(model);
-            this.src(component.format('components/man/{0}.png', this.model().public.level()));
-            this.muscles(game.getMuscles(!!model.private));
+            this.src(component.format('components/man/{0}.png', model.public.level()));
+            this.muscles(Refs.getMuscles(!!model.private));
             if (!model.private){
                 ava('man').show().init(model.public);
             }else {
@@ -93,25 +89,38 @@ define([
             }
         };
         this.loaded = function (elem$) {
-            elem$.find('.img-man').maphilight({fillColor: 'ff0000', strokeOpacity: 0, fillOpacity: 0.3, fade: true});
+            elem$.on('mouseenter', 'area', function(e){
+                var id = $(e.currentTarget).data('id');
+                var muscle = self.muscles()[id];
+                showMuscle(self, muscle);
+            });
+            elem$.on('mousemove', 'area', function(e){
+                var id = $(e.currentTarget).data('id');
+                var muscle = self.muscles()[id];
+                var pos = self.elem$.offset();
+                muscle.x1 = e.clientX - pos.left;
+                muscle.y1 = e.clientY - pos.top;
+                muscleinfo('man').show().init(muscle);
+            });
+            elem$.on('mouseleave', 'area', function(){
+                muscleinfo('man').hide();
+                hideMuscle(self);
+            });
             this.elem$ = elem$;
         };
         this.test = function () {
-            require(['model/player'], function(Player){
-                var player = new Player(5653333);
-                player.load();
-                self.show().init(player);
+            //require(['model/player'], function(Player){
+            //    var player = new Player(5653333);
+            //    player.load();
+            //    self.show().init(player);
+            //});
+            require(['model/game'], function(game){
+                self.show().init(game.player);
             });
-            //this.show().init(game.player);
-        };
-        this.hover = function (e, muscle) {
-            var pos = this.elem$.offset();
-            muscleinfo('man').show().init(muscle, {x: e.clientX - pos.left - 150, y: e.clientY - pos.top - 150});
-        };
-        this.out = function () {
-            muscleinfo('man').hide();
         };
     }
 
     return component.add(ViewModel, html, 'man');
 });
+
+//    <muscleinfo params="name: 'man'"></muscleinfo>

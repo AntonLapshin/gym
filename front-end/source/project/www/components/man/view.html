@@ -3,29 +3,26 @@
     <img class="img-back" src="components/gyms/gym0.jpg"/>
     <div class="shadow"></div>
 
-    <!-- ko if: model -->
-    <img class="img-man" data-bind="attr: { src: src }" border="0" usemap="#navigation"/>
+    <!-- ko if: model() -->
 
     <map name="navigation" data-bind="foreach: muscles">
-        <area data-bind="attr: { coords: map },
-                         event: { mouseover: function() { $parents[0].hover(event, $data); },
-                                  mouseout: function() { $parents[0].out($data); } }"
+        <area data-bind="attr: { coords: map, 'data-id': $index }"
               shape="poly"
               href="javascript:;">
     </map>
 
-    <!-- ko if: !model().private -->
-    <ava params="name:'man'"></ava>
-    <!-- /ko -->
+    <img class="img-body" alt="" src="" data-bind="attr: { src: src }" />
 
     <muscleinfo params="name: 'man'"></muscleinfo>
 
-    <!-- ko if: model().private -->
+    <img class="img-map" src="components/man/transparent.png" border="0" usemap="#navigation"/>
+
+    <ava params="name:'man'"></ava>
+
     <div class="frazzle-map">
         <h5 data-bind="text: strings.showFrazzle"></h5>
         <sw params="name: 'man'"></sw>
     </div>
-    <!-- /ko -->
 
     <!-- /ko -->
 

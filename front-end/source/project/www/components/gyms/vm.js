@@ -2,8 +2,8 @@ define([
     'ko',
     'text!./view.html',
     'plugins/component',
-    'model/game'
-], function (ko, html, c, game) {
+    'model/refs'
+], function (ko, html, c, Refs) {
 
     function ViewModel() {
         var self = this;
@@ -13,7 +13,7 @@ define([
         this.gyms = ko.observableArray();
 
         this.init = function () {
-            var gyms = game.getGyms();
+            var gyms = Refs.getGyms();
             this.gyms(gyms);
             this.selectedGym(gyms[0]);
         };

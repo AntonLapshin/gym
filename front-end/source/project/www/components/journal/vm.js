@@ -3,8 +3,8 @@ define([
     'jquery',
     'text!./view.html',
     'plugins/component',
-    'model/game'
-], function (ko, $, html, c, game) {
+    'model/refs'
+], function (ko, $, html, c, Refs) {
 
     function ViewModel() {
 
@@ -28,7 +28,7 @@ define([
 
             $.each(journal, function(key, value){
                 var ex = {
-                    name: game.getExercise(key).name,
+                    name: Refs.getExercise(key).name,
                     approaches: $.map(value, function(approach){
                         return c.format('{0}x{1}', approach.weight, approach.repeats);
                     }).join(',')

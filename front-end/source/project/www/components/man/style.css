@@ -19,15 +19,20 @@
   width: 480px;
   height: 550px;
 }
-.man .img-man {
+.man .img-map,
+.man .img-body {
   position: absolute;
   top: 150px;
   left: 150px;
+  width: 400px;
+  height: 562px;
 }
-.man canvas.frazzle {
+.man canvas.frazzle,
+.man canvas.highlight {
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 150px;
+  top: 150px;
+  -webkit-filter: blur(3px);
 }
 .man .frazzle-map {
   position: absolute;

@@ -10,8 +10,8 @@ define([
     'components/pr/vm',
     'components/buy/vm',
     'components/energy/vm',
-    'model/game'
-], function (ko, html, c, server, slider, execute, journal, wr, pr, buy, energy, game) {
+    'model/refs'
+], function (ko, html, c, server, slider, execute, journal, wr, pr, buy, energy, Refs) {
 
     var _exercises,
         VISIBLE_COUNT = 3,
@@ -68,7 +68,7 @@ define([
         };
 
         this.init = function (gymId) {
-            var exercises = game.getExercises(gymId);
+            var exercises = Refs.getExercises(gymId);
             _gymId = gymId;
             var self = this;
             exercises.forEach(function (ex) {

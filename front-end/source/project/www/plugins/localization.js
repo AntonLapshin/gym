@@ -40,6 +40,7 @@ define(['ko'], function(ko){
         ach1desc:       ['Подтвердил умение собирать вес для штанги', 'TBD'],
         ach2name:       ['Жим лежа 80 кг', 'TBD'],
         ach2desc:       ['Установлен личный рекорд 80 кг в жиме лежа', 'TBD'],
+        achNew:        ['Новое достижение', 'TBD'],
 
 
         trChooseWeight: ['Выберите вес',            'Choose the weight'],

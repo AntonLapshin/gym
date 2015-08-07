@@ -1,6 +1,13 @@
-<div class="muscleinfo" data-bind="visible: isVisible, loaded">
+<div class="muscleinfo" data-bind="visible: isVisible">
     <!-- ko if: model -->
-    <h4 data-bind="text: strings['manM' + model()._id]"></h4>
-    <battery params="name: 'muscleinfo'"></battery>
+    <div class="info">
+        <h4 data-bind="text: strings['manM' + model()._id]"></h4>
+        <battery params="name: 'muscleinfo'"></battery>
+    </div>
+    <svg>
+        <line x2="500" y2="70" stroke-width="1" stroke="rgba(255, 255, 255, 0.37)" data-bind="attr: { x1: model().x1, y1: model().y1 }"/>
+        <circle r="2" fill="rgba(255, 255, 255, 0.37)" data-bind="attr: { cx: model().x1, cy: model().y1 }"/>
+        <circle cx="500" cy="70" r="2" fill="rgba(255, 255, 255, 0.37)"/>
+    </svg>
     <!-- /ko -->
 </div>
