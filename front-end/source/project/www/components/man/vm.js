@@ -3,12 +3,13 @@ define([
     'jquery',
     'text!./view.html',
     'plugins/component',
+    'social/social',
     'model/refs',
     'model/player',
     'c/muscleinfo/vm',
     'c/sw/vm',
     'c/ava/vm'
-], function (ko, $, html, c, Refs, Player, muscleinfo, sw, ava) {
+], function (ko, $, html, c, social, Refs, Player, muscleinfo, sw, ava) {
 
     function showFrazzleMap(vm) {
         vm.frazzle$ = $('<canvas class="frazzle" width="480px" height="550px"/>');
@@ -69,27 +70,37 @@ define([
             var win = window.open(url, '_blank');
             win.focus();
         };
-        this.init = function (model) {
-            this.update(model);
-            return this;
+        this.init = function () {
+            ava('man').init();
+            sw('man').init();
+            muscleinfo('man').init();
+
+            c.on('sw.switch', function(data){
+                if (data.name !== 'sw+man')
+                    return;
+
+                if (data.state)
+                    showFrazzleMap(self);
+                else
+                    hideFrazzleMap(self);
+            });
+
+            return self;
         };
-        this.update = function(model){
+        this.set = function(model){
             this.model(model);
             this.src(c.format('components/man/{0}.png', model.public.level()));
             this.muscles(Refs.getMuscles(!!model.private));
             if (!model.private){
-                ava('man').show().init(model);
-            }else {
-                ava('man').hide();
-                sw('man').show().init().progress(function (state) {
-                    if (state)
-                        showFrazzleMap(self);
-                    else
-                        hideFrazzleMap(self);
-                });
+                ava('man').set(model).show();
             }
+            else {
+                ava('man').hide();
+                sw('man').show();
+            }
+            return self;
         };
-        this.loaded = function (elem$) {
+        this.onLoad = function (elem$) {
             elem$.on('mouseenter', 'area', function(e){
                 var id = $(e.currentTarget).data('id');
                 var muscle = self.muscles()[id];
@@ -101,7 +112,7 @@ define([
                 var pos = self.elem$.offset();
                 muscle.x1 = e.clientX - pos.left;
                 muscle.y1 = e.clientY - pos.top;
-                muscleinfo('man').show().init(muscle);
+                muscleinfo('man').set(muscle).show();
             });
             elem$.on('mouseleave', 'area', function(){
                 muscleinfo('man').hide();
@@ -110,17 +121,15 @@ define([
             this.elem$ = elem$;
         };
         this.test = function () {
-            var player = new Player(5653333);
-            player.load().then(function(){
-                self.show().init(player);
-            });
-            //require(['model/game'], function(game){
-            //    self.show().init(game.player);
+            //var player = new Player(5653333);
+            //player.load().then(function(){
+            //    self.init().set(player).show();
             //});
+            require(['model/game'], function(game){
+                self.init().set(game.player).show();
+            });
         };
     }
 
     return c.add(ViewModel, html, 'man');
 });
-
-//    <muscleinfo params="name: 'man'"></muscleinfo>

@@ -2,9 +2,7 @@ define([
     'ko',
     'text!./view.html',
     'plugins/component'
-], function (ko, html, component) {
-
-    var _defer;
+], function (ko, html, c) {
 
     function calcExecutePlan(repeatsPlan, repeatsFactMax) {
         _executePlan = [];
@@ -40,6 +38,7 @@ define([
         MAX = 50;
 
     function ViewModel() {
+        var self = this;
 
         this.repeats = ko.observable(0);
         this.percent = ko.observable(30);
@@ -47,17 +46,9 @@ define([
         this.isWarning = ko.observable(false);
         this.isDanger = ko.observable(false);
 
-        var self = this;
-
-        this.init = function (repeatsPlan, repeatsFactMax) {
+        this.start = function (repeatsPlan, repeatsFactMax) {
             calcExecutePlan(repeatsPlan, repeatsFactMax);
-            this.start();
-            return $.Deferred(function (defer) {
-                _defer = defer;
-            });
-        };
 
-        this.start = function () {
             this.repeats(0);
             this.percent(0);
             this.isSuccess(false);
@@ -68,6 +59,7 @@ define([
             _index = 0;
 
             this.execute();
+            return self;
         };
 
         this.getDelay = function (speed) {
@@ -94,12 +86,12 @@ define([
         this.execute = function () {
             var repeat = _executePlan[_repeat];
             if (!repeat) {
-                _defer.resolve();
+                c.fire('execute.finished');
                 return;
             }
             var speed = repeat[_index];
             if (!speed) {
-                _defer.resolve();
+                c.fire('execute.finished');
                 return;
             }
 
@@ -118,12 +110,12 @@ define([
         };
 
         this.test = function () {
-            this.show().init(1, 1)
-                .then(function(){
-                    console.log('finished');
-                });
+            c.on('execute.finished', function(){
+                console.log('finished');
+            });
+            this.init().start(1, 1).show();
         }
-    };
+    }
 
-    return component.add(ViewModel, html, 'execute');
+    return c.add(ViewModel, html, 'execute');
 });

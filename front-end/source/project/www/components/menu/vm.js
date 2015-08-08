@@ -2,17 +2,15 @@ define([
     'ko',
     'text!./view.html',
     'plugins/component'
-], function (ko, html, component) {
+], function (ko, html, c) {
 
-    var _defer,
-        strings = component.strings;
-
+    var _strings = c.strings;
     var _items = [
-        { name: strings.menuHome, active: ko.observable(true) },
-        { name: strings.menuJob, active: ko.observable(false) },
-        { name: strings.menuWorkout, active: ko.observable(false) },
-        { name: strings.menuAchievements, active: ko.observable(false) },
-        { name: strings.menuShop, active: ko.observable(false) }
+        { name: _strings.menuHome, active: ko.observable(true) },
+        { name: _strings.menuJob, active: ko.observable(false) },
+        { name: _strings.menuWorkout, active: ko.observable(false) },
+        { name: _strings.menuAchievements, active: ko.observable(false) },
+        { name: _strings.menuShop, active: ko.observable(false) }
     ];
 
     function ViewModel() {
@@ -20,19 +18,13 @@ define([
 
         this.items = ko.observableArray(_items);
 
-        this.init = function () {
-            return $.Deferred(function (defer) {
-                _defer = defer;
-            });
-        };
-
         this.selectByIndex = function(index){
             _items.forEach(function(item){
                 item.active(false);
             });
             if (index >= 0) {
                 _items[index].active(true);
-                _defer.notify(index);
+                c.fire('menu.select', index);
             }
         };
 
@@ -42,12 +34,12 @@ define([
         };
 
         this.test = function () {
-            this.show().init()
-                .progress(function(index){
-                    console.log('Selected item is ' + index);
-                });
+            c.on('menu.select', function(index){
+                console.log('Selected item is ' + index);
+            });
+            this.init().show();
         };
     }
 
-    return component.add(ViewModel, html, 'menu');
+    return c.add(ViewModel, html, 'menu');
 });

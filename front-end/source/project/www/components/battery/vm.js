@@ -5,6 +5,7 @@ define([
 ], function (ko, html, c) {
 
     function ViewModel() {
+        var self = this;
 
         this.red = ko.observable();
         this.yellow = ko.observable();
@@ -12,7 +13,7 @@ define([
         this.value = null;
 
         // max and value are ko.observable
-        this.init = function (max, value, type) {
+        this.set = function (max, value, type) {
             this.max = max;
             this.value = value;
 
@@ -31,6 +32,7 @@ define([
                     return (this.value() / this.max()) * 100 + '%';
                 return this.value() + '/' + this.max();
             }, this);
+            return self;
         };
 
         this.click = function () {
@@ -40,7 +42,7 @@ define([
         this.test = function () {
             var max = ko.observable(155),
                 value = ko.observable(115);
-            this.show().init(max, value);
+            this.init().set(max, value).show();
 
             var p = 0;
 

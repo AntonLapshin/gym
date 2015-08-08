@@ -1,5 +1,5 @@
-<div class="top">
-    <div class="text-center" data-bind="foreach: visibleMembers">
+<div class="top" data-bind="visible: isVisible()">
+    <div class="text-center" data-bind="foreach: visibleItems">
         <member params="name: 'top' + $index(), model: $data"></member>
     </div>
     <sw params="name: 'top'"></sw>

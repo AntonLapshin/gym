@@ -1,6 +1,7 @@
 @import url('bootstrap/css/bootstrap.min.css');
 @import url('lib/toastr.min.css');
 @import url('lib/bootstrap-slider.min.css');
+@import url('components/list/style.css');
 @import url('components/member/style.css');
 @import url('components/top/style.css');
 @import url('components/gold/style.css');
@@ -49,6 +50,21 @@ body {
 #container button.disabled {
   background-color: #aaa;
   border: 1px solid #888;
+}
+#container .tooltip.bottom .tooltip-arrow {
+  border-bottom-color: #3B943E;
+}
+#container .tooltip.left .tooltip-arrow {
+  border-left-color: #3B943E;
+}
+#container .tooltip.top .tooltip-arrow {
+  border-top-color: #3B943E;
+}
+#container .tooltip.right .tooltip-arrow {
+  border-right-color: #3B943E;
+}
+#container .tooltip-inner {
+  background-color: #3B943E;
 }
 .modal-content {
   border-radius: 0;

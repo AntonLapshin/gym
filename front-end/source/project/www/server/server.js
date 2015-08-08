@@ -5,7 +5,7 @@ define(['jquery', 'plugins/component'], function($, c){
             loadTop: {
                 lastDateTime: 0,
                 data: null,
-                //timeout: 5 * 1000 * 60
+                timeout: 5 * 1000 * 60
             },
             loadRefs: {
                 lastDateTime: 0,

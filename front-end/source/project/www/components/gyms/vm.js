@@ -12,10 +12,11 @@ define([
         this.selectedGym = ko.observable(null);
         this.gyms = ko.observableArray();
 
-        this.init = function () {
+        this.update = function () {
             var gyms = Refs.getGyms();
             this.gyms(gyms);
             this.selectedGym(gyms[0]);
+            return self;
         };
 
         this.select = function () {
@@ -46,7 +47,7 @@ define([
         };
 
         this.test = function () {
-            this.show().init();
+            this.init().update().show();
         };
     }
 

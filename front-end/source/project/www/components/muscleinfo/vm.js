@@ -7,8 +7,15 @@ define([
 ], function(ko, $, html, c, battery) {
 
     function ViewModel() {
+        var self = this;
+        this.strings = c.strings;
 
-        this.init = function(muscle){
+        this.init = function(){
+            battery('muscleinfo').init().show();
+            return self;
+        };
+
+        this.set = function(muscle){
             this.model(muscle);
 
             if (muscle.frazzle){
@@ -18,20 +25,15 @@ define([
                 if (!b.value) {
                     var max = ko.observable(100),
                         value = ko.observable(fr);
-                    b.show().init(max, value, '%');
+                    b.set(max, value, '%');
                 }
                 else {
                     b.value(fr);
                 }
             }
-        };
 
-        this.hide = function(){
-            this.isVisible(false);
-            return this;
+            return self;
         };
-
-        this.strings = c.strings;
 
         this.test = function () {
             var muscle = {
@@ -41,7 +43,7 @@ define([
                 x1: 50,
                 y1: 50
             };
-            this.show().init(muscle);
+            this.init().set(muscle).show();
             $('body').css('background-color', 'black');
         };
     }

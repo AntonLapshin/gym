@@ -2,31 +2,25 @@ define([
     'ko',
     'text!./view.html',
     'plugins/component'
-], function (ko, html, component) {
+], function (ko, html, c) {
 
     function ViewModel() {
         var self = this;
-        this.defer = null;
         this.state = false;
-
-        this.init = function(){
-            return $.Deferred(function(defer){
-                self.defer = defer;
-            });
-        };
-
-        this.test = function () {
-            this.show().init().progress(function(state){
-                console.log(state)
-            });
-        };
 
         this.click = function(e){
             $(e.click.arguments[1].currentTarget).prev('input').click();
             self.state = !self.state;
-            self.defer.notify(self.state);
-        }
+            c.fire('sw.switch', { name: self.name, state: self.state });
+        };
+
+        this.test = function () {
+            c.on('sw.switch', function(data){
+                console.log(data);
+            });
+            this.init().show();
+        };
     }
 
-    return component.add(ViewModel, html, 'sw');
+    return c.add(ViewModel, html, 'sw');
 });

@@ -21,7 +21,7 @@ define([
             win.focus();
         };
         // hack
-        this.loaded = function(elem$){
+        this.onLoaded = function(elem$){
             setTimeout(function() {
                 elem$.find('img.frame').tooltip();
             }, 1000);
@@ -29,7 +29,7 @@ define([
         this.test = function(){
             var self = this;
             require(['model/game'], function(game){
-                self.show().init(game.player);
+                self.init().set(game.player).show();
             });
         };
     }

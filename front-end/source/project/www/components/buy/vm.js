@@ -6,16 +6,18 @@ define([
 ], function (ko, html, c, gold) {
 
     function ViewModel(){
+        var self = this;
 
         this.strings = c.strings;
 
-        this.init = function(value){
+        this.set = function(value){
             this.model(value);
-            gold('buy').show().init(value);
+            gold('buy').set(value).show();
+            return self;
         };
 
         this.test = function(){
-            this.show().init(3);
+            this.init().set(3).show();
         };
     }
 

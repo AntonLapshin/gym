@@ -39,9 +39,19 @@ define(['ko', 'jquery', 'plugins/localization', 'plugins/format'], function (ko,
             vm.isVisible(false);
             return vm;
         };
-        vm.init = function(model){
+        vm.set = function(model){
             vm.model(model);
             return vm;
+        };
+        vm.update = function(){
+            return vm;
+        };
+        vm.init = function(){
+            return vm;
+        };
+        vm.load = function(elem){
+            if (vm.onLoad)
+                vm.onLoad($(elem));
         };
         _viewModels[name] = vm;
 
@@ -96,6 +106,13 @@ define(['ko', 'jquery', 'plugins/localization', 'plugins/format'], function (ko,
             }
         }
     };
+
+    ko.c = component;
+
+    ko.c.on('component.loaded', function(data){
+        ko.applyBindingsToNode(data.elem, { visible: data.vm.isVisible }, data.vm );
+        data.vm.load(data.elem);
+    });
 
     return component;
 });

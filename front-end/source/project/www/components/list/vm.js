@@ -78,19 +78,16 @@ define([
         this.members = ko.observableArray();
 
         this.init = function(){
-            sw('top').init().show();
-            c.on('sw.switch', function(data){
-                if (data.name !== 'sw+top')
-                    return;
 
-                var state = data.state;
+            sw('top').show().init().progress(function (state) {
                 if (state)
                     self.toFriendsTop();
                 else
-                    self.toAllTop();
+                    self.toAllTop()
             });
 
             self.myself = game.player;
+
             return self;
         };
 
@@ -152,9 +149,10 @@ define([
         };
 
         this.test = function () {
-            this.init().show().toAllTop();
+            this.show().init();
+            this.toAllTop();
         };
     }
 
-    return c.add(ViewModel, html, 'top');
+    return c.add(ViewModel, html, 'list');
 });

@@ -62,6 +62,8 @@ define(['jquery',
                         var id = data.achievement._id;
                         var achievement = Refs.getAchievements()[id];
                         toastr['success'](achievement.name(), c.strings.achNew());
+                        self.player.private.achievements.push(id);
+                        c.fire('achievements.update');
                     }
                 });
 

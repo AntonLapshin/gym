@@ -11,20 +11,32 @@ define([
 ], function (ko, html, c, ava, battery, mass, money, gold, friends) {
 
     function ViewModel() {
+        var self = this;
 
-        this.init = function(player){
-            ava('private').show().init(player);
-            battery('private').show().init(player.private.energyMax, player.private.energy);
-            mass('private').show().init(player.public.mass);
-            money('private').show().init(player.private.money);
-            gold('private').show().init(player.private.gold);
-            friends('private').show().init(player.private.friends);
+        this.init = function(){
+            ava('private').init().show();
+            battery('private').init().show();
+            mass('private').init().show();
+            money('private').init().show();
+            gold('private').init().show();
+            friends('private').init().show();
+            friends('private').init().show();
+            return self;
+        };
+
+        this.set = function(player){
+            ava('private').set(player);
+            battery('private').set(player.private.energyMax, player.private.energy);
+            mass('private').set(player.public.mass);
+            money('private').set(player.private.money);
+            gold('private').set(player.private.gold);
+            friends('private').set(player.private.friends);
+            return self;
         };
 
         this.test = function () {
-            var self = this;
             require(['model/game'], function(game){
-                self.show().init(game.player);
+                self.init().set(game.player).show();
             });
         };
 

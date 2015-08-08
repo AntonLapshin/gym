@@ -24,6 +24,7 @@ define([
 
 
     function ViewModel() {
+        var self = this;
         this.strings = c.strings;
 
         this.disabled = ko.observable(false);
@@ -34,8 +35,6 @@ define([
         this.weightDesc = ko.observable('');
         this.weight = ko.observable();
         this.repeatsDesc = ko.observable('');
-
-        var self = this;
 
         this.setVisibleExercises = function () {
             var exs = [];
@@ -49,7 +48,7 @@ define([
             this.right(_index + VISIBLE_COUNT < _exercises.length);
         };
 
-        this.loaded = function (div$) {
+        this.onLoad = function (div$) {
             _weightSlider = div$.find('.weightSlider').slider({
                 formatter: function (value) {
                     _weight = value;
@@ -67,7 +66,31 @@ define([
             });
         };
 
-        this.init = function (gymId) {
+        this.init = function(){
+            journal('workout').init().show();
+            wr('workout').init().show();
+            pr('workout').init().show();
+            buy('workout').init().show();
+            energy('workout').init().show();
+            execute('workout').init();
+
+            c.on('execute.finished', function(){
+                self.disabled(false);
+                var approach = {
+                    _id: args.exerciseId,
+                    weight: args.weight,
+                    repeats: result.repeats
+                };
+                journal('workout').push(approach);
+                c.fire('energy.decrease', result.energy);
+                if (result.record)
+                    c.fire('record', { _id: args.exerciseId, weight: args.weight, type: result.record });
+            });
+
+            return self;
+        };
+
+        this.set = function (gymId) {
             var exercises = Refs.getExercises(gymId);
             _gymId = gymId;
             var self = this;
@@ -76,12 +99,8 @@ define([
             });
             exercises[0].active(true);
             _exercises = exercises;
-            journal('workout').show().init();
-            wr('workout').show();
-            pr('workout').show();
-            buy('workout').show();
-            energy('workout').show();
             this.setVisibleExercises(0);
+            return self;
         };
 
         this.prev = function () {
@@ -109,16 +128,15 @@ define([
             _repeatsSlider.slider('setValue', 10);
             self.selectedExercise(this);
 
-            wr('workout').init(this.wr);
-            pr('workout').init(this.pr);
+            wr('workout').set(this.wr);
+            pr('workout').set(this.pr);
             if (this.disabled)
-                buy('workout').init(this.cost);
+                buy('workout').set(this.cost);
             buy('workout')[this.disabled ? 'show' : 'hide']();
-            energy('workout').init(this.energy);
+            energy('workout').set(this.energy);
         };
 
         this.execute = function () {
-
             var args = {
                 gymId: _gymId,
                 exerciseId: this.selectedExercise()._id,
@@ -130,26 +148,13 @@ define([
                 .then(function (result) {
                     self.disabled(true);
                     execute('workout')
-                        .show()
-                        .init(result.repeats, result.repeatsMax)
-                        .then(function () {
-                            self.disabled(false);
-                            var approach = {
-                                _id: args.exerciseId,
-                                weight: args.weight,
-                                repeats: result.repeats
-                            };
-                            journal('workout').push(approach);
-                            c.fire('energy.decrease', result.energy);
-                            if (result.record)
-                                c.fire('record', { _id: args.exerciseId, weight: args.weight, type: result.record });
-                        });
+                        .start(result.repeats, result.repeatsMax)
+                        .show();
                 });
         };
 
         this.test = function () {
-            var self = this;
-            this.show().init(1);
+            this.init().set(1).show();
         }
     }
 

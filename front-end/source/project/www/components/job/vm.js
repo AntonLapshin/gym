@@ -160,6 +160,18 @@ define([
             this.reset();
         };
 
+        this.init = function(){
+            timer('job').init();
+            c.on('timer.stop', function(){
+                bootbox.dialog({
+                    message: c.strings.jobTimeIsUp(),
+                    title: c.strings.jobTitle()
+                });
+                c.fire('home');
+            });
+            return self;
+        };
+
         this.reset = function(){
             timer('job').hide();
             self.itemsSelected([]);
@@ -189,14 +201,7 @@ define([
                                     self.items(arr);
                                     self.weight(weight);
 
-                                    timer('job').show().init(TIMEOUT)
-                                        .then(function () {
-                                            bootbox.dialog({
-                                                message: c.strings.jobTimeIsUp(),
-                                                title: c.strings.jobTitle()
-                                            });
-                                            c.fire('home');
-                                        });
+                                    timer('job').start(TIMEOUT).show();
                                 }
                             },
                             no: {
@@ -208,6 +213,7 @@ define([
                         }
                     });
                 });
+            return self;
         };
 
         this.select = function (item) {
@@ -248,7 +254,7 @@ define([
         };
 
         this.test = function () {
-            this.show().init().start();
+            this.init().start().show();
         };
     }
 

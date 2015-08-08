@@ -9,7 +9,8 @@ define([
         var self = this;
 
         this.autoShow = function(model){
-            self.show().init(model);
+            self.init().set(model).show();
+            return self;
         };
 
         this.set = function(model){
@@ -18,10 +19,6 @@ define([
             }
             this.model(model);
             return self;
-        };
-
-        this.init = function(model){
-            this.set(model);
         };
 
         this.click = function () {
@@ -34,19 +31,19 @@ define([
         };
 
         // hack
-        this.loaded = function(elem$){
-            setTimeout(function() {
-                elem$.find('img.ava').tooltip();
-            }, 1000);
+        this.onLoad = function(elem$){
+            //setTimeout(function() {
+            //    elem$.find('img.ava').tooltip();
+            //}, 1000);
         };
 
         this.test = function () {
             require(['model/game'], function(game){
-                self.show().init(game.player);
+                self.init().set(game.player).show();
             });
 
             //require(['model/player'], function(Player){
-            //    self.show().init(Player(-1));
+            //    self.init().set(Player(-1)).show();
             //});
         };
 

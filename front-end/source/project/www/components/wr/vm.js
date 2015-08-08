@@ -6,14 +6,13 @@ define([
 ], function (ko, html, c, Player) {
 
     function ViewModel(){
-
         var self = this;
         this.strings = c.strings;
 
-        this.init = function(model){
+        this.set = function(model){
             if (!model) {
                 this.model(model);
-                return;
+                return self;
             }
 
             var player = new Player(model._id);
@@ -21,19 +20,19 @@ define([
                 model.player = player;
                 self.model(model);
             });
-        };
-
-        this.test = function(){
-            this.show().init({
-                value: 215,
-                _id: 5653333
-            });
-            //this.show().init();
+            return self;
         };
 
         this.click = function(){
             c.fire('player.click', self.model()._id);
-        }
+        };
+
+        this.test = function(){
+            this.init().set({
+                value: 215,
+                _id: 5653333
+            }).show();
+        };
     }
 
     return c.add(ViewModel, html, 'wr');

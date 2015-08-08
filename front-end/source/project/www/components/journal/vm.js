@@ -12,6 +12,12 @@ define([
 
         this.journal = ko.observableArray();
 
+        this.init = function(){
+            this.model([]);
+            this.update();
+            return this;
+        };
+
         this.update = function(){
             if (!this.model())
                 return [];
@@ -39,18 +45,13 @@ define([
             this.journal(output);
         };
 
-        this.init = function(){
-            this.model([]);
-            this.update();
-        };
-
         this.push = function(approach){
             this.model().push(approach);
             this.update();
         };
 
         this.test = function(){
-            this.show().init();
+            this.init().show();
             this.push({ _id: 0, weight: 70, repeats: 10 });
         }
 

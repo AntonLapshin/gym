@@ -25,6 +25,8 @@ define([
                 it('main').show();
                 if(it('main').start)
                     it('main').start();
+                if(it('main').update)
+                    it('main').update();
             }
             else {
                 it('main').hide();
@@ -33,30 +35,33 @@ define([
     }
 
     function ViewModel() {
-        this.init = function (player) {
-            private('main').show().init(player);
-            menu('main').show().init()
-                .progress(function(index){
-                    if (index === 0)
-                        man('main').update(game.player);
-                    openItem(menuItems[index]);
-                });
-            man('main').init(player);
+        var self = this;
+
+        this.init = function(){
+            private('main').init().show();
+            menu('main').init().show();
+            man('main').init();
             gyms('main').init();
             achievements('main').init();
-            top('main').show().init().toAllTop();
-            openItem(man);
+            top('main').init().show();
+            workout('main').init();
 
             c.on('gyms.select', function(id){
                 gyms('main').hide();
-                workout('main').show().init(id);
+                workout('main').set(id).show();
+            });
+
+            c.on('menu.select', function(index){
+                if (index === 0)
+                    man('main').set(game.player);
+                openItem(menuItems[index]);
             });
 
             c.on('player.click', function(id){
                 if (game.player._id !== id){
                     var player = new Player(id);
                     player.load().then(function(){
-                        man('main').update(player);
+                        man('main').set(player);
                         openItem(man);
                         menu('main').selectByIndex(-1);
                     });
@@ -65,10 +70,21 @@ define([
                     menu('main').selectByIndex(0);
                 }
             });
+
+            return self;
+        };
+
+        this.set = function (player) {
+            private('main').set(player);
+            man('main').set(player);
+            top('main').toAllTop();
+            openItem(man);
+
+            return self;
         };
 
         this.test = function () {
-            this.show().init(game.player);
+            this.init().set(game.player).show();
         };
 
         c.on('home', function(){

@@ -493,6 +493,7 @@ define(['jquery'], function ($) {
             });
 
             return $.Deferred(function (defer) {
+                players.achievement = { _id: 2 };
                 defer.resolve(players);
             });
         },

@@ -12,12 +12,19 @@ define([
         this.strings = c.strings;
 
         this.init = function(){
+            c.on('achievements.update', function(){
+                self.update();
+            });
+            return self;
+        };
+
+        this.update = function(){
             this.model(Refs.getAchievements());
             return self;
         };
 
         this.test = function () {
-            this.show().init();
+            this.init().update().show();
         };
     }
 

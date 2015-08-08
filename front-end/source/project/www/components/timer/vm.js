@@ -7,7 +7,6 @@ define([
     function ViewModel() {
         var self = this;
         this.value = ko.observable('');
-        this.defer = null;
         this.interval = null;
         this.seconds = null;
 
@@ -19,7 +18,7 @@ define([
             this.value(min + ':' + sec);
         };
 
-        this.init = function (seconds) {
+        this.start = function (seconds) {
             this.stop();
             this.seconds = seconds;
 
@@ -28,25 +27,23 @@ define([
                 self.seconds--;
                 self.setValue();
                 if (self.seconds === 0) {
-                    self.defer.resolve();
+                    c.fire('timer.stop', self.name);
                     self.stop();
                 }
             }, 1000);
-
-            return $.Deferred(function(defer){
-                self.defer = defer;
-            });
+            return self;
         };
 
         this.stop = function(){
+            self.hide();
             clearInterval(self.interval);
         };
 
         this.test = function () {
-            this.show().init(2)
-                .then(function(){
-                    console.log('finished');
-                });
+            c.on('timer.stop', function(){
+                console.log('finished');
+            });
+            this.init().start(2).show();
         }
     }
 

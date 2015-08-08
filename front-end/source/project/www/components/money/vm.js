@@ -5,17 +5,16 @@ define([
 ], function (ko, html, c) {
 
     function ViewModel(){
-
         this.title = c.strings.bankMoney;
-
-        this.test = function(){
-            var v = ko.observable(10);
-            this.show().init(v);
-            v(200);
-        };
 
         this.click = function(){
             c.fire('money.add');
+        };
+
+        this.test = function(){
+            var v = ko.observable(10);
+            this.init().set(v).show();
+            v(200);
         };
     }
 

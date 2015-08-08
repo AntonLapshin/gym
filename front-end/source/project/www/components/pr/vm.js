@@ -5,13 +5,10 @@ define([
 ], function (ko, html, c) {
 
     function ViewModel(){
-
-        var self = this;
         this.strings = c.strings;
 
         this.test = function(){
-            this.show().init(212);
-            //this.show().init();
+            this.set(212).show();
         };
     }
 
