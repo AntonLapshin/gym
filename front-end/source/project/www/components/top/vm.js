@@ -2,13 +2,13 @@ define([
     'ko',
     'jquery',
     'text!./view.html',
-    'plugins/component',
-    'c/member/vm',
+    'c',
+    'cs/member/vm',
     'model/game',
     'model/player',
     'server/server',
     'social/social',
-    'c/sw/vm'
+    'cs/sw/vm'
 ], function (ko, $, html, c, member, game, Player, server, social, sw) {
 
     var MAX_VISIBLE_PLAYERS = 9;

@@ -1,7 +1,7 @@
 define([
     'ko',
     'text!./view.html',
-    'plugins/component',
+    'c',
     'social/social'
 ], function (ko, html, c, social) {
 

@@ -1,4 +1,4 @@
-define(['jquery', 'plugins/component'], function($, c){
+define(['jquery', 'c'], function($, c){
 
     var _server,
         _requests = {

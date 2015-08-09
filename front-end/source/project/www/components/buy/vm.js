@@ -1,8 +1,8 @@
 define([
     'ko',
     'text!./view.html',
-    'plugins/component',
-    'components/gold/vm'
+    'c',
+    'cs/gold/vm'
 ], function (ko, html, c, gold) {
 
     function ViewModel(){

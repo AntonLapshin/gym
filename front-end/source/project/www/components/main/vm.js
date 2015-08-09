@@ -2,17 +2,17 @@ define([
     'ko',
     'jquery',
     'text!./view.html',
-    'plugins/component',
+    'c',
     'model/game',
     'model/player',
-    'c/private/vm',
-    'c/menu/vm',
-    'c/man/vm',
-    'c/job/vm',
-    'c/gyms/vm',
-    'c/workout/vm',
-    'c/top/vm',
-    'c/achievements/vm'
+    'cs/private/vm',
+    'cs/menu/vm',
+    'cs/man/vm',
+    'cs/job/vm',
+    'cs/gyms/vm',
+    'cs/workout/vm',
+    'cs/top/vm',
+    'cs/achievements/vm'
 ], function (ko, $, html, c, game, Player, private, menu, man, job, gyms, workout, top, achievements) {
 
     var menuItems = [

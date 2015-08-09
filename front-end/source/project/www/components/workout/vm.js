@@ -1,15 +1,15 @@
 define([
     'ko',
     'text!./view.html',
-    'plugins/component',
+    'c',
     'server/server',
     'slider',
-    'components/execute/vm',
-    'components/journal/vm',
-    'components/wr/vm',
-    'components/pr/vm',
-    'components/buy/vm',
-    'components/energy/vm',
+    'cs/execute/vm',
+    'cs/journal/vm',
+    'cs/wr/vm',
+    'cs/pr/vm',
+    'cs/buy/vm',
+    'cs/energy/vm',
     'model/refs'
 ], function (ko, html, c, server, slider, execute, journal, wr, pr, buy, energy, Refs) {
 

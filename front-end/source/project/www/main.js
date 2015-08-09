@@ -9,27 +9,24 @@ window.cfg = {
 requirejs.config({
     shim: {
         'fb': { exports: 'FB' },
-        'bootstrap': { deps: ['jquery']},
-        'bootbox': { deps: ['bootstrap']}
+        'bootstrap': { deps: ['jquery'] },
+        'bootbox': { deps: ['bootstrap'] }
     },
     paths: {
-        tween: 'lib/tween',
-        text: 'lib/text',
-        physics: '//cdn.jsdelivr.net/physicsjs/0.6.0/physicsjs.full.min',
+        ko: '//cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-debug',
+        //ko: '//cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min',
         howler: '//cdnjs.cloudflare.com/ajax/libs/howler/1.1.17/howler.min',
         jquery: '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min',
-        ko: 'lib/ko.debug',
-        //knockout: '//cdnjs.cloudflare.com/ajax/libs/knockout/3.2.0/knockout-min',
-        //ko: '//cdnjs.cloudflare.com/ajax/libs/knockout/3.2.0/knockout-min',
-        lodash: '//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min',
+        bootstrap: '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min',
+        bootbox: '//cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min',
+        toastr: '//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.1/toastr.min',
+        slider: '//cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/4.14.4/bootstrap-slider.min',
         vk: '//vk.com/js/api/xd_connection',
         fb: '//connect.facebook.net/en_US/all',
-        bootstrap: 'bootstrap/js/bootstrap.min',
-        slider: 'lib/bootstrap-slider.min',
-        bootbox: '//cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min',
-        toastr: 'lib/toastr.min',
-        //kob: 'lib/knockout-bootstrap.min',
-        c: 'components/'
+        text: 'lib/ko/text',
+        //ko: 'lib/ko/ko.debug',
+        c: 'plugins/component',
+        cs: 'components/'
     }
 });
 
@@ -37,7 +34,6 @@ require([
     'ko',
     'jquery',
     'text',
-    'plugins/component',
     'bootstrap',
     'social/social',
     'social/demo',
@@ -45,11 +41,11 @@ require([
     'server/demo',
     'model/game',
     'plugins/dynamic-tooltips',
-    'plugins/prevent-selection'
+    'plugins/prevent-selection',
+    'plugins/ko-hack'
 ], function (ko,
              $,
              text,
-             component,
              bootstrap,
              social,
              socialInstance,
@@ -65,14 +61,18 @@ require([
             var search = window.location.search,
                 testComponentName = search.length > 0 ? search.substring(1) : null;
             if (window.cfg.debug === true && testComponentName) {
-                require(['c/' + testComponentName + '/vm'], function (component) {
+                require(['cs/' + testComponentName + '/vm'], function (component) {
                     window.stopSpinner();
                     ko.applyBindings({});
                     component().test();
                 });
             }
             else {
-                require(['lifecycle']);
+                require(['cs/main/vm'], function(main){
+                    window.stopSpinner();
+                    ko.applyBindings({});
+                    main().test();
+                });
             }
         })
 });

@@ -1,7 +1,7 @@
 define([
     'ko',
     'text!./view.html',
-    'plugins/component',
+    'c',
     'model/refs'
 ], function (ko, html, c, Refs) {
 

@@ -1,4 +1,4 @@
-define(['jquery', 'server/server', 'plugins/component'], function ($, server, c) {
+define(['jquery', 'server/server', 'c'], function ($, server, c) {
 
     var _refs,
         _player;

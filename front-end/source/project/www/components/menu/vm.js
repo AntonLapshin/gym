@@ -1,7 +1,7 @@
 define([
     'ko',
     'text!./view.html',
-    'plugins/component'
+    'c'
 ], function (ko, html, c) {
 
     var _strings = c.strings;

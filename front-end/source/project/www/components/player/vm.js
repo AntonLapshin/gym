@@ -1,7 +1,7 @@
 define([
     'ko',
     'text!./view.html',
-    'plugins/component',
+    'c',
     'model/player'
 ], function (ko, html, c, Player) {
 

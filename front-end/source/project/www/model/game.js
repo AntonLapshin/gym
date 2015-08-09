@@ -3,7 +3,7 @@ define(['jquery',
         'toastr',
         'model/player',
         'model/refs',
-        'plugins/component'],
+        'c'],
     function ($, bootbox, toastr, Player, Refs, c) {
 
         return {

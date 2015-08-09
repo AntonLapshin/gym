@@ -1,1 +1,0 @@
-define(["ko","text!./view.html","plugins/component"],function(e,t,n){function r(){this.title=n.strings.socialFriends,this.show=function(e){this.value=e,this.isVisible(!0)},this.test=function(){var t=e.observable(10);this.show(t),t(15)},this.click=function(){alert("add friends")}}return n.add(r,t,"friends")});

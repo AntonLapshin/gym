@@ -1,13 +1,13 @@
 define([
     'ko',
     'text!./view.html',
-    'plugins/component',
-    'c/ava/vm',
-    'c/battery/vm',
-    'c/mass/vm',
-    'c/money/vm',
-    'c/gold/vm',
-    'c/friends/vm'
+    'c',
+    'cs/ava/vm',
+    'cs/battery/vm',
+    'cs/mass/vm',
+    'cs/money/vm',
+    'cs/gold/vm',
+    'cs/friends/vm'
 ], function (ko, html, c, ava, battery, mass, money, gold, friends) {
 
     function ViewModel() {

@@ -2,13 +2,13 @@ define([
     'ko',
     'jquery',
     'text!./view.html',
-    'plugins/component',
+    'c',
     'social/social',
     'model/refs',
     'model/player',
-    'c/muscleinfo/vm',
-    'c/sw/vm',
-    'c/ava/vm'
+    'cs/muscleinfo/vm',
+    'cs/sw/vm',
+    'cs/ava/vm'
 ], function (ko, $, html, c, social, Refs, Player, muscleinfo, sw, ava) {
 
     function showFrazzleMap(vm) {

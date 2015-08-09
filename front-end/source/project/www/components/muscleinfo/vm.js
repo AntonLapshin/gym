@@ -2,8 +2,8 @@ define([
     'ko',
     'jquery',
     'text!./view.html',
-    'plugins/component',
-    'c/battery/vm'
+    'c',
+    'cs/battery/vm'
 ], function(ko, $, html, c, battery) {
 
     function ViewModel() {

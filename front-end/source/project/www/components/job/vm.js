@@ -2,8 +2,8 @@ define([
     'ko',
     'jquery',
     'text!./view.html',
-    'plugins/component',
-    'components/timer/vm',
+    'c',
+    'cs/timer/vm',
     'server/server',
     'bootbox'
 ], function (ko, $, html, c, timer, server, bootbox) {

@@ -1,15 +1,6 @@
 define(['ko', 'jquery', 'plugins/localization', 'plugins/format'], function (ko, $, strings, format) {
 
     var _events = {};
-
-    ko.bindingHandlers.loaded = {
-        init: function(elemDom) {
-            var viewModel = ko.contextFor(elemDom).$rawData;
-            if (viewModel.loaded)
-                viewModel.loaded($(elemDom));
-        }
-    };
-
     var _viewModels = {};
 
     function random(min, max) {
