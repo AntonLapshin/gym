@@ -49,7 +49,7 @@ module.exports = {
             return complete(session);
         else
             return $.Deferred(function (defer) {
-                defer.resolve({message: 'Invalid method'});
+                defer.reject("Invalid method");
             });
     }
 };

@@ -121,7 +121,7 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
                 social.getFriendsQty().then(function(friends){
                     if (friends !== model.private.friends) {
                         updateValue(self.private.friends, model.private.friends);
-                        server.saveFriendsQty(friends);
+                        server.update(friends);
                     }
                 });
             });

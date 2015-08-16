@@ -1,0 +1,25 @@
+.muscleinfo {
+  width: 100%;
+  height: 700px;
+}
+.muscleinfo svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.muscleinfo .info {
+  position: absolute;
+  top: 50px;
+  left: 500px;
+  border: 1px solid rgba(255, 255, 255, 0.37);
+  background: rgba(220, 184, 149, 0.11);
+  color: #ffffff;
+  text-shadow: 1px 1px 2px #969696;
+  opacity: 0.8;
+  padding: 10px;
+}
+.muscleinfo .info p {
+  line-height: 1;
+}

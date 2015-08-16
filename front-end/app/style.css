@@ -1,0 +1,80 @@
+@import url('//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.css');
+@import url('lib/toastr/toastr.min.css');
+@import url('lib/slider/bootstrap-slider.min.css');
+@import url('components/list/style.css');
+@import url('components/member/style.css');
+@import url('components/top/style.css');
+@import url('components/gold/style.css');
+@import url('components/buy/style.css');
+@import url('components/wr/style.css');
+@import url('components/pr/style.css');
+@import url('components/player/style.css');
+@import url('components/sw/style.css');
+@import url('components/gyms/style.css');
+@import url('components/journal/style.css');
+@import url('components/workout/style.css');
+@import url('components/execute/style.css');
+@import url('components/timer/style.css');
+@import url('components/job/style.css');
+@import url('components/menu/style.css');
+@import url('components/money/style.css');
+@import url('components/friends/style.css');
+@import url('components/battery/style.css');
+@import url('components/mass/style.css');
+@import url('components/energy/style.css');
+@import url('components/ava/style.css');
+@import url('components/private/style.css');
+@import url('components/muscleinfo/style.css');
+@import url('components/man/style.css');
+@import url('components/achievements/style.css');
+@import url('components/main/style.css');
+body {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+#container {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  top: 0;
+  width: 700px;
+  height: 900px;
+}
+#container .label {
+  padding: .2em .4em .2em .4em;
+}
+#container button {
+  border-radius: 0;
+  vertical-align: middle;
+  line-height: 1;
+}
+#container button.disabled {
+  background-color: #aaa;
+  border: 1px solid #888;
+}
+#container .tooltip.bottom .tooltip-arrow {
+  border-bottom-color: #3B943E;
+}
+#container .tooltip.left .tooltip-arrow {
+  border-left-color: #3B943E;
+}
+#container .tooltip.top .tooltip-arrow {
+  border-top-color: #3B943E;
+}
+#container .tooltip.right .tooltip-arrow {
+  border-right-color: #3B943E;
+}
+#container .tooltip-inner {
+  background-color: #3B943E;
+}
+.modal-content {
+  border-radius: 0;
+}
+.glyphicon {
+  top: 0;
+}
+.glyphicon-flash {
+  color: #ffda14;
+}
+.bootbox .modal-dialog {
+  width: 300px;
+}

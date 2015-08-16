@@ -11,6 +11,11 @@ define(['jquery', 'c'], function($, c){
                 lastDateTime: 0,
                 data: null,
                 timeout: 60 * 1000 * 60
+            },
+            loadMe: {
+                lastDateTime: 0,
+                data: null,
+                timeout: 1000 * 5
             }
         };
 
@@ -37,9 +42,9 @@ define(['jquery', 'c'], function($, c){
             });
         },
 
-        init: function(server){
+        init: function(server, playerId, authKey){
             _server = server;
-            return server.init();
+            return server.init(playerId, authKey);
         },
 
         loadRefs: function(){
@@ -62,12 +67,8 @@ define(['jquery', 'c'], function($, c){
             return this.proxy('loadTop');
         },
 
-        saveFriendsQty: function(friends){
-            return this.proxy('saveFriendsQty', friends);
-        },
-
-        saveMe: function(playerSetExp){
-            return this.proxy('saveMe', playerSetExp);
+        update: function(friends){
+            return this.proxy('update', friends);
         },
 
         gymExecute: function(args){

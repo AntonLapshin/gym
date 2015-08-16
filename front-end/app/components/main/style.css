@@ -1,0 +1,18 @@
+main .main {
+  height: 0;
+}
+main .main .menu {
+  left: 398px;
+  position: absolute;
+  top: 0;
+}
+main .main .menu-container {
+  position: relative;
+  top: 154px;
+  z-index: -1;
+}
+main .main .top {
+  position: absolute;
+  left: 0;
+  top: 854px;
+}

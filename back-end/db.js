@@ -5,6 +5,14 @@ var _db = null,
     _collections = {},
     _references = {};
 
+$.handle = function(err, data, defer){
+    if (err)
+        defer.reject(err);
+    else {
+        defer.resolve(data);
+    }
+};
+
 module.exports = {
     init: function (options, collNames, refNames) {
         return this.connect(options)
@@ -68,16 +76,13 @@ module.exports = {
             });
         });
     },
-    update: function (coll, id, setClause) {
+    update: function (coll, id, updateClause) {
         if (typeof coll === 'string')
             coll = _collections[coll];
 
         return $.Deferred(function (defer) {
-            coll.update({ _id: id}, setClause, function(err, value){
-                if (err)
-                    defer.reject(err);
-                else
-                    defer.resolve(value);
+            coll.update({ _id: id}, updateClause, function(err, value){
+                $.handle(err, value, defer);
             });
         });
     },

@@ -8,6 +8,9 @@ define(['jquery',
 
         return {
             player: null,
+            error: function(err){
+                bootbox.alert(err);
+            },
             init: function () {
                 var self = this;
 
@@ -43,13 +46,32 @@ define(['jquery',
                     self.player.updateValue(self.player.private.energy, self.player.private.energy() - 3);
                 });
 
-                c.on('record', function (args) {
-                    var name = Refs.getExercise(args._id).name;
-                    var weight = args.weight;
-                    var title = args.type === 'WR' ? c.strings.mesWorldRecord : c.strings.mesPresonalRecord;
-                    var mes = args.type === 'WR' ? c.strings.mesWorldRecordDesc : c.strings.mesPersonalRecordDesc;
-                    mes = c.format(mes(), name(), weight);
-                    toastr['success'](mes, title());
+                c.on('record', function (approach) {
+                    var name = Refs.getExercise(approach.exerciseId).name();
+                    var weight = approach.weight;
+                    var title = approach.result.record === 'WR'
+                        ? c.strings.mesWorldRecord()
+                        : c.strings.mesPresonalRecord();
+                    var mes = approach.result.record === 'WR'
+                        ? c.strings.mesWorldRecordDesc()
+                        : c.strings.mesPersonalRecordDesc();
+                    mes = c.format(mes, name, weight);
+
+                    if (approach.result.record === 'WR'){
+                        $.grep(Refs.exercises, function(e){
+                            return e._id === approach.exerciseId;
+                        })[0].wr = {
+                            _id: self.player._id,
+                            value: weight
+                        }
+                    }
+                    else {
+                        $.grep(self.player.public.exercises, function(e){
+                            return e._id === approach.exerciseId;
+                        })[0].pr = weight;
+                    }
+
+                    toastr['success'](mes, title);
                 });
 
                 c.on('money.earn', function (value) {

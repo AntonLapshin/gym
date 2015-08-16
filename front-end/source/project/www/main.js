@@ -24,7 +24,6 @@ requirejs.config({
         vk: '//vk.com/js/api/xd_connection',
         fb: '//connect.facebook.net/en_US/all',
         text: 'lib/ko/text',
-        //ko: 'lib/ko/ko.debug',
         c: 'plugins/component',
         cs: 'components/'
     }
@@ -38,7 +37,7 @@ require([
     'social/social',
     'social/demo',
     'server/server',
-    'server/demo',
+    'server/heroku',
     'model/game',
     'plugins/dynamic-tooltips',
     'plugins/prevent-selection',
@@ -53,9 +52,14 @@ require([
              serverInstance,
              game
     ) {
-    $.when.apply($, [social.init(socialInstance), server.init(serverInstance)])
+    var playerId = 5653333;
+    var authKey = 123;
+    $.when.apply($, [social.init(socialInstance), server.init(serverInstance, playerId, authKey)])
         .then(function () {
             return game.init();
+        }, function(err){
+            window.stopSpinner();
+            game.error(err);
         })
         .then(function(){
             var search = window.location.search,

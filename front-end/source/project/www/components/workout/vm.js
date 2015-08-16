@@ -76,15 +76,14 @@ define([
 
             c.on('execute.finished', function(){
                 self.disabled(false);
-                var approach = {
-                    _id: args.exerciseId,
-                    weight: args.weight,
-                    repeats: result.repeats
-                };
-                journal('workout').push(approach);
-                c.fire('energy.decrease', result.energy);
-                if (result.record)
-                    c.fire('record', { _id: args.exerciseId, weight: args.weight, type: result.record });
+                journal('workout').push(self.approach);
+                c.fire('energy.decrease', self.approach.result.energy);
+                if (self.approach.result.record)
+                    c.fire('record', self.approach);
+
+                self.set(self.approach.gymId);
+                var exercise = $.grep(_exercises, function(e){ return e._id === self.approach.exerciseId; })[0];
+                self.select(exercise);
             });
 
             return self;
@@ -113,39 +112,43 @@ define([
             this.setVisibleExercises();
         };
 
-        this.select = function () {
+        this.select = function (ex) {
+            ex = ex || this;
             _exercises.forEach(function (exercise) {
                 exercise.active(false);
             });
-            this.active(true);
-            _weightSlider.slider('setAttribute', 'max', this.max);
-            _weightSlider.slider('setAttribute', 'min', this.min);
-            _weightSlider.slider('setAttribute', 'step', this.step);
-            _weightSlider.slider('setValue', this.min);
+            ex.active(true);
+            _weightSlider.slider('setAttribute', 'max', ex.max);
+            _weightSlider.slider('setAttribute', 'min', ex.min);
+            _weightSlider.slider('setAttribute', 'step', ex.step);
+            _weightSlider.slider('setValue', ex.min);
             _repeatsSlider.slider('setAttribute', 'max', 30);
             _repeatsSlider.slider('setAttribute', 'min', 0);
             _repeatsSlider.slider('setAttribute', 'step', 1);
             _repeatsSlider.slider('setValue', 10);
-            self.selectedExercise(this);
+            self.selectedExercise(ex);
 
-            wr('workout').set(this.wr);
-            pr('workout').set(this.pr);
-            if (this.disabled)
-                buy('workout').set(this.cost);
-            buy('workout')[this.disabled ? 'show' : 'hide']();
-            energy('workout').set(this.energy);
+            wr('workout').set(ex.wr);
+            pr('workout').set(ex.pr);
+            if (ex.disabled)
+                buy('workout').set(ex.cost);
+            buy('workout')[ex.disabled ? 'show' : 'hide']();
+            energy('workout').set(ex.energy);
         };
 
         this.execute = function () {
-            var args = {
+            var approach = {
                 gymId: _gymId,
                 exerciseId: this.selectedExercise()._id,
                 weight: _weight,
                 repeats: _repeats
             };
 
-            server.gymExecute(args)
+            this.approach = approach;
+
+            server.gymExecute(approach)
                 .then(function (result) {
+                    self.approach.result = result;
                     self.disabled(true);
                     execute('workout')
                         .start(result.repeats, result.repeatsMax)

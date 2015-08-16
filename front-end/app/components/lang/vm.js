@@ -1,0 +1,1 @@
+define(["ko","text!./view.html","plugins/component","plugins/localization"],function(e,t,n,r){var i={lang:e.observable(window.cfg.language),show:function(){this.isVisible(!0)},en:function(){this.lang("en"),r.setLanguage("en")},ru:function(){this.lang("ru"),r.setLanguage("ru")},test:function(){this.show()}};return n.add(i,t,"lang")});

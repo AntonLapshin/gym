@@ -5,7 +5,7 @@ define(['jquery'], function ($) {
         public: {
             level: 120,
             awards: [],
-            exercises: [ { _id: 0, pr: 112 }, { _id: 1, pr: 200 }, { _id: 2, pr: 140 }]
+            exercises: [{ _id: 0, pr: 112 }, { _id: 1, pr: 200 }, { _id: 2, pr: 140 }]
         },
         private: {
             friends: 3,
@@ -278,7 +278,7 @@ define(['jquery'], function ($) {
                 coeff: 1,
                 power: 40,
                 energy: 6,
-                wr: null,
+                wr: { _id: 229865556, value: 152 },
                 body: [
                     {"_id": 1, "stress": 0.4},
                     {"_id": 2, "stress": 0.3},
@@ -332,10 +332,12 @@ define(['jquery'], function ($) {
                 exercises: [0, 1, 2, 3],
                 req: {
                     conditions: [
-                        {level: 30, friends: 5},
-                        {level: 5, friends: 20},
-                        {gold: 20}
-                    ]
+                        { level: 30, friends: 5 },
+                        { level: 5, friends: 20 }
+                    ],
+                    price: {
+                        gold: 20
+                    }
                 }
             },
             {
@@ -343,10 +345,12 @@ define(['jquery'], function ($) {
                 exercises: [0, 1, 2, 3, 4],
                 req: {
                     conditions: [
-                        {level: 50, friends: 15},
-                        {level: 30, friends: 30},
-                        {level: 10, gold: 100}
-                    ]
+                        { level: 50, friends: 15 },
+                        { level: 30, friends: 30 }
+                    ],
+                    price: {
+                        gold: 100
+                    }
                 }
             }
         ],
@@ -466,7 +470,8 @@ define(['jquery'], function ($) {
         init: function () {
             return $.Deferred(function (defer) {
                 defer.resolve();
-            })
+                //defer.reject('{ "message": "Authorization failed" }');
+            });
         },
 
         loadRefs: function () {
@@ -506,11 +511,7 @@ define(['jquery'], function ($) {
             });
         },
 
-        saveUser: function (userSetExp) {
-            console.log('User has been saved: ' + JSON.stringify(userSetExp));
-        },
-
-        saveFriendsQty: function(friends){
+        update: function(friends){
             console.log('FriendsQty has been saved: ' + friends);
         },
 

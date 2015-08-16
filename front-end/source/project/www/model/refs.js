@@ -21,36 +21,46 @@ define(['jquery', 'server/server', 'c'], function ($, server, c) {
     }
 
     function getExercise(id){
-        var ownExercise = $.grep(_player.public.exercises, function (ex) {
-            return ex._id === id;
-        });
-        var ownExerciseExists = ownExercise.length > 0;
         return $.extend(
             {
                 name: c.strings[c.format('ex{0}name', id)],
                 desc: c.strings[c.format('ex{0}desc', id)],
                 img: c.format('components/workout/ex{0}.jpg', id),
-                disabled: !ownExerciseExists
+                disabled: false
             },
-            ownExerciseExists ? ownExercise[0] : {},
             _refs.exercises[id]
         );
     }
 
-    function getGym( id){
-        var ownGymExists = _player.private.gyms.indexOf(id) !== -1;
+    function getGym(id){
+        var available = false;
+        var gym = _refs.gyms[id];
+        if (_player.private.gyms.indexOf(id) !== -1)
+            available = true;
+        else {
+            var conditions = gym.conditions;
+            if (!conditions)
+                available = true;
+            else
+                $.each(conditions, function(i, c){
+                    if (_player.public.level >= c.level && _player.private.friends >= c.friends) {
+                        available = true;
+                        return false;
+                    }
+                });
+        }
         return $.extend(
             {
                 name: c.strings[c.format('gym{0}name', id)],
                 desc: c.strings[c.format('gym{0}desc', id)],
                 img: c.format('components/gyms/gym{0}.jpg', id),
-                disabled: !ownGymExists
+                disabled: !available
             },
-            _refs.gyms[id]
+            gym
         );
     }
 
-    function getAchievement( id){
+    function getAchievement(id){
         var ownAchievementExists = _player.private.achievements.indexOf(id) !== -1;
         return $.extend(
             {

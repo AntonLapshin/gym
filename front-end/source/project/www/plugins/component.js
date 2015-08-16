@@ -48,8 +48,8 @@ define(['ko', 'jquery', 'plugins/localization', 'plugins/format'], function (ko,
 
         if (typeof viewModel === 'function'){
             viewModel.call(this, name);
-            if (params && params.model && this.autoShow)
-                this.autoShow(params.model);
+            if (params && params.model)
+                vm.init().set(params.model).show();
         }
 
         return vm;

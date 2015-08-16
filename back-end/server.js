@@ -2,11 +2,28 @@ var Express = require('express'),
     GymDb = require('./gymdb/gymdb'),
     $ = require('jquery-deferred');
 
-var ERR_PARAMS = {message: "Parameters are wrong"};
-var ERR_UNAUTH = {message: "Unauthorized request"};
+var ERR_PARAMS = "Parameters are wrong";
+var ERR_UNAUTH = "Unauthorized request";
 
 function handler(req, res, route) {
-    console.log(req.url);
+
+    function rejectHandler(err){
+        var answer = {
+            error: err,
+            url: req.url
+        };
+        console.log(JSON.stringify(answer));
+        res.jsonp(JSON.stringify(answer));
+    }
+
+    function resolveHandler(result){
+        var answer = {
+            data: result || true,
+            url: req.url
+        };
+        console.log(JSON.stringify(answer));
+        res.jsonp(JSON.stringify(answer));
+    }
 
     try {
         var auth = require('./routes/auth');
@@ -15,28 +32,37 @@ function handler(req, res, route) {
             if (!session.auth)
                 throw ERR_UNAUTH;
         }
-        var params = getParams(req, route);
-        route.handler(session, params)
-            .then(function (answer) {
-                if (answer == undefined)answer = true;
-                console.log(answer);
-                res.jsonp(answer);
-            }, function (err) {
-                console.log("error: " + JSON.stringify(err) + " url: " + req.url);
-                res.jsonp(JSON.stringify(err));
-            });
+        var methodName = getMethodName(req, route);
+        var method = route[methodName];
+        if (!method){
+            rejectHandler("Method " + methodName + " is not exists");
+            return;
+        }
+
+        var params = getParams(req, method);
+        method.handler(session, params)
+            .then(resolveHandler, rejectHandler);
     }
     catch (err) {
-        console.log("error: " + JSON.stringify(err) + " url: " + req.url);
-        res.jsonp("error: " + JSON.stringify(err) + " url: " + req.url);
+        rejectHandler(err);
     }
 }
 
-function getParams(req, route) {
-    var params = {};
+function getMethodName(req, route) {
+    for (var name in req.query) {
+        if (name === 'method')
+            return req.query[name];
+    }
+    return 'default';
+}
 
-    for (var name in route.params) {
-        var meta = route.params[name];
+function getParams(req, method) {
+    var params = {};
+    if (!method.params)
+        return params;
+
+    for (var name in method.params) {
+        var meta = method.params[name];
         var value = req.query[name];
         if (meta.required && value === undefined)
             throw ERR_PARAMS;
@@ -61,22 +87,30 @@ exports.start = function (port) {
     var auth = require('./routes/auth'),
         refs = require('./routes/refs'),
         gym = require('./routes/gym'),
-        job = require('./routes/job');
+        job = require('./routes/job'),
+        self = require('./routes/self'),
+        top = require('./routes/top');
 
     return $.Deferred(function (defer) {
         try {
             GymDb.init().then(function () {
                 app.get('/auth', function (req, res) {
-                    handler(req, res, auth)
+                    handler(req, res, auth);
                 });
                 app.get('/refs', function (req, res) {
-                    handler(req, res, refs)
+                    handler(req, res, refs);
                 });
                 app.get('/gym', function (req, res) {
-                    handler(req, res, gym)
+                    handler(req, res, gym);
                 });
                 app.get('/job', function (req, res) {
-                    handler(req, res, job)
+                    handler(req, res, job);
+                });
+                app.get('/self', function (req, res) {
+                    handler(req, res, self);
+                });
+                app.get('/top', function (req, res) {
+                    handler(req, res, top);
                 });
                 app.listen(port);
                 defer.resolve();

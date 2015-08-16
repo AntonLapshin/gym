@@ -1,0 +1,16 @@
+.member {
+  position: relative;
+  width: 67px;
+  height: 68px;
+  background: url('background.png');
+}
+.member .ava {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 55px;
+  height: 55px;
+}
+.member .ava:hover {
+  opacity: 0.5;
+}

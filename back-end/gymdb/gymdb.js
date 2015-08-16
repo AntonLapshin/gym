@@ -1,8 +1,8 @@
 var Db = require('../db'),
     $ = require('jquery-deferred');
 
-var COLL_NAMES = ['exercises', 'gyms', 'muscles', 'muscles_view', 'players'],
-    REF_NAMES = ['exercises', 'gyms', 'muscles', 'muscles_view'],
+var COLL_NAMES = ['exercises', 'gyms', 'muscles', 'muscles_view', 'players', 'achievements'],
+    REF_NAMES = ['exercises', 'gyms', 'muscles', 'muscles_view', 'achievements'],
     REMOTE_TEST = {
         host: 'ds049631.mongolab.com',
         port: 49631,

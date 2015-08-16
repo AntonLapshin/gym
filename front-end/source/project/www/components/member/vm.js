@@ -8,11 +8,6 @@ define([
     function ViewModel() {
         var self = this;
 
-        this.autoShow = function(model){
-            self.init().set(model).show();
-            return self;
-        };
-
         this.set = function(model){
             if (model._id === -1){
                 model.public.img = social.getUnknowImg();

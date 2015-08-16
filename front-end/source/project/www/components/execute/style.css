@@ -7,6 +7,7 @@
   width: 50px;
   vertical-align: top;
   padding: 0;
+  font-size: 1.5em;
 }
 .execute .progress-bar {
   -webkit-transition: none;

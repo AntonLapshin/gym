@@ -1,0 +1,23 @@
+.execute {
+  margin: 2px;
+}
+.execute .textvalue {
+  display: inline-block;
+  height: 30px;
+  width: 50px;
+  vertical-align: top;
+  padding: 0;
+}
+.execute .progress-bar {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+  transition: none;
+}
+.execute  .progress {
+  height: 30px;
+  display: inline-block;
+  width: 300px;
+  margin-bottom: 0;
+}

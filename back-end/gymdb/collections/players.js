@@ -1,10 +1,18 @@
 exports.ENERGY_MAX = 100;
 exports.START_MONEY = 125;
+exports.START_GOLD = 5;
 
 exports.newPlayer = function (id, level) {
-    return {
+    var p = {
         _id: id,
+        public: {
+            level: level,
+            awards: [],
+            exercises: []
+        },
         private: {
+            friends: 0,
+            gold: 5,
             money: exports.START_MONEY,
             energy: exports.ENERGY_MAX,
             energyMax: exports.ENERGY_MAX,
@@ -14,96 +22,25 @@ exports.newPlayer = function (id, level) {
             },
             job: {
                 nextTime: new Date()
-            }
-        },
-        public: {
-            level: level,
-            gyms: [0],
-            exercises: [],
-            body: [
-                {
-                    _id: 0,
-                    stress: 0,
-                    frazzle: 0
-                },
-                {
-                    _id: 1,
-                    stress: 0,
-                    frazzle: 0
-                },
-                {
-                    _id: 2,
-                    stress: 0,
-                    frazzle: 0
-                },
-                {
-                    _id: 3,
-                    stress: 0,
-                    frazzle: 0
-                },
-                {
-                    _id: 4,
-                    stress: 0,
-                    frazzle: 0
-                },
-                {
-                    _id: 5,
-                    stress: 0,
-                    frazzle: 0
-                },
-                {
-                    _id: 6,
-                    stress: 0,
-                    frazzle: 0
-                },
-                {
-                    _id: 7,
-                    stress: 0,
-                    frazzle: 0
-                },
-                {
-                    _id: 8,
-                    stress: 0,
-                    frazzle: 0
-                },
-                {
-                    _id: 9,
-                    stress: 0,
-                    frazzle: 0
-                },
-                {
-                    _id: 10,
-                    stress: 0,
-                    frazzle: 0
-                },
-                {
-                    _id: 11,
-                    stress: 0,
-                    frazzle: 0
-                },
-                {
-                    _id: 12,
-                    stress: 0,
-                    frazzle: 0
-                },
-                {
-                    _id: 13,
-                    stress: 0,
-                    frazzle: 0
-                },
-                {
-                    _id: 14,
-                    stress: 0,
-                    frazzle: 0
-                },
-                {
-                    _id: 15,
-                    stress: 0,
-                    frazzle: 0
-                }
-            ]
+            },
+            achievements: [],
+            gyms: [],
+            //factors: [], TBD
+            body: []
         }
     };
+
+    for(var i = 0; i <= 15; i++){
+        p.private.body.push({
+            _id: i,
+            stress: 0,
+            frazzle: 0
+            //damage: 0, TBD
+            //tonus: 0 TBD
+        });
+    }
+
+    return p;
 };
 
 var player0 = exports.newPlayer(0, 120);

@@ -1,0 +1,40 @@
+.top {
+  background-image: url('background.jpg');
+  width: 100%;
+  height: 116px;
+  position: relative;
+  padding-top: 5px;
+  /* ----------------- SWITCH -------------- */
+}
+.top .member {
+  display: inline-block;
+}
+.top .sw {
+  margin-top: -10px;
+}
+.top .top-players,
+.top .top-friends {
+  position: absolute;
+  color: white;
+  bottom: 12px;
+}
+.top .top-players {
+  left: 220px;
+}
+.top .top-friends {
+  left: 405px;
+}
+.top .left,
+.top .right {
+  position: absolute;
+  top: 50%;
+  margin-top: -28px;
+  font-size: 10px;
+  padding: 3px 5px;
+}
+.top .left {
+  left: 0;
+}
+.top .right {
+  right: 0;
+}

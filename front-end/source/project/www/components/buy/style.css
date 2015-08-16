@@ -1,6 +1,7 @@
 .buy span,
 .buy div {
   vertical-align: middle;
+  color: black;
 }
 .buy .glyphicon-plus-sign {
   color: #347bb7;

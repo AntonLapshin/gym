@@ -24,10 +24,10 @@ define([
             var journal = {};
 
             $.each(this.model(), function(i, approach){
-                if (!journal[approach._id])
-                    journal[approach._id] = [];
+                if (!journal[approach.exerciseId])
+                    journal[approach.exerciseId] = [];
 
-                journal[approach._id].push(approach);
+                journal[approach.exerciseId].push(approach);
             });
 
             var output = [];
@@ -36,7 +36,7 @@ define([
                 var ex = {
                     name: Refs.getExercise(key).name,
                     approaches: $.map(value, function(approach){
-                        return c.format('{0}x{1}', approach.weight, approach.repeats);
+                        return c.format('{0}x{1}', approach.weight, Math.floor(approach.result.repeats));
                     }).join(',')
                 };
                 output.push(ex);
@@ -52,7 +52,7 @@ define([
 
         this.test = function(){
             this.init().show();
-            this.push({ _id: 0, weight: 70, repeats: 10 });
+            this.push({ exerciseId: 0, weight: 70, repeats: 10, result: { repeats: 9 } });
         }
 
     }
