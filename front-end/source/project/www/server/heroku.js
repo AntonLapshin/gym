@@ -13,6 +13,10 @@ define(['jquery', 'plugins/ajax'], function ($, ajax) {
             return ajax.callAjax('self', { method: 'get' });
         },
 
+        loadPlayer: function(id){
+            return ajax.callAjax('self', { method: 'getPlayer', playerId: id });
+        },
+
         update: function(friends){
             return ajax.callAjax('self', { method: 'update', friends: friends });
         },
@@ -21,9 +25,9 @@ define(['jquery', 'plugins/ajax'], function ($, ajax) {
             return ajax.callAjax('top', null);
         },
 
-        gymExecute: function(args){
+        workoutExecute: function(args){
             args.method = 'execute';
-            return ajax.callAjax('gym', args);
+            return ajax.callAjax('workout', args);
         }
 
     }

@@ -86,7 +86,7 @@ exports.start = function (port) {
 
     var auth = require('./routes/auth'),
         refs = require('./routes/refs'),
-        gym = require('./routes/gym'),
+        workout = require('./routes/workout'),
         job = require('./routes/job'),
         self = require('./routes/self'),
         top = require('./routes/top');
@@ -100,8 +100,8 @@ exports.start = function (port) {
                 app.get('/refs', function (req, res) {
                     handler(req, res, refs);
                 });
-                app.get('/gym', function (req, res) {
-                    handler(req, res, gym);
+                app.get('/workout', function (req, res) {
+                    handler(req, res, workout);
                 });
                 app.get('/job', function (req, res) {
                     handler(req, res, job);

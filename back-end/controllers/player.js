@@ -8,8 +8,8 @@ module.exports = {
     create: function(id){
         return Db.insert('players', PlayersCollection.newPlayer(id, 0));
     },
-    update: function(id, setClause){
-        return Db.update('players', id, setClause);
+    update: function(id, updateClause){
+        return Db.update('players', id, updateClause);
     },
     exists: function(id){
         return Db.exists('players', id);
@@ -38,7 +38,7 @@ module.exports = {
     decEnergy: function(id, value){
         return module.exports.update(id, {$inc: {'private.energy': -value}});
     },
-    frazzle: function(playerId, body, exercise, effect){
+    getFrazzleClause: function(playerId, body, exercise, effect){
         var setClause = {};
 
         for (var i = 0; i < exercise.body.length; i++) {
@@ -54,7 +54,8 @@ module.exports = {
             setClause['private.body.' + muscleExercise._id + '.stress'] = e;
         }
 
-        return module.exports.update(playerId, {$set: setClause});
+        return setClause;
+        //return module.exports.update(playerId, {$set: setClause});
     }
 };
 

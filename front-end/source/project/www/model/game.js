@@ -46,29 +46,34 @@ define(['jquery',
                     self.player.updateValue(self.player.private.energy, self.player.private.energy() - 3);
                 });
 
-                c.on('record', function (approach) {
-                    var name = Refs.getExercise(approach.exerciseId).name();
-                    var weight = approach.weight;
-                    var title = approach.result.record === 'WR'
+                c.on('record', function (record) {
+                    var name = Refs.getExercise(record.exerciseId).name();
+                    var weight = record.weight;
+                    var title = record.type === 'wr'
                         ? c.strings.mesWorldRecord()
                         : c.strings.mesPresonalRecord();
-                    var mes = approach.result.record === 'WR'
+                    var mes = record.type === 'wr'
                         ? c.strings.mesWorldRecordDesc()
                         : c.strings.mesPersonalRecordDesc();
                     mes = c.format(mes, name, weight);
 
-                    if (approach.result.record === 'WR'){
+                    if (record.type === 'wr'){
                         $.grep(Refs.exercises, function(e){
-                            return e._id === approach.exerciseId;
+                            return e._id === record.exerciseId;
                         })[0].wr = {
                             _id: self.player._id,
                             value: weight
                         }
                     }
                     else {
+                        var ex =
                         $.grep(self.player.public.exercises, function(e){
-                            return e._id === approach.exerciseId;
-                        })[0].pr = weight;
+                            return e._id === record.exerciseId;
+                        });
+                        if (ex.length > 0)
+                            ex[0].pr = weight;
+                        else
+                            self.player.public.exercises.push({ _id: record.exerciseId, pr: weight});
                     }
 
                     toastr['success'](mes, title);

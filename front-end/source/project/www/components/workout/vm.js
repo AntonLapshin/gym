@@ -78,12 +78,29 @@ define([
                 self.disabled(false);
                 journal('workout').push(self.approach);
                 c.fire('energy.decrease', self.approach.result.energy);
-                if (self.approach.result.record)
-                    c.fire('record', self.approach);
 
-                self.set(self.approach.gymId);
-                var exercise = $.grep(_exercises, function(e){ return e._id === self.approach.exerciseId; })[0];
-                self.select(exercise);
+                $.each(self.approach.result.records, function(i, type){
+                    var record = {
+                        exerciseId: self.approach.exerciseId,
+                        weight: self.approach.weight,
+                        type: type
+                    };
+                    c.fire('record', record);
+                });
+
+                if (self.approach.result.records.length > 0) {
+                    var weight = _weight;
+                    var repeats = _repeats;
+
+                    self.set(self.approach.gymId);
+                    var exercise = $.grep(_exercises, function (e) {
+                        return e._id === self.approach.exerciseId;
+                    })[0];
+                    self.select(exercise);
+
+                    _weightSlider.slider('setValue', weight);
+                    _repeatsSlider.slider('setValue', repeats);
+                }
             });
 
             return self;
@@ -146,7 +163,7 @@ define([
 
             this.approach = approach;
 
-            server.gymExecute(approach)
+            server.workoutExecute(approach)
                 .then(function (result) {
                     self.approach.result = result;
                     self.disabled(true);

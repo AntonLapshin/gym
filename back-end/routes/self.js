@@ -52,6 +52,17 @@ module.exports = {
             };
             return Player.update(session.auth.id, updateClause);
         }
+    },
+    getPlayer: {
+        params: {
+            playerId: {
+                required: true,
+                parseMethod: parseInt
+            }
+        },
+        handler: function (session, params){
+            return Player.find(params.playerId, ['public']);
+        }
     }
 };
 

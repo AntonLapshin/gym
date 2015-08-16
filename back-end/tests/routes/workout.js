@@ -2,12 +2,18 @@ var Db = require('../../db'),
     Player = require('../../controllers/player'),
     GymDb = require('../../gymdb/gymdb'),
     PlayersCollection = require('../../gymdb/collections/players'),
-    Gym = require('../../routes/gym');
+    Workout = require('../../routes/workout');
 
 var PLAYER_ID_TEST = 0;
 var GYM = 0;
 var EXERCISE = 0;
-var session = {player: {id: PLAYER_ID_TEST}};
+var session = { auth: { id: PLAYER_ID_TEST } };
+var params = {
+    gymId: GYM,
+    exerciseId: EXERCISE,
+    weight: 90,
+    repeats: 0
+};
 
 module.exports = {
     setUp: function (callback) {
@@ -16,42 +22,40 @@ module.exports = {
         }, console.log);
     },
     tearDown: function (callback) {
-        GymDb.close();
-        callback();
+        GymDb.close().then(function(){
+            callback();
+        });
     },
     getExercisePower: function (test) {
-        var exercise = Db.getRefs().exercises[2];
+        var exRef = Db.getRefs().exercises[2];
         var body = null;
 
-        Player.find(session.player.id, 'body').then(
-            function (data) {
-                body = data;
-                return Player.find(session.player.id, 'public');
-            }
-        ).then(
-            function (publicInfo) {
-                var totalPower = Gym.getExercisePower(body, publicInfo, exercise);
+        Player.find(session.auth.id, ['private', 'public']).then(
+            function (player) {
+                var totalPower = Workout.getExercisePower(player.private.body, player.public, exRef);
                 test.equal(totalPower, 334);
                 test.done();
             }
         );
     },
     executeSuccessForce: function (test) {
-        Gym.execute(PLAYER_ID_TEST, GYM, EXERCISE, 90, 0).then(
+        Workout.execute.handler(session, params).then(
             function (answer) {
                 test.equal(answer.repeats, 34.39);
                 test.equal(answer.repeatsMax, 34.39);
                 test.equal(answer.energy, 5);
+                test.equal(answer.records.length, 2);
 
-                return Gym.execute(PLAYER_ID_TEST, GYM, EXERCISE, 90, 0);
+                return Workout.execute.handler(session, params);
             }
         ).then(
             function (answer) {
                 test.equal(answer.repeats, 34.02);
                 test.equal(answer.repeatsMax, 34.02);
                 test.equal(answer.energy, 5);
+                test.equal(answer.records.length, 0);
 
-                return Gym.execute(PLAYER_ID_TEST, GYM, EXERCISE, 90, 0);
+                return Workout.execute.handler(session, params);
             }
         ).then(
             function (answer) {
@@ -64,7 +68,9 @@ module.exports = {
         );
     },
     executeSuccess: function (test) {
-        Gym.execute(PLAYER_ID_TEST, GYM, EXERCISE, 35, 12).then(
+        params.weight = 35;
+        params.repeats = 12;
+        Workout.execute.handler(session, params).then(
             function (answer) {
                 test.equal(answer.repeats, 12);
                 test.equal(answer.repeatsMax, 54.48);
@@ -75,7 +81,9 @@ module.exports = {
         );
     },
     executeWarmup: function (test) {
-        Gym.execute(PLAYER_ID_TEST, GYM, EXERCISE, 100, 1).then(
+        params.weight = 100;
+        params.repeats = 1;
+        Workout.execute.handler(session, params).then(
             function (answer) {
                 test.equal(answer.repeats, 1);
                 test.equal(answer.repeatsMax, 31.16);
@@ -86,37 +94,49 @@ module.exports = {
         );
     },
     executeFailWeight: function (test) {
-        Gym.execute(PLAYER_ID_TEST, GYM, EXERCISE, 10, 12).then(
+        params.weight = 10;
+        params.repeats = 12;
+        Workout.execute.handler(session, params).then(
             function (answer) {
-                test.equal(answer, Gym.MES_WEIGHT);
-                return Gym.execute(PLAYER_ID_TEST, GYM, EXERCISE, 100, 12);
+                test.equal(answer, Workout.MES_WEIGHT);
+                params.weight = 100;
+                params.repeats = 12;
+                return Workout.execute.handler(session, params);
             }
         ).then(
             function (answer) {
-                test.notEqual(answer, Gym.MES_WEIGHT);
-                return Gym.execute(PLAYER_ID_TEST, GYM, EXERCISE, 33.231, 12);
+                test.notEqual(answer, Workout.MES_WEIGHT);
+                params.weight = 33.231;
+                params.repeats = 12;
+                return Workout.execute.handler(session, params);
             }
         ).then(
             function (answer) {
-                test.equal(answer, Gym.MES_WEIGHT);
+                test.equal(answer, Workout.MES_WEIGHT);
                 test.done();
             });
     },
     executeFailRepeats: function (test) {
-        Gym.execute(PLAYER_ID_TEST, GYM, EXERCISE, 50, 500).then(
+        params.weight = 50;
+        params.repeats = 500;
+        Workout.execute.handler(session, params).then(
             function (answer) {
-                test.equal(answer, Gym.MES_REPEATS_MAX);
-                return Gym.execute(PLAYER_ID_TEST, GYM, EXERCISE, 50, -1);
+                test.equal(answer, Workout.MES_REPEATS_MAX);
+                params.weight = 50;
+                params.repeats = -1;
+                return Workout.execute.handler(session, params);
             }
         ).then(
             function (answer) {
-                test.equal(answer, Gym.MES_REPEATS_MIN);
+                test.equal(answer, Workout.MES_REPEATS_MIN);
                 test.done();
             }
         );
     },
     executeFailLessOneRepeat: function (test) {
-        Gym.execute(PLAYER_ID_TEST, 2, EXERCISE, 240, 1).then(
+        params.weight = 240;
+        params.repeats = 1;
+        Workout.execute.handler(session, params).then(
             function (answer) {
                 test.equal(0 < answer.repeatsMax && answer.repeatsMax < 1, true);
                 test.equal(0 < answer.repeats && answer.repeats < 1, true);
@@ -128,24 +148,24 @@ module.exports = {
     executeFailEnergy: function (test) {
         Player.update(PLAYER_ID_TEST, {$set: {'private.energy': Db.getRefs().exercises[EXERCISE].energy - 1}}).then(
             function () {
-                return Gym.execute(PLAYER_ID_TEST, GYM, EXERCISE, 50, 0);
+                params.weight = 50;
+                params.repeats = 0;
+                return Workout.execute.handler(session, params);
             }
         ).then(
             function (answer) {
-                test.equal(answer, Gym.MES_ENERGY);
+                test.equal(answer, Workout.MES_ENERGY);
                 return Player.update(PLAYER_ID_TEST, {$set: {'private.energy': 1}});
             }
         ).then(
             function () {
-                return Gym.execute(PLAYER_ID_TEST, 2, EXERCISE, 160, 10);
+                params.weight = 160;
+                params.repeats = 10;
+                return Workout.execute.handler(session, params);
             }
         ).then(
             function (answer) {
-                test.equal(answer, Gym.MES_ENERGY);
-                return Player.update(PLAYER_ID_TEST, {$set: {'private.energy': PlayersCollection.ENERGY_MAX}});
-            }
-        ).then(
-            function () {
+                test.equal(answer, Workout.MES_ENERGY);
                 test.done();
             }
         );

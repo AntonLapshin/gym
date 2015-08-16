@@ -161,6 +161,23 @@ module.exports = {
     },
     getColl: function (name) {
         return _collections[name];
+    },
+    grep: function(array, callback){
+        var res = [];
+        array.forEach(function(item){
+            if (callback(item))
+                res.push(item);
+        });
+        return res;
+    },
+    addClause: function(clause, type, object){
+        if (!clause[type]){
+            clause[type] = {};
+        }
+        for(var name in object){
+            clause[type][name] = object[name];
+        }
+        return clause;
     }
 };
 

@@ -71,8 +71,8 @@ define(['jquery', 'c'], function($, c){
             return this.proxy('update', friends);
         },
 
-        gymExecute: function(args){
-            return this.proxy('gymExecute', args);
+        workoutExecute: function(args){
+            return this.proxy('workoutExecute', args);
         },
 
         jobGet: function(){

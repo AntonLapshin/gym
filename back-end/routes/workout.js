@@ -44,7 +44,7 @@ module.exports = {
                     return;
                 }
 
-                var exercise = Db.getRefs().exercises[exerciseId];
+                var exRef = Db.getRefs().exercises[exerciseId];
 
                 if (weight < WEIGHT_MIN) {
                     defer.resolve(MES_WEIGHT);
@@ -61,7 +61,7 @@ module.exports = {
 
                 Player.find(playerId, ['public', 'private']).then(
                     function (player) {
-                        var power = getExercisePower(player.private.body, player.public, exercise);
+                        var power = getExercisePower(player.private.body, player.public, exRef);
                         if (power < weight) {
                             defer.resolve({repeatsMax: power / weight, repeats: power / weight, energy: exercise.energy});
                             return;
@@ -78,26 +78,73 @@ module.exports = {
                         var repeatsFact = round(repeatsPlan < repeatsMax ? repeatsPlan : repeatsMax);
                         var effFact = (repeatsFact / repeatsPlan) * effMax;
 
-                        var energyFact = Math.ceil((repeatsFact / repeatsMax) * exercise.energy);
+                        var energyFact = Math.ceil((repeatsFact / repeatsMax) * exRef.energy);
                         if (energyFact > player.private.energy) {
                             defer.resolve(MES_ENERGY);
                             return;
                         }
 
-                        Player.frazzle(playerId, player.private.body, exercise, effFact).then(
-                            function () {
-                                return Player.decEnergy(playerId, energyFact);
-                            }, defer.reject
-                        ).then(
-                            function () {
-                                defer.resolve(
-                                    {
-                                        repeatsMax: repeatsMax,
-                                        repeats: repeatsFact,
-                                        energy: energyFact
-                                    });
-                            }, defer.reject
-                        );
+                        // ---------------------------------------------------------------------
+
+                        var updateClause = {};
+                        var result = {
+                            repeatsMax: repeatsMax,
+                            repeats: repeatsFact,
+                            energy: energyFact,
+                            records: []
+                        };
+
+                        if (repeatsFact >= 1){
+
+                            // Personal Record
+                            var playerEx = Db.grep(player.public.exercises, function(ex){
+                                return ex._id === exerciseId;
+                            });
+                            var pr = playerEx.length > 0 ? playerEx[0].pr : 0;
+                            if (weight > pr) {
+                                var type = playerEx.length === 0 ? '$push' : '$set';
+                                var clauseObject = {};
+                                if (playerEx.length === 0){
+                                    clauseObject = {
+                                        'public.exercises': { _id: exerciseId, pr: weight }
+                                    }
+                                }
+                                else {
+                                    var name = 'public.exercises.' + exerciseId + '.pr';
+                                    clauseObject[name] = weight;
+                                }
+                                updateClause = Db.addClause(updateClause, type, clauseObject);
+                                result.records.push('pr');
+                            }
+
+                            // Absolute Record
+                            var wr = exRef.wr;
+                            if (weight > (wr ? wr.value : 0)){
+                                exRef.wr = {
+                                    value: weight,
+                                    _id: playerId
+                                };
+
+                                Db.update('exercises', exerciseId, {
+                                    $set: {
+                                        wr: exRef.wr
+                                    }
+                                });
+                                result.records.push('wr');
+                            }
+                        }
+
+                        updateClause = Db.addClause(updateClause, '$inc', {
+                            'private.energy': -energyFact
+                        });
+
+                        updateClause = Db.addClause(updateClause, '$set',
+                            Player.getFrazzleClause(playerId, player.private.body, exRef, effFact));
+
+                        Player.update(playerId, updateClause)
+                            .then(function(){
+                                defer.resolve(result);
+                            }, defer.reject);
                     },
                     defer.reject
                 );
@@ -112,19 +159,19 @@ function round(v) {
     return Math.round(v * 100) / 100;
 }
 
-function getExercisePower(playerBody, publicInfo, exercise) {
+function getExercisePower(body, pub, exRef) {
     //TODO: stimulants
-    var level = publicInfo.level;
+    var level = pub.level;
     var totalPower = 0;
-    for (var i = 0; i < exercise.body.length; i++) {
-        var muscleExercise = exercise.body[i];
-        var muscleBody = playerBody[muscleExercise._id];
-        var muscleInfo = Db.getRefs().muscles[muscleExercise._id];
-        var power = level * muscleInfo.power * muscleExercise.stress / COEFF_POWER;
+    for (var i = 0; i < exRef.body.length; i++) {
+        var muscleEx = exRef.body[i];
+        var muscleBody = body[muscleEx._id];
+        var muscleRef = Db.getRefs().muscles[muscleEx._id];
+        var power = level * muscleRef.power * muscleEx.stress / COEFF_POWER;
         //power = power + power * muscleBody.power / COEFF_BODYPOWER;
         power = power - power * muscleBody.frazzle / COEFF_FRAZZLE;
         totalPower += power;
     }
-    totalPower = totalPower * exercise.coeff + exercise.power;
+    totalPower = totalPower * exRef.coeff + exRef.power;
     return totalPower;
 }

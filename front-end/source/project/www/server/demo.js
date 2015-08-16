@@ -515,13 +515,13 @@ define(['jquery'], function ($) {
             console.log('FriendsQty has been saved: ' + friends);
         },
 
-        gymExecute: function(args){
+        workoutExecute: function(args){
             return $.Deferred(function(defer){
                 defer.resolve({
                     repeatsMax: 12,
                     repeats: args.repeats > 12 ? 12 : args.repeats,
                     energy: 3,
-                    record: 'WR'
+                    records: ['wr', 'pr']
                 });
             });
         },

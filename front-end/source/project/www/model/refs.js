@@ -21,6 +21,10 @@ define(['jquery', 'server/server', 'c'], function ($, server, c) {
     }
 
     function getExercise(id){
+        var ex = $.grep(_player.public.exercises, function(e){
+            return e._id === id;
+        });
+        ex = ex.length > 0 ? ex[0] : {};
         return $.extend(
             {
                 name: c.strings[c.format('ex{0}name', id)],
@@ -28,7 +32,8 @@ define(['jquery', 'server/server', 'c'], function ($, server, c) {
                 img: c.format('components/workout/ex{0}.jpg', id),
                 disabled: false
             },
-            _refs.exercises[id]
+            _refs.exercises[id],
+            ex
         );
     }
 
