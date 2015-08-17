@@ -27,7 +27,7 @@ module.exports = {
         params: {
             gymId: { required: true, parseMethod: parseInt },
             exerciseId: { required: true, parseMethod: parseInt },
-            weight: { required: true, parseMethod: parseInt },
+            weight: { required: true, parseMethod: parseFloat },
             repeats: { required: true, parseMethod: parseInt }
         },
         handler: function(session, params) {
@@ -63,7 +63,7 @@ module.exports = {
                     function (player) {
                         var power = getExercisePower(player.private.body, player.public, exRef);
                         if (power < weight) {
-                            defer.resolve({repeatsMax: power / weight, repeats: power / weight, energy: exercise.energy});
+                            defer.resolve({repeatsMax: power / weight, repeats: power / weight, energy: exRef.energy, records: []});
                             return;
                         }
 

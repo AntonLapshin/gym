@@ -12,6 +12,7 @@ define([
 ], function (ko, $, html, c, social, Refs, Player, muscleinfo, sw, ava) {
 
     function showFrazzleMap(vm) {
+        vm.frazzle$ && vm.frazzle$.remove();
         vm.frazzle$ = $('<canvas class="frazzle" width="480px" height="550px"/>');
         vm.elem$.find('img.img-map').before(vm.frazzle$);
         var context = vm.frazzle$[0].getContext('2d');
@@ -60,6 +61,7 @@ define([
         this.strings = c.strings;
         this.src = ko.observable();
         this.muscles = ko.observableArray();
+        this.needUpdate = false;
         this.click = function () {
             if (this.model().id == 0) // may be "0"
             {
@@ -85,9 +87,22 @@ define([
                     hideFrazzleMap(self);
             });
 
+            c.on('man.needUpdate', function(){
+                self.needUpdate = true;
+            });
+
             return self;
         };
         this.set = function(model){
+            if (self.needUpdate){
+                self.needUpdate = false;
+                self.model().load().then(function(){
+                    self.set(self.model());
+                    showFrazzleMap(self);
+                });
+                return;
+            }
+
             this.model(model);
             this.src(c.format('components/man/{0}.png', model.public.level()));
             this.muscles(Refs.getMuscles(!!model.private));

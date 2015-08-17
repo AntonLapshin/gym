@@ -36,8 +36,8 @@ define([
                 var ex = {
                     name: Refs.getExercise(key).name,
                     approaches: $.map(value, function(approach){
-                        return c.format('{0}x{1}', approach.weight, Math.floor(approach.result.repeats));
-                    }).join(',')
+                        return c.format('<span class="label label-default">{0}x{1}</span>', approach.weight, Math.floor(approach.result.repeats));
+                    }).join('')
                 };
                 output.push(ex);
             });
@@ -52,6 +52,7 @@ define([
 
         this.test = function(){
             this.init().show();
+            this.push({ exerciseId: 0, weight: 70, repeats: 10, result: { repeats: 9 } });
             this.push({ exerciseId: 0, weight: 70, repeats: 10, result: { repeats: 9 } });
         }
 

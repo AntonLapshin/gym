@@ -29,7 +29,7 @@ define([
 
         this.test = function(){
             this.init().set({
-                value: 215,
+                value: 87.5,
                 _id: 5653333
             }).show();
         };

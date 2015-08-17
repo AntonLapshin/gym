@@ -36,9 +36,9 @@
                 <h4>
                     <span class="label label-default" data-bind="text:strings.trChooseWeight"></span>
                     <span class="label label-warning" data-bind="text:weightDesc"></span>
-                    <span class="label label-primary" data-bind="text:strings.prMini, attr: {title:strings.prDesc}, visible: (selectedExercise()? selectedExercise().pr : 0) < weight()"
+                    <span class="label label-primary" data-bind="text:strings.prMini, attr: {title:strings.prDesc}, visible: (selectedExercise()? (selectedExercise().pr ? selectedExercise().pr : 0) : 0) < weight()"
                           data-toggle="tooltip" data-placement="bottom" data-delay="500"></span>
-                    <span class="label label-danger" data-bind="text:strings.wrMini, attr: {title:strings.wrDesc}, , visible: (selectedExercise()? (selectedExercise().wr ? selectedExercise().wr.value : 0) : 0) < weight()"
+                    <span class="label label-danger" data-bind="text:strings.wrMini, attr: {title:strings.wrDesc}, visible: (selectedExercise()? (selectedExercise().wr ? selectedExercise().wr.value : 0) : 0) < weight()"
                           data-toggle="tooltip" data-placement="bottom" data-delay="500"></span>
                 </h4>
                 <input class="weightSlider" data-slider-id='weightSlider' type="text" data-slider-tooltip="hide"/>

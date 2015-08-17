@@ -19,6 +19,7 @@ define([
         _weight = 0,
         _repeats = 0,
         _gymId,
+        _exerciseId,
         _weightSlider = null,
         _repeatsSlider = null;
 
@@ -66,7 +67,7 @@ define([
             });
         };
 
-        this.init = function(){
+        this.init = function () {
             journal('workout').init().show();
             wr('workout').init().show();
             pr('workout').init().show();
@@ -74,47 +75,54 @@ define([
             energy('workout').init().show();
             execute('workout').init();
 
-            c.on('execute.finished', function(){
+            c.on('execute.finished', function () {
                 self.disabled(false);
                 journal('workout').push(self.approach);
                 c.fire('energy.decrease', self.approach.result.energy);
 
-                $.each(self.approach.result.records, function(i, type){
+                $.each(self.approach.result.records, function (i, type) {
                     var record = {
-                        exerciseId: self.approach.exerciseId,
-                        weight: self.approach.weight,
+                        exerciseId: _exerciseId,
+                        weight: _weight,
                         type: type
                     };
                     c.fire('record', record);
                 });
 
                 if (self.approach.result.records.length > 0) {
-                    var weight = _weight;
-                    var repeats = _repeats;
-
-                    self.set(self.approach.gymId);
-                    var exercise = $.grep(_exercises, function (e) {
-                        return e._id === self.approach.exerciseId;
-                    })[0];
-                    self.select(exercise);
-
-                    _weightSlider.slider('setValue', weight);
-                    _repeatsSlider.slider('setValue', repeats);
+                    self.reload();
                 }
+
+                if (self.approach.result.repeats >= 1)
+                    c.fire('man.needUpdate');
             });
 
             return self;
         };
 
+        this.reload = function(){
+            var weight = _weight;
+            var repeats = _repeats;
+
+            self.set(_gymId);
+            var exercise = $.grep(_exercises, function (e) {
+                return e._id === _exerciseId;
+            })[0];
+            self.select(exercise);
+
+            _weightSlider.slider('setValue', weight);
+            _repeatsSlider.slider('setValue', repeats);
+            return self;
+        };
+
         this.set = function (gymId) {
-            var exercises = Refs.getExercises(gymId);
+            _exercises = Refs.getExercises(gymId);
             _gymId = gymId;
             var self = this;
-            exercises.forEach(function (ex) {
+            _exercises.forEach(function (ex) {
                 ex.active = ko.observable(false);
             });
-            exercises[0].active(true);
-            _exercises = exercises;
+            _exercises[0].active(true);
             this.setVisibleExercises(0);
             return self;
         };
@@ -144,6 +152,7 @@ define([
             _repeatsSlider.slider('setAttribute', 'step', 1);
             _repeatsSlider.slider('setValue', 10);
             self.selectedExercise(ex);
+            _exerciseId = ex._id;
 
             wr('workout').set(ex.wr);
             pr('workout').set(ex.pr);
@@ -156,12 +165,12 @@ define([
         this.execute = function () {
             var approach = {
                 gymId: _gymId,
-                exerciseId: this.selectedExercise()._id,
+                exerciseId: _exerciseId,
                 weight: _weight,
                 repeats: _repeats
             };
 
-            this.approach = approach;
+            self.approach = approach;
 
             server.workoutExecute(approach)
                 .then(function (result) {

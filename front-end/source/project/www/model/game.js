@@ -43,7 +43,7 @@ define(['jquery',
 
                 c.on('energy.decrease', function (value) {
                     toastr['warning']('-' + value + '<span class="glyphicon glyphicon-flash"></span>', c.strings.decEnergy());
-                    self.player.updateValue(self.player.private.energy, self.player.private.energy() - 3);
+                    self.player.updateValue(self.player.private.energy, self.player.private.energy() - value);
                 });
 
                 c.on('record', function (record) {
@@ -56,27 +56,28 @@ define(['jquery',
                         ? c.strings.mesWorldRecordDesc()
                         : c.strings.mesPersonalRecordDesc();
                     mes = c.format(mes, name, weight);
+                    toastr['success'](mes, title);
 
-                    if (record.type === 'wr'){
-                        $.grep(Refs.exercises, function(e){
-                            return e._id === record.exerciseId;
-                        })[0].wr = {
+                    if (record.type === 'wr') {
+                        var newWr = {
                             _id: self.player._id,
-                            value: weight
-                        }
+                            value: record.weight
+                        };
+
+                        $.grep(Refs.exercises, function (e) {
+                            return e._id === record.exerciseId;
+                        })[0].wr = newWr;
                     }
                     else {
                         var ex =
-                        $.grep(self.player.public.exercises, function(e){
-                            return e._id === record.exerciseId;
-                        });
+                            $.grep(self.player.public.exercises, function(e){
+                                return e._id === record.exerciseId;
+                            });
                         if (ex.length > 0)
-                            ex[0].pr = weight;
+                            ex[0].pr = record.weight;
                         else
-                            self.player.public.exercises.push({ _id: record.exerciseId, pr: weight});
+                            self.player.public.exercises.push({ _id: record.exerciseId, pr: record.weight});
                     }
-
-                    toastr['success'](mes, title);
                 });
 
                 c.on('money.earn', function (value) {

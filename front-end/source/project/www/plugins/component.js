@@ -44,6 +44,9 @@ define(['ko', 'jquery', 'plugins/localization', 'plugins/format'], function (ko,
             if (vm.onLoad)
                 vm.onLoad($(elem));
         };
+        vm.reload = function(){
+            return vm;
+        };
         _viewModels[name] = vm;
 
         if (typeof viewModel === 'function'){
