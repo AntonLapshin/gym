@@ -41,8 +41,9 @@ define(['ko', 'jquery', 'plugins/localization', 'plugins/format'], function (ko,
             return vm;
         };
         vm.load = function(elem){
+            vm.elem$ = $(elem);
             if (vm.onLoad)
-                vm.onLoad($(elem));
+                vm.onLoad();
         };
         vm.reload = function(){
             return vm;
@@ -70,6 +71,9 @@ define(['ko', 'jquery', 'plugins/localization', 'plugins/format'], function (ko,
     }
 
     var component = {
+        round: function(v){
+            return Math.round(v * 100) / 100;
+        },
         random: random,
         format: format,
         strings: strings,

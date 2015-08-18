@@ -12,7 +12,7 @@ define([
 ], function (ko, $, html, c, social, Refs, Player, muscleinfo, sw, ava) {
 
     function showFrazzleMap(vm) {
-        vm.frazzle$ && vm.frazzle$.remove();
+        hideFrazzleMap(vm);
         vm.frazzle$ = $('<canvas class="frazzle" width="480px" height="550px"/>');
         vm.elem$.find('img.img-map').before(vm.frazzle$);
         var context = vm.frazzle$[0].getContext('2d');
@@ -31,7 +31,7 @@ define([
     }
 
     function hideFrazzleMap(vm) {
-        vm.frazzle$.remove();
+        vm.frazzle$ && vm.frazzle$.remove();
     }
 
     function showMuscle(vm, m){
@@ -39,16 +39,21 @@ define([
         vm.elem$.find('img.img-map').before(vm.highlight$);
         var context = vm.highlight$[0].getContext('2d');
 
-        var map = m.map.split(',');
-        context.beginPath();
-        context.moveTo(map[0], map[1]);
-        for (var i = 2; i < map.length - 1; i = i + 2) {
-            context.lineTo(map[i], map[i + 1]);
-        }
+        var muscles = $.grep(vm.muscles(), function(item){
+            return item._id === m._id;
+        });
 
-        context.closePath();
-        context.fillStyle = 'rgba(0,255,0,.4)';
-        context.fill();
+        $.each(muscles, function(j, m){
+            var map = m.map.split(',');
+            context.beginPath();
+            context.moveTo(map[0], map[1]);
+            for (var i = 2; i < map.length - 1; i = i + 2) {
+                context.lineTo(map[i], map[i + 1]);
+            }
+            context.closePath();
+            context.fillStyle = 'rgba(0,255,0,.4)';
+            context.fill();
+        });
     }
 
     function hideMuscle(vm){
@@ -74,7 +79,7 @@ define([
         };
         this.init = function () {
             ava('man').init();
-            sw('man').init();
+            sw('man').init(true);
             muscleinfo('man').init();
 
             c.on('sw.switch', function(data){
@@ -98,13 +103,14 @@ define([
                 self.needUpdate = false;
                 self.model().load().then(function(){
                     self.set(self.model());
-                    showFrazzleMap(self);
+                    if (sw('man').get())
+                        showFrazzleMap(self);
                 });
                 return;
             }
 
             this.model(model);
-            this.src(c.format('components/man/{0}.png', model.public.level()));
+            this.src(c.format('components/man/{0}_front.png', model.public.level()));
             this.muscles(Refs.getMuscles(!!model.private));
             if (!model.private){
                 ava('man').set(model).show();
@@ -115,13 +121,13 @@ define([
             }
             return self;
         };
-        this.onLoad = function (elem$) {
-            elem$.on('mouseenter', 'area', function(e){
+        this.onLoad = function () {
+            self.elem$.on('mouseenter', 'area', function(e){
                 var id = $(e.currentTarget).data('id');
                 var muscle = self.muscles()[id];
                 showMuscle(self, muscle);
             });
-            elem$.on('mousemove', 'area', function(e){
+            self.elem$.on('mousemove', 'area', function(e){
                 var id = $(e.currentTarget).data('id');
                 var muscle = self.muscles()[id];
                 var pos = self.elem$.offset();
@@ -129,11 +135,11 @@ define([
                 muscle.y1 = e.clientY - pos.top;
                 muscleinfo('man').set(muscle).show();
             });
-            elem$.on('mouseleave', 'area', function(){
+            self.elem$.on('mouseleave', 'area', function(){
                 muscleinfo('man').hide();
                 hideMuscle(self);
             });
-            this.elem$ = elem$;
+            showFrazzleMap(self);
         };
         this.test = function () {
             //var player = new Player(5653333);

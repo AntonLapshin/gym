@@ -21,6 +21,7 @@ define([
             if (muscle.frazzle){
                 var b = battery('muscleinfo');
                 var fr = Math.floor(100 - muscle.frazzle() * 100);
+                fr = c.round(fr);
 
                 if (!b.value) {
                     var max = ko.observable(100),

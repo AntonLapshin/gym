@@ -5,10 +5,8 @@ var Db = require('../db'),
 var WEIGHT_MIN = 20;
 var REPEATS_MIN = 0;
 var REPEATS_MAX = 200;
-
 var COEFF_POWER = 4;
 var COEFF_FRAZZLE = 10;
-//var COEFF_BODYPOWER = 8;
 
 var MES_WEIGHT = "Wrong weight",
     MES_REPEATS_MAX = "Repeats number is too big",
@@ -59,7 +57,7 @@ module.exports = {
                     return;
                 }
 
-                Player.find(playerId, ['public', 'private']).then(
+                Player.find(playerId, ['_id', 'public', 'private']).then(
                     function (player) {
                         var power = getExercisePower(player.private.body, player.public, exRef);
                         if (power < weight) {
@@ -88,10 +86,16 @@ module.exports = {
 
                         var updateClause = {};
                         var result = {
-                            repeatsMax: repeatsMax,
-                            repeats: repeatsFact,
-                            energy: energyFact,
-                            records: []
+                            player: player,
+                            result: {
+                                exerciseId: exerciseId,
+                                weight: weight,
+                                repeatsMax: repeatsMax,
+                                repeats: repeatsFact,
+                                energy: energyFact,
+                                energyRest: player.private.energy - energyFact,
+                                records: []
+                            }
                         };
 
                         if (repeatsFact >= 1){
@@ -114,7 +118,7 @@ module.exports = {
                                     clauseObject[name] = weight;
                                 }
                                 updateClause = Db.addClause(updateClause, type, clauseObject);
-                                result.records.push('pr');
+                                result.result.records.push('pr');
                             }
 
                             // Absolute Record
@@ -130,7 +134,7 @@ module.exports = {
                                         wr: exRef.wr
                                     }
                                 });
-                                result.records.push('wr');
+                                result.result.records.push('wr');
                             }
                         }
 
@@ -150,9 +154,7 @@ module.exports = {
                 );
             });
         }
-    },
-
-    getExercisePower: getExercisePower
+    }
 };
 
 function round(v) {
@@ -168,7 +170,6 @@ function getExercisePower(body, pub, exRef) {
         var muscleBody = body[muscleEx._id];
         var muscleRef = Db.getRefs().muscles[muscleEx._id];
         var power = level * muscleRef.power * muscleEx.stress / COEFF_POWER;
-        //power = power + power * muscleBody.power / COEFF_BODYPOWER;
         power = power - power * muscleBody.frazzle / COEFF_FRAZZLE;
         totalPower += power;
     }

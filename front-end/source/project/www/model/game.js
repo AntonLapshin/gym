@@ -86,11 +86,12 @@ define(['jquery',
                 });
 
                 c.on('server.response', function(data){
-                    if (data.achievement){
-                        var id = data.achievement._id;
-                        var achievement = Refs.getAchievements()[id];
-                        toastr['success'](achievement.name(), c.strings.achNew());
-                        self.player.private.achievements.push(id);
+                    if (data.newAchievements && data.newAchievements.length > 0){
+                        $.each(data.newAchievements, function(i, id){
+                            var achievement = Refs.getAchievements()[id];
+                            toastr['success'](achievement.name(), c.strings.achNew());
+                            self.player.private.achievements.push(id);
+                        });
                         c.fire('achievements.update');
                     }
                 });

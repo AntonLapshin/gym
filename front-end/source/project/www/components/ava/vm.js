@@ -6,6 +6,8 @@ define([
 ], function (ko, html, c, social) {
 
     function ViewModel() {
+        var self = this;
+
         this.click = function () {
             if (this.model().private) {
                 c.fire('player.click', this.model()._id);
@@ -21,9 +23,9 @@ define([
             win.focus();
         };
         // hack
-        this.onLoaded = function(elem$){
+        this.onLoaded = function(){
             setTimeout(function() {
-                elem$.find('img.frame').tooltip();
+                self.elem$.find('img.frame').tooltip();
             }, 1000);
         };
         this.test = function(){

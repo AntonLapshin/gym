@@ -41,7 +41,10 @@ function handler(req, res, route) {
 
         var params = getParams(req, method);
         method.handler(session, params)
-            .then(resolveHandler, rejectHandler);
+            .then(function(result){
+                require('./controllers/ach').handler(result)
+                    .then(resolveHandler, rejectHandler);
+            }, rejectHandler);
     }
     catch (err) {
         rejectHandler(err);

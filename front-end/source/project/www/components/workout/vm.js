@@ -49,8 +49,8 @@ define([
             this.right(_index + VISIBLE_COUNT < _exercises.length);
         };
 
-        this.onLoad = function (div$) {
-            _weightSlider = div$.find('.weightSlider').slider({
+        this.onLoad = function () {
+            _weightSlider = self.elem$.find('.weightSlider').slider({
                 formatter: function (value) {
                     _weight = value;
                     self.weight(value.toFixed(1));
@@ -58,7 +58,7 @@ define([
                     return 'Current value: ' + value;
                 }
             });
-            _repeatsSlider = div$.find('.repeatsSlider').slider({
+            _repeatsSlider = self.elem$.find('.repeatsSlider').slider({
                 formatter: function (value) {
                     _repeats = value;
                     self.repeatsDesc(value === 0 ? c.strings.trNoLimit() : value);

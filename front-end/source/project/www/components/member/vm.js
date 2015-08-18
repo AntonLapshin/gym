@@ -26,9 +26,9 @@ define([
         };
 
         // hack
-        this.onLoad = function(elem$){
+        this.onLoad = function(){
             //setTimeout(function() {
-            //    elem$.find('img.ava').tooltip();
+            //    self.elem$.find('img.ava').tooltip();
             //}, 1000);
         };
 

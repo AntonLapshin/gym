@@ -52,7 +52,7 @@ var player5 = exports.newPlayer(5, 10);
 var player6 = exports.newPlayer(6, 10);
 var player7 = exports.newPlayer(7, 10);
 var player8 = exports.newPlayer(8, 10);
-var player5653333 = exports.newPlayer(5653333, 120);
+var player5653333 = exports.newPlayer(5653333, 1);
 
 exports.players = [
     player0, player1, player2, player3, player4, player5, player6, player7, player8, player5653333
