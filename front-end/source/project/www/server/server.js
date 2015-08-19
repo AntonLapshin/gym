@@ -38,6 +38,8 @@ define(['jquery', 'c'], function($, c){
                     }
                     c.fire('server.response', data);
                     defer.resolve(data);
+                }, function(error){
+                    c.fire('server.error', error);
                 });
             });
         },
@@ -67,8 +69,8 @@ define(['jquery', 'c'], function($, c){
             return this.proxy('loadTop');
         },
 
-        update: function(friends){
-            return this.proxy('update', friends);
+        setFriends: function(friends){
+            return this.proxy('setFriends', friends);
         },
 
         workoutExecute: function(args){

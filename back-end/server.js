@@ -1,22 +1,24 @@
 var Express = require('express'),
     GymDb = require('./gymdb/gymdb'),
-    $ = require('jquery-deferred');
+    $ = require('jquery-deferred'),
+    Player = require('./controllers/player');
+
 
 var ERR_PARAMS = "Parameters are wrong";
 var ERR_UNAUTH = "Unauthorized request";
 
 function handler(req, res, route) {
 
-    function rejectHandler(err){
+    function rejectHandler(err) {
         var answer = {
-            error: err,
+            error: err.message || err,
             url: req.url
         };
         console.log(JSON.stringify(answer));
         res.jsonp(JSON.stringify(answer));
     }
 
-    function resolveHandler(result){
+    function resolveHandler(result) {
         var answer = {
             data: result || true,
             url: req.url
@@ -29,21 +31,25 @@ function handler(req, res, route) {
         var auth = require('./routes/auth');
         var session = req.session;
         if (route !== auth) {
-            if (!session.auth)
+            if (!session.player)
                 throw ERR_UNAUTH;
         }
         var methodName = getMethodName(req, route);
         var method = route[methodName];
-        if (!method){
+        if (!method) {
             rejectHandler("Method " + methodName + " is not exists");
             return;
         }
 
         var params = getParams(req, method);
         method.handler(session, params)
-            .then(function(result){
-                require('./controllers/ach').handler(result)
-                    .then(resolveHandler, rejectHandler);
+            .then(function (result) {
+                require('./controllers/ach').handler(session, result);
+                resolveHandler(result);
+                if (session.isDirty) {
+                    session.isDirty = false;
+                    Player.update(session.player._id, session.player);
+                }
             }, rejectHandler);
     }
     catch (err) {

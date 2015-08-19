@@ -16,7 +16,7 @@ define([
     var _exercises,
         VISIBLE_COUNT = 3,
         _index = 0,
-        _weight = 0,
+        _weight = 20,
         _repeats = 0,
         _gymId,
         _exerciseId,
@@ -94,7 +94,7 @@ define([
                 }
 
                 if (self.approach.result.repeats >= 1)
-                    c.fire('man.needUpdate');
+                    c.fire('player.load');
             });
 
             return self;
@@ -143,10 +143,10 @@ define([
                 exercise.active(false);
             });
             ex.active(true);
-            _weightSlider.slider('setAttribute', 'max', ex.max);
+            _weightSlider.slider('setAttribute', 'max', ex.max * Refs.getGyms()[_gymId].weight);
             _weightSlider.slider('setAttribute', 'min', ex.min);
             _weightSlider.slider('setAttribute', 'step', ex.step);
-            _weightSlider.slider('setValue', ex.min);
+            _weightSlider.slider('setValue', _weight);
             _repeatsSlider.slider('setAttribute', 'max', 30);
             _repeatsSlider.slider('setAttribute', 'min', 0);
             _repeatsSlider.slider('setAttribute', 'step', 1);

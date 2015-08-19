@@ -17,8 +17,8 @@ define(['jquery', 'plugins/ajax'], function ($, ajax) {
             return ajax.callAjax('self', { method: 'getPlayer', playerId: id });
         },
 
-        update: function(friends){
-            return ajax.callAjax('self', { method: 'update', friends: friends });
+        setFriends: function(friends){
+            return ajax.callAjax('self', { method: 'setFriends', friends: friends });
         },
 
         loadTop: function(){

@@ -25,7 +25,7 @@ module.exports = {
         },
         handler: function (session, params) {
             return $.Deferred(function (defer) {
-                if (session.auth) {
+                if (session.player) {
                     defer.resolve(MES_ALREADY_AUTH);
                     return;
                 }
@@ -43,20 +43,13 @@ module.exports = {
                     }
                 }
 
-                function initSession() {
-                    session.auth = {
-                        id: playerId,
-                        job: { }
-                    };
-                    defer.resolve(MES_SUCCESS);
-                }
+                Player.find(params.playerId, ['_id', 'public', 'private']).then(
+                    function (player) {
+                        if (!player)
+                            player = Player.create(params.playerId);
 
-                Player.exists(params.playerId).then(
-                    function (exists) {
-                        if (!exists)
-                            Player.create(params.playerId).then(initSession, defer.reject);
-                        else
-                            initSession();
+                        session.player = player;
+                        defer.resolve(MES_SUCCESS)
                     },
                     defer.reject
                 );

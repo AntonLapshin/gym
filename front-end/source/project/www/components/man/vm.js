@@ -34,16 +34,16 @@ define([
         vm.frazzle$ && vm.frazzle$.remove();
     }
 
-    function showMuscle(vm, m){
+    function showMuscle(vm, m) {
         vm.highlight$ = $('<canvas class="highlight" width="480px" height="550px"/>');
         vm.elem$.find('img.img-map').before(vm.highlight$);
         var context = vm.highlight$[0].getContext('2d');
 
-        var muscles = $.grep(vm.muscles(), function(item){
+        var muscles = $.grep(vm.muscles(), function (item) {
             return item._id === m._id;
         });
 
-        $.each(muscles, function(j, m){
+        $.each(muscles, function (j, m) {
             var map = m.map.split(',');
             context.beginPath();
             context.moveTo(map[0], map[1]);
@@ -56,7 +56,7 @@ define([
         });
     }
 
-    function hideMuscle(vm){
+    function hideMuscle(vm) {
         vm.highlight$.remove();
     }
 
@@ -82,7 +82,7 @@ define([
             sw('man').init(true);
             muscleinfo('man').init();
 
-            c.on('sw.switch', function(data){
+            c.on('sw.switch', function (data) {
                 if (data.name !== 'sw+man')
                     return;
 
@@ -92,42 +92,34 @@ define([
                     hideFrazzleMap(self);
             });
 
-            c.on('man.needUpdate', function(){
-                self.needUpdate = true;
+            c.on('player.updated', function (player) {
+                self.set(player);
             });
 
             return self;
         };
-        this.set = function(model){
-            if (self.needUpdate){
-                self.needUpdate = false;
-                self.model().load().then(function(){
-                    self.set(self.model());
-                    if (sw('man').get())
-                        showFrazzleMap(self);
-                });
-                return;
-            }
-
+        this.set = function (model) {
             this.model(model);
             this.src(c.format('components/man/{0}_front.png', model.public.level()));
             this.muscles(Refs.getMuscles(!!model.private));
-            if (!model.private){
+            if (!model.private) {
                 ava('man').set(model).show();
             }
             else {
                 ava('man').hide();
                 sw('man').show();
             }
+            if (sw('man').get())
+                showFrazzleMap(self);
             return self;
         };
         this.onLoad = function () {
-            self.elem$.on('mouseenter', 'area', function(e){
+            self.elem$.on('mouseenter', 'area', function (e) {
                 var id = $(e.currentTarget).data('id');
                 var muscle = self.muscles()[id];
                 showMuscle(self, muscle);
             });
-            self.elem$.on('mousemove', 'area', function(e){
+            self.elem$.on('mousemove', 'area', function (e) {
                 var id = $(e.currentTarget).data('id');
                 var muscle = self.muscles()[id];
                 var pos = self.elem$.offset();
@@ -135,7 +127,7 @@ define([
                 muscle.y1 = e.clientY - pos.top;
                 muscleinfo('man').set(muscle).show();
             });
-            self.elem$.on('mouseleave', 'area', function(){
+            self.elem$.on('mouseleave', 'area', function () {
                 muscleinfo('man').hide();
                 hideMuscle(self);
             });
@@ -146,7 +138,7 @@ define([
             //player.load().then(function(){
             //    self.init().set(player).show();
             //});
-            require(['model/game'], function(game){
+            require(['model/game'], function (game) {
                 self.init().set(game.player).show();
             });
         };

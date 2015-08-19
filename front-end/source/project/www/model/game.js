@@ -96,6 +96,10 @@ define(['jquery',
                     }
                 });
 
+                c.on('server.error', function(error){
+                    self.error(error);
+                });
+
                 return $.when.apply(this, [this.player.load(), Refs.load(this.player)]);
             }
 

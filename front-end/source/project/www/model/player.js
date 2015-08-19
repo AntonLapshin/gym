@@ -1,4 +1,4 @@
-define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
+define(['ko', 'server/server', 'social/social', 'c'], function (ko, server, social, c) {
 
     function merge(serverPlayers, socialPlayers){
         $.each(serverPlayers, function(i, serverPlayer){
@@ -36,7 +36,7 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
     }
 
     function updateValue(field, value){
-        if (!value)
+        if (value == null)
             return;
         var oldValue = field() || 0;
         if (oldValue === value)
@@ -85,7 +85,7 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
         this.private = {
             money: ko.observable(),
             gold: ko.observable(),
-            energy: ko.observable(),
+            energy: ko.observable(0),
             friends: ko.observable(),
             energyMax: ko.observable(),
             gyms: [],
@@ -99,6 +99,10 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
                 frazzle: ko.observable(0)
             })
         }
+
+        c.on('player.load', function(){
+            self.load();
+        });
 
         this.load = function(){
             return getMe().then(function(model){
@@ -120,10 +124,12 @@ define(['ko', 'server/server', 'social/social'], function (ko, server, social) {
                 // Update friends
                 social.getFriendsQty().then(function(friends){
                     if (friends !== model.private.friends) {
-                        updateValue(self.private.friends, model.private.friends);
-                        server.update(friends);
+                        updateValue(self.private.friends, friends);
+                        server.setFriends(friends);
                     }
                 });
+
+                c.fire('player.updated', self);
             });
         };
 

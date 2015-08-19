@@ -1,5 +1,4 @@
 var Db = require('../db'),
-    Player = require('../controllers/player'),
     $ = require('jquery-deferred');
 
 var WEIGHT_MIN = 20;
@@ -23,143 +22,133 @@ module.exports = {
 
     execute: {
         params: {
-            gymId: { required: true, parseMethod: parseInt },
-            exerciseId: { required: true, parseMethod: parseInt },
-            weight: { required: true, parseMethod: parseFloat },
-            repeats: { required: true, parseMethod: parseInt }
+            gymId: {required: true, parseMethod: parseInt},
+            exerciseId: {required: true, parseMethod: parseInt},
+            weight: {required: true, parseMethod: parseFloat},
+            repeats: {required: true, parseMethod: parseInt}
         },
-        handler: function(session, params) {
-            var playerId = session.auth.id;
+        handler: function (session, params) {
+            var player = session.player;
             var gymId = params.gymId;
             var exerciseId = params.exerciseId;
             var weight = params.weight;
             var repeats = params.repeats;
 
             return $.Deferred(function (defer) {
-                var gym = Db.getRefs().gyms[gymId];
-                if (gym.exercises.indexOf(exerciseId) == -1) {
-                    defer.resolve(MES_EXERCISE);
+                var gymRef = Db.getRefs().gyms[gymId];
+                if (gymRef.exercises.indexOf(exerciseId) == -1) {
+                    defer.reject(MES_EXERCISE);
                     return;
                 }
 
                 var exRef = Db.getRefs().exercises[exerciseId];
+                var maxWeight = exRef.max * gymRef.weight;
 
-                if (weight < WEIGHT_MIN) {
-                    defer.resolve(MES_WEIGHT);
+                if (weight < WEIGHT_MIN || maxWeight < weight) {
+                    defer.reject(MES_WEIGHT);
                     return;
                 }
                 if (repeats < REPEATS_MIN) {
-                    defer.resolve(MES_REPEATS_MIN);
+                    defer.reject(MES_REPEATS_MIN);
                     return;
                 }
                 if (repeats > REPEATS_MAX) {
-                    defer.resolve(MES_REPEATS_MAX);
+                    defer.reject(MES_REPEATS_MAX);
                     return;
                 }
 
-                Player.find(playerId, ['_id', 'public', 'private']).then(
-                    function (player) {
-                        var power = getExercisePower(player.private.body, player.public, exRef);
-                        if (power < weight) {
-                            defer.resolve({repeatsMax: power / weight, repeats: power / weight, energy: exRef.energy, records: []});
-                            return;
+                var power = getExercisePower(player.private.body, player.public, exRef);
+                if (power < weight) {
+                    if (exRef.energy > player.private.energy){
+                        defer.reject(MES_ENERGY);
+                        return;
+                    }
+                    player.private.energy -= exRef.energy;
+                    session.isDirty = true;
+                    defer.resolve({
+                        repeatsMax: power / weight,
+                        repeats: power / weight,
+                        energy: exRef.energy,
+                        records: []
+                    });
+                    return;
+                }
+
+                var mass = player.public.level * 1.33 + 40;
+                var k1 = 1 - weight / power;
+                var repeatsMax = $.round(k1 / 0.03 + k1 * k1 * 35 + 1);
+                var k2 = weight * repeatsMax - weight * repeatsMax * (k1 + 0.25) + weight;
+                while (k2 < 0) k2 += weight;
+                var effMax = k2 / (mass * 15);
+
+                var repeatsPlan = repeats > 0 ? repeats : repeatsMax;
+                var repeatsFact = $.round(repeatsPlan < repeatsMax ? repeatsPlan : repeatsMax);
+                var effFact = (repeatsFact / repeatsPlan) * effMax;
+
+                var energyFact = Math.ceil((repeatsFact / repeatsMax) * exRef.energy);
+                if (energyFact > player.private.energy) {
+                    defer.reject(MES_ENERGY);
+                    return;
+                }
+
+                // ---------------------------------------------------------------------
+
+                var result = {
+                    exerciseId: exerciseId,
+                    weight: weight,
+                    repeatsMax: repeatsMax,
+                    repeats: repeatsFact,
+                    energy: energyFact,
+                    records: []
+                };
+
+                if (repeatsFact >= 1) {
+
+                    // Personal Record
+                    var playerEx = $.grep(player.public.exercises, function (ex) {
+                        return ex._id === exerciseId;
+                    });
+                    playerEx = playerEx.length > 0 ? playerEx[0] : null;
+                    var pr = playerEx ? playerEx.pr : 0;
+                    if (weight > pr) {
+                        if (playerEx){
+                            playerEx.pr = weight;
+                        }
+                        else {
+                            player.public.exercises.push({
+                                _id: exerciseId, pr: weight
+                            });
                         }
 
-                        var mass = player.public.level * 1.33 + 40;
-                        var k1 = 1 - weight / power;
-                        var repeatsMax = round(k1 / 0.03 + k1 * k1 * 35 + 1);
-                        var k2 = weight * repeatsMax - weight * repeatsMax * (k1 + 0.25) + weight;
-                        while (k2 < 0) k2 += weight;
-                        var effMax = k2 / (mass * 15);
+                        result.records.push('pr');
+                    }
 
-                        var repeatsPlan = repeats > 0 ? repeats : repeatsMax;
-                        var repeatsFact = round(repeatsPlan < repeatsMax ? repeatsPlan : repeatsMax);
-                        var effFact = (repeatsFact / repeatsPlan) * effMax;
-
-                        var energyFact = Math.ceil((repeatsFact / repeatsMax) * exRef.energy);
-                        if (energyFact > player.private.energy) {
-                            defer.resolve(MES_ENERGY);
-                            return;
-                        }
-
-                        // ---------------------------------------------------------------------
-
-                        var updateClause = {};
-                        var result = {
-                            player: player,
-                            result: {
-                                exerciseId: exerciseId,
-                                weight: weight,
-                                repeatsMax: repeatsMax,
-                                repeats: repeatsFact,
-                                energy: energyFact,
-                                energyRest: player.private.energy - energyFact,
-                                records: []
-                            }
+                    // Absolute Record
+                    var wr = exRef.wr;
+                    if (weight > (wr ? wr.value : 0)) {
+                        exRef.wr = {
+                            value: weight,
+                            _id: player._id
                         };
 
-                        if (repeatsFact >= 1){
-
-                            // Personal Record
-                            var playerEx = Db.grep(player.public.exercises, function(ex){
-                                return ex._id === exerciseId;
-                            });
-                            var pr = playerEx.length > 0 ? playerEx[0].pr : 0;
-                            if (weight > pr) {
-                                var type = playerEx.length === 0 ? '$push' : '$set';
-                                var clauseObject = {};
-                                if (playerEx.length === 0){
-                                    clauseObject = {
-                                        'public.exercises': { _id: exerciseId, pr: weight }
-                                    }
-                                }
-                                else {
-                                    var name = 'public.exercises.' + exerciseId + '.pr';
-                                    clauseObject[name] = weight;
-                                }
-                                updateClause = Db.addClause(updateClause, type, clauseObject);
-                                result.result.records.push('pr');
+                        Db.update('exercises', exerciseId, {
+                            $set: {
+                                wr: exRef.wr
                             }
-
-                            // Absolute Record
-                            var wr = exRef.wr;
-                            if (weight > (wr ? wr.value : 0)){
-                                exRef.wr = {
-                                    value: weight,
-                                    _id: playerId
-                                };
-
-                                Db.update('exercises', exerciseId, {
-                                    $set: {
-                                        wr: exRef.wr
-                                    }
-                                });
-                                result.result.records.push('wr');
-                            }
-                        }
-
-                        updateClause = Db.addClause(updateClause, '$inc', {
-                            'private.energy': -energyFact
                         });
+                        result.records.push('wr');
+                    }
+                }
 
-                        updateClause = Db.addClause(updateClause, '$set',
-                            Player.getFrazzleClause(playerId, player.private.body, exRef, effFact));
+                player.private.energy -= energyFact;
+                setFrazzle(player, exRef, effFact);
+                session.isDirty = true;
 
-                        Player.update(playerId, updateClause)
-                            .then(function(){
-                                defer.resolve(result);
-                            }, defer.reject);
-                    },
-                    defer.reject
-                );
+                defer.resolve(result);
             });
         }
     }
 };
-
-function round(v) {
-    return Math.round(v * 100) / 100;
-}
 
 function getExercisePower(body, pub, exRef) {
     //TODO: stimulants
@@ -175,4 +164,16 @@ function getExercisePower(body, pub, exRef) {
     }
     totalPower = totalPower * exRef.coeff + exRef.power;
     return totalPower;
+}
+
+function setFrazzle(player, exRef, effect){
+    exRef.body.forEach(function(muscleExercise){
+        var muscleBody = player.private.body[muscleExercise._id];
+        var f = muscleBody.frazzle + muscleExercise.stress * effect;
+        if (f > 1) f = 1;
+        var s = muscleBody.stress + muscleExercise.stress * effect;
+        if (s > 1) s = 1;
+        player.private.body[muscleExercise._id].frazzle = $.round(f);
+        player.private.body[muscleExercise._id].stress = $.round(s);
+    });
 }

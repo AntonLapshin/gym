@@ -15,6 +15,11 @@ define([
             c.on('achievements.update', function(){
                 self.update();
             });
+
+            c.on('player.updated', function(){
+                self.update();
+            });
+
             return self;
         };
 

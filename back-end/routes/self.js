@@ -4,7 +4,7 @@ var Db = require('../db'),
     Player = require('../controllers/player'),
     $ = require('jquery-deferred');
 
-var UPDATE_PERIOD = 5,
+var UPDATE_PERIOD = 0.5,
     CHECK_LEVELUP_PERIOD = 4,
     REG_FRAZZLE_PER_HOUR = 0.3,
     REG_ENERGY = 0.3,
@@ -13,33 +13,24 @@ var UPDATE_PERIOD = 5,
 module.exports = {
     get: {
         handler: function(session){
-            var playerId = session.auth.id;
+            return $.Deferred(function(defer){
+                var player = session.player;
+                var now = new Date();
+                var reg = player.private.reg;
+                var minUpdateTime = DateHelper.addMinutesClone(reg.lastUpdateTime, UPDATE_PERIOD);
+                if (minUpdateTime > now) {
+                    defer.resolve(player);
+                    return;
+                }
 
-            return $.Deferred(function (defer) {
-                Player.find(playerId, ['private', 'public']).then(
-                    function (player) {
-                        var now = new Date();
-                        var reg = player.private.reg;
-                        var minUpdateTime = DateHelper.addMinutesClone(reg.lastUpdateTime, UPDATE_PERIOD);
-                        if (minUpdateTime > now) {
-                            defer.resolve(player);
-                            return;
-                        }
-
-                        var setClause = getUpdateClause(player);
-                        var levelUp = CheckLevelUp(player, setClause);
-                        Player.update(playerId, {$set: setClause}).then(function () {
-                            return Player.find(playerId, ['private', 'public']);
-                        }).then(function (player) {
-                            player.updated = true;
-                            player.levelUp = levelUp;
-                            defer.resolve(player);
-                        });
-                    });
+                update(player);
+                levelUp(player);
+                session.isDirty = true;
+                defer.resolve(player);
             });
         }
     },
-    update: {
+    setFriends: {
         params: {
             friends: {
                 required: true,
@@ -47,10 +38,11 @@ module.exports = {
             }
         },
         handler: function (session, params){
-            var updateClause = {
-                $set: {'private.friends': params.friends }
-            };
-            return Player.update(session.auth.id, updateClause);
+            return $.Deferred(function(defer){
+                session.player.private.friends = params.friends;
+                session.isDirty = true;
+                defer.resolve(true);
+            });
         }
     },
     getPlayer: {
@@ -61,44 +53,36 @@ module.exports = {
             }
         },
         handler: function (session, params){
-            return Player.find(params.playerId, ['public']);
+            return Player.find(params.playerId, ['id', 'public']);
         }
     }
 };
 
-function round(v) {
-    return Math.round(v * 100) / 100;
-}
-
 // Resting: regenerating energy and muscles (energy->energy_max, frazzle->0)
 // todo: decreasing food and stimulant factors
-function getUpdateClause(player) {
+function update(player) {
     var now = new Date();
-    var interval = DateHelper.intervalHours(now - player.private.reg.lastUpdateTime);
-    var frazzleDecrease = round(REG_FRAZZLE_PER_HOUR * interval);
+    //var interval = DateHelper.intervalHours(now - player.private.reg.lastUpdateTime);
+    var interval = DateHelper.intervalHours(Date.parse(now) - Date.parse(player.private.reg.lastUpdateTime));
+    var frazzleDecrease = $.round(REG_FRAZZLE_PER_HOUR * interval);
     var energyValue = Math.round(player.private.energy + REG_ENERGY_PER_HOUR * interval);
 
     if (energyValue > PlayersCollection.ENERGY_MAX)
         energyValue = PlayersCollection.ENERGY_MAX;
 
-    var setClause = {
-        'private.energy': energyValue,
-        'private.reg.lastUpdateTime': now
-    };
+    player.private.energy = energyValue;
+    player.private.reg.lastUpdateTime = now;
 
     for (var i = 0; i < player.private.body.length; i++) {
         var muscle = player.private.body[i];
-        muscle.frazzle = round(muscle.frazzle - frazzleDecrease);
+        muscle.frazzle = $.round(muscle.frazzle - frazzleDecrease);
         if (muscle.frazzle < 0)
             muscle.frazzle = 0;
-
-        setClause['private.body.' + i + '.frazzle'] = muscle.frazzle;
     }
-    return setClause;
 }
 
 // Calculate prob of level increase. Returns clause.
-function CheckLevelUp(player, setClause) {
+function levelUp(player) {
     var getPowerAll = function () {
         var muscles = Db.getRefs().muscles;
         var powerAll = 0;
@@ -128,12 +112,10 @@ function CheckLevelUp(player, setClause) {
     //var p = stress * setClause['private.reg.rest'] * setClause['private.reg.food'] * setClause['private.reg.stimulant'];
     var levelUp = Math.random() < stress * 0.5;
     if (levelUp) {
-        setClause['private.level'] = player.private.level + 1;
+        player.private.level++;
         for (i = 0; i < player.private.body.length; i++) {
-            setClause['private.body.' + i + '.frazzle'] = 0;
-            setClause['private.body.' + i + '.stress'] = 0;
+            player.private.body[i].frazzle = 0;
+            player.private.body[i].stress = 0;
         }
     }
-
-    return levelUp;
 }

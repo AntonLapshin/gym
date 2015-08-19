@@ -13,6 +13,19 @@ $.handle = function(err, data, defer){
     }
 };
 
+$.grep = function(array, callback){
+    var res = [];
+    array.forEach(function(item){
+        if (callback(item))
+            res.push(item);
+    });
+    return res;
+};
+
+$.round = function(v){
+    return Math.round(v * 100) / 100;
+};
+
 module.exports = {
     init: function (options, collNames, refNames) {
         return this.connect(options)
@@ -68,11 +81,8 @@ module.exports = {
             coll = _collections[coll];
 
         return $.Deferred(function (defer) {
-            coll.insert(value, function (err, value) {
-                if (err)
-                    defer.reject(err);
-                else
-                    defer.resolve(value);
+            coll.insert(value, function (err) {
+                $.handle(err, value, defer);
             });
         });
     },
@@ -91,11 +101,8 @@ module.exports = {
             coll = _collections[coll];
 
         return $.Deferred(function (defer) {
-            coll.remove({ _id: id}, function(err, value){
-                if (err)
-                    defer.reject(err);
-                else
-                    defer.resolve(value);
+            coll.remove({ _id: id}, function(err, data){
+                $.handle(err, data, defer);
             });
         });
     },
@@ -104,11 +111,8 @@ module.exports = {
             coll = _collections[coll];
 
         return $.Deferred(function (defer) {
-            coll.findOne({ _id: id }, { _id: 1}, function(err, value){
-                if (err)
-                    defer.reject(err);
-                else
-                    defer.resolve(value);
+            coll.findOne({ _id: id }, { _id: 1}, function(err, data){
+                $.handle(err, data, defer);
             });
         });
     },
@@ -145,11 +149,8 @@ module.exports = {
                 return;
             }
 
-            coll.ensureIndex(index, function (err, value) {
-                if (err)
-                    defer.reject(err);
-                else
-                    defer.resolve(value);
+            coll.ensureIndex(index, function (err, data) {
+                $.handle(err, data, defer);
             });
         });
     },
@@ -161,33 +162,13 @@ module.exports = {
     },
     getColl: function (name) {
         return _collections[name];
-    },
-    grep: function(array, callback){
-        var res = [];
-        array.forEach(function(item){
-            if (callback(item))
-                res.push(item);
-        });
-        return res;
-    },
-    addClause: function(clause, type, object){
-        if (!clause[type]){
-            clause[type] = {};
-        }
-        for(var name in object){
-            clause[type][name] = object[name];
-        }
-        return clause;
     }
 };
 
 function auth(options) {
     return $.Deferred(function (defer) {
-        _db.authenticate(options.username, options.password, function (err, value) {
-            if (err)
-                defer.reject(err);
-            else
-                defer.resolve(value);
+        _db.authenticate(options.username, options.password, function (err, data) {
+            $.handle(err, data, defer);
         });
     });
 }
@@ -225,11 +206,8 @@ function getAllValues(coll) {
         coll = _collections[coll];
 
     return $.Deferred(function (defer) {
-        coll.find({$query: {}, $orderby: {_id: 1}}).toArray(function (err, value) {
-            if (err)
-                defer.reject(err);
-            else
-                defer.resolve(value);
+        coll.find({$query: {}, $orderby: {_id: 1}}).toArray(function (err, data) {
+            $.handle(err, data, defer);
         });
     });
 }
@@ -243,11 +221,8 @@ function clearCollection(coll) {
             defer.resolve();
             return;
         }
-        coll.remove(function (err, value) {
-            if (err)
-                defer.reject(err);
-            else
-                defer.resolve(value);
+        coll.remove(function (err, data) {
+            $.handle(err, data, defer);
         });
     });
 }
