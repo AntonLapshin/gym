@@ -4,10 +4,10 @@ var Db = require('../db'),
     Player = require('../controllers/player'),
     $ = require('jquery-deferred');
 
-var UPDATE_PERIOD = 0.5,
+var UPDATE_PERIOD = 0.5, //5
     CHECK_LEVELUP_PERIOD = 4,
-    REG_FRAZZLE_PER_HOUR = 0.3,
-    REG_ENERGY = 0.3,
+    REG_FRAZZLE_PER_HOUR = 10,//0.3
+    REG_ENERGY = 10,// 0.3
     REG_ENERGY_PER_HOUR = REG_ENERGY * PlayersCollection.ENERGY_MAX;
 
 module.exports = {

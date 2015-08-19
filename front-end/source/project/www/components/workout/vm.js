@@ -17,7 +17,7 @@ define([
         VISIBLE_COUNT = 3,
         _index = 0,
         _weight = 20,
-        _repeats = 0,
+        _repeats = 10,
         _gymId,
         _exerciseId,
         _weightSlider = null,
@@ -101,17 +101,11 @@ define([
         };
 
         this.reload = function(){
-            var weight = _weight;
-            var repeats = _repeats;
-
             self.set(_gymId);
             var exercise = $.grep(_exercises, function (e) {
                 return e._id === _exerciseId;
             })[0];
             self.select(exercise);
-
-            _weightSlider.slider('setValue', weight);
-            _repeatsSlider.slider('setValue', repeats);
             return self;
         };
 
@@ -150,7 +144,7 @@ define([
             _repeatsSlider.slider('setAttribute', 'max', 30);
             _repeatsSlider.slider('setAttribute', 'min', 0);
             _repeatsSlider.slider('setAttribute', 'step', 1);
-            _repeatsSlider.slider('setValue', 10);
+            _repeatsSlider.slider('setValue', _repeats);
             self.selectedExercise(ex);
             _exerciseId = ex._id;
 

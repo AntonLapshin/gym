@@ -35,7 +35,16 @@ define(['ko', 'server/server', 'social/social', 'c'], function (ko, server, soci
         });
     }
 
-    function updateValue(field, value){
+    var updateValues = {};
+
+    function updateValue(name, field, value){
+        if (value != null){
+            updateValues[name] = value;
+        }
+        else {
+            value = updateValues[name];
+        }
+
         if (value == null)
             return;
         var oldValue = field() || 0;
@@ -45,8 +54,9 @@ define(['ko', 'server/server', 'social/social', 'c'], function (ko, server, soci
         field(newValue);
         var delay = Math.abs(value - newValue) > 50 ? 1 :
             Math.pow(Math.min(value, newValue) / Math.max(value, newValue), 2) * 50;
+
         setTimeout(function(){
-            updateValue(field, value);
+            updateValue(name, field);
         }, delay);
     }
 
@@ -104,15 +114,21 @@ define(['ko', 'server/server', 'social/social', 'c'], function (ko, server, soci
             self.load();
         });
 
+        window.player = self;
+
+        window.setInterval(function(){
+            self.load();
+        }, window.cfg.updatePeriod * 1000);
+
         this.load = function(){
             return getMe().then(function(model){
                 self.loadPublic(model);
 
                 // private
-                updateValue(self.private.money, model.private.money);
-                updateValue(self.private.energy, model.private.energy);
-                updateValue(self.private.gold, model.private.gold);
-                updateValue(self.private.friends, model.private.friends);
+                updateValue('money', self.private.money, model.private.money);
+                updateValue('energy', self.private.energy, model.private.energy);
+                updateValue('gold', self.private.gold, model.private.gold);
+                updateValue('friends', self.private.friends, model.private.friends);
                 self.private.energyMax(model.private.energyMax);
                 self.private.gyms = model.private.gyms;
                 self.private.achievements = model.private.achievements;

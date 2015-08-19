@@ -3,7 +3,8 @@ window.cfg = {
     payments: true,
     publish: true,
     server: "http://localhost:8080/",
-    language: "ru"
+    language: "ru",
+    updatePeriod: 10
 };
 
 requirejs.config({

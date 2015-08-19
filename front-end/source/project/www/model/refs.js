@@ -11,7 +11,13 @@ define(['jquery', 'server/server', 'c'], function ($, server, c) {
             return p._id === view._id;
         })[0] : {};
         var map = $.map(view.map.split(','), function (c, i) {
-            return i % 2 == 0 ? c - 0 : c;
+            if (i % 2 == 0 && c == 200){
+                return 201;
+            }
+            if (i % 2 == 0 && c == 202){
+                return 201;
+            }
+            return c;
         }).join(',');
         return $.extend(
             { map: map },

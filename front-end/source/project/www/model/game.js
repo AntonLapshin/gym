@@ -43,7 +43,7 @@ define(['jquery',
 
                 c.on('energy.decrease', function (value) {
                     toastr['warning']('-' + value + '<span class="glyphicon glyphicon-flash"></span>', c.strings.decEnergy());
-                    self.player.updateValue(self.player.private.energy, self.player.private.energy() - value);
+                    self.player.updateValue('energy', self.player.private.energy, self.player.private.energy() - value);
                 });
 
                 c.on('record', function (record) {
@@ -82,7 +82,7 @@ define(['jquery',
 
                 c.on('money.earn', function (value) {
                     toastr['success']('+' + value + '<span class="glyphicon glyphicon-usd"></span>', c.strings.earnMoney());
-                    self.player.updateValue(self.player.private.money, self.player.private.money() + value);
+                    self.player.updateValue('money', self.player.private.money, self.player.private.money() + value);
                 });
 
                 c.on('server.response', function(data){

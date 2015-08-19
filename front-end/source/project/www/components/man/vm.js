@@ -12,9 +12,16 @@ define([
 ], function (ko, $, html, c, social, Refs, Player, muscleinfo, sw, ava) {
 
     function showFrazzleMap(vm) {
-        hideFrazzleMap(vm);
-        vm.frazzle$ = $('<canvas class="frazzle" width="480px" height="550px"/>');
-        vm.elem$.find('img.img-map').before(vm.frazzle$);
+        var fr$ = $('<canvas class="frazzle" width="480px" height="550px"/>');
+        if (!vm.frazzle$){
+            vm.frazzle$ = fr$;
+            vm.elem$.find('img.img-map').before(vm.frazzle$);
+        }else {
+            vm.frazzle$.after(fr$);
+            vm.frazzle$.remove();
+            vm.frazzle$ = fr$;
+        }
+
         var context = vm.frazzle$[0].getContext('2d');
         $.each(vm.muscles(), function (j, m) {
             var map = m.map.split(',');
@@ -32,11 +39,19 @@ define([
 
     function hideFrazzleMap(vm) {
         vm.frazzle$ && vm.frazzle$.remove();
+        vm.frazzle$ = null;
     }
 
     function showMuscle(vm, m) {
-        vm.highlight$ = $('<canvas class="highlight" width="480px" height="550px"/>');
-        vm.elem$.find('img.img-map').before(vm.highlight$);
+        var hl$ = $('<canvas class="highlight" width="480px" height="550px"/>');
+        if (!vm.highlight$){
+            vm.highlight$ = hl$;
+            vm.elem$.find('img.img-map').before(vm.highlight$);
+        }else {
+            vm.highlight$.after(hl$);
+            vm.highlight$.remove();
+            vm.highlight$ = hl$;
+        }
         var context = vm.highlight$[0].getContext('2d');
 
         var muscles = $.grep(vm.muscles(), function (item) {
@@ -57,7 +72,8 @@ define([
     }
 
     function hideMuscle(vm) {
-        vm.highlight$.remove();
+        vm.highlight$ && vm.highlight$.remove();
+        vm.highlight$ = null;
     }
 
     function ViewModel() {
@@ -66,7 +82,6 @@ define([
         this.strings = c.strings;
         this.src = ko.observable();
         this.muscles = ko.observableArray();
-        this.needUpdate = false;
         this.click = function () {
             if (this.model().id == 0) // may be "0"
             {
