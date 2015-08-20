@@ -114,7 +114,7 @@ function levelUp(player) {
     if (levelUp) {
         player.private.level++;
         for (i = 0; i < player.private.body.length; i++) {
-            player.private.body[i].frazzle = 0;
+            //player.private.body[i].frazzle = 0;
             player.private.body[i].stress = 0;
         }
     }

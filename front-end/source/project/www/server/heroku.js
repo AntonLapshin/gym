@@ -28,6 +28,14 @@ define(['jquery', 'plugins/ajax'], function ($, ajax) {
         workoutExecute: function(args){
             args.method = 'execute';
             return ajax.callAjax('workout', args);
+        },
+
+        jobGet: function(){
+            return ajax.callAjax('job', { method: 'get' });
+        },
+
+        jobComplete: function(){
+            return ajax.callAjax('job', { method: 'complete' });
         }
 
     }

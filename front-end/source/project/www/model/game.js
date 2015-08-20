@@ -80,10 +80,10 @@ define(['jquery',
                     }
                 });
 
-                c.on('money.earn', function (value) {
-                    toastr['success']('+' + value + '<span class="glyphicon glyphicon-usd"></span>', c.strings.earnMoney());
-                    self.player.updateValue('money', self.player.private.money, self.player.private.money() + value);
-                });
+                //c.on('money.earn', function (value) {
+                //    toastr['success']('+' + value + '<span class="glyphicon glyphicon-usd"></span>', c.strings.earnMoney());
+                //    self.player.updateValue('money', self.player.private.money, self.player.private.money() + value);
+                //});
 
                 c.on('server.response', function(data){
                     if (data.newAchievements && data.newAchievements.length > 0){
@@ -93,6 +93,10 @@ define(['jquery',
                             self.player.private.achievements.push(id);
                         });
                         c.fire('achievements.update');
+                    }
+                    if (data.earn){
+                        toastr['success']('+' + data.earn + '<span class="glyphicon glyphicon-usd"></span>', c.strings.earnMoney());
+                        self.player.updateValue('money', self.player.private.money, self.player.private.money() + data.earn);
                     }
                 });
 

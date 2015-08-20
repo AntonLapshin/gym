@@ -3,13 +3,17 @@ var Db = require('../db'),
     $ = require('jquery-deferred');
 
 var achList = [
-    // 80 kg
+    // Full energy. Novice
     function (player, result) {
         return player.private.energy === 0;
     },
+
+    // Job
     function (player, result) {
-        return false;
+        return result.type === 'job' && result.earn;
     },
+
+    // 80 kg
     function (player, result) {
         return result.exerciseId === 0 && result.weight === 80 && result.repeats > 0;
     }

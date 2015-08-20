@@ -233,14 +233,14 @@ define([
             this.items(arrNew);
             this.itemsSelected(arrSelected);
             if (this.summaryWeight() == this.weight()) {
-                server.jobComplete().then(function (money) {
+                server.jobComplete().then(function (data) {
                     bootbox.dialog({
                         message: c.strings.jobSuccess(),
                         title: c.strings.jobTitle()
                     });
                     timer('job').stop();
                     c.fire('home');
-                    c.fire('money.earn', money);
+                    //c.fire('money.earn', money);
                 });
             }
             else if (this.summaryWeight() > this.weight()) {
