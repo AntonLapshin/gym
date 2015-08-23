@@ -7,7 +7,7 @@ exports.exercises = [
         step: 2.5,
         coeff: 1,
         power: 30,
-        energy: 50,
+        energy: 5,
         wr: null,
         body: [
             {"_id": 2, "stress": 0.5},

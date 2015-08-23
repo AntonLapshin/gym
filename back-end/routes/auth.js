@@ -25,10 +25,10 @@ module.exports = {
         },
         handler: function (session, params) {
             return $.Deferred(function (defer) {
-                if (session.player) {
-                    defer.resolve(MES_ALREADY_AUTH);
-                    return;
-                }
+                //if (session.player) {
+                //    defer.resolve(MES_ALREADY_AUTH);
+                //    return;
+                //}
 
                 var playerId = params.playerId;
 

@@ -4,10 +4,10 @@ var Db = require('../db'),
     Player = require('../controllers/player'),
     $ = require('jquery-deferred');
 
-var UPDATE_PERIOD = 0.5, //5
-    CHECK_LEVELUP_PERIOD = 4,
-    REG_FRAZZLE_PER_HOUR = 10,//0.3
-    REG_ENERGY = 10,// 0.3
+var UPDATE_PERIOD = 1, //0.5, //5
+    CHECK_LEVELUP_PERIOD = 0.5, //0.01,//4,
+    REG_FRAZZLE_PER_HOUR = 1, //10,//0.3
+    REG_ENERGY = 1, //10,// 0.3
     REG_ENERGY_PER_HOUR = REG_ENERGY * PlayersCollection.ENERGY_MAX;
 
 module.exports = {
@@ -112,7 +112,7 @@ function levelUp(player) {
     //var p = stress * setClause['private.reg.rest'] * setClause['private.reg.food'] * setClause['private.reg.stimulant'];
     var levelUp = Math.random() < stress * 0.5;
     if (levelUp) {
-        player.private.level++;
+        player.public.level++;
         for (i = 0; i < player.private.body.length; i++) {
             //player.private.body[i].frazzle = 0;
             player.private.body[i].stress = 0;

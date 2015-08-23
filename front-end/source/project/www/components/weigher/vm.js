@@ -45,6 +45,7 @@ define([
     function ViewModel() {
         var self = this;
 
+        this.strings = c.strings;
         this.weight = ko.observable();
 
         this.init = function(){
@@ -56,7 +57,8 @@ define([
 
         this.set = function(player){
             var weight = getWeight(player.public.level()) + getWeightDiff(player.private.body);
-            this.weight(weight);
+            this.weight(weight.toFixed(1));
+            //this.weight();
             return self;
         };
 

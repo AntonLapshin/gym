@@ -6,7 +6,7 @@ var LIMIT_TOP_PLAYERS = 100;
 
 module.exports = {
     create: function(id){
-        var p = PlayersCollection.newPlayer(id, 20);
+        var p = PlayersCollection.newPlayer(id, 0);
         Db.insert('players', p);
         return p;
     },

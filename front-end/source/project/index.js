@@ -14,6 +14,6 @@ var options = {
 http.createServer(app.handler).listen(port);
 https.createServer(options, app.handler).listen(portHttps);
 
-console.log('Penalty http: ' + port);
-console.log('Penalty https: ' + portHttps);
+console.log('Gym http: ' + port);
+console.log('Gym https: ' + portHttps);
 

@@ -15,7 +15,7 @@ if (app.documents.length > 0) {
     }
 
     try {
-        docPath = myDocument.path
+        docPath = myDocument.path + '/output';
     }
     catch (e) {
         docPath = "~/Desktop"
@@ -32,6 +32,9 @@ if (app.documents.length > 0) {
     //var items = collectSpecialLayersB(theCopy);
     //var theBoundsArray = [];
 
+    var outputFolder = new Folder(docPath);
+    if (!outputFolder.exists)
+        outputFolder.create();
     var file = new File(docPath + '/info.txt');
     file.open("w");
     file.writeln('[');
@@ -42,7 +45,10 @@ if (app.documents.length > 0) {
         var handler = function (type) {
             for (var j = 0; j < level[type].length; j++) {
                 var layer = level[type][j];
-                if (layer.name == "image") {
+                if (layer.name == "image" || layer.name == "shorts") {
+
+                    var name = layer.name == "image" ? type : layer.name;
+
                     layer.visible = true;
                     var theParent = layer.parent;
                     while (theParent != theCopy) {
@@ -54,7 +60,7 @@ if (app.documents.length > 0) {
                     hideOtherLayers();
                     //theCopy.trim();
 
-                    var theFile = new File(docPath + "/" + level._id + "_" + type + ".png");
+                    var theFile = new File(docPath + "/" + level._id + "_" + name + ".png");
                     theCopy.exportDocument(theFile, ExportType.SAVEFORWEB, webOptions);
                     theCopy.activeHistoryState = theCopy.historyStates[0];
                 }
@@ -86,7 +92,7 @@ if (app.documents.length > 0) {
     }
 
     file.writeln(']');
-    file.close()
+    file.close();
 
     theCopy.close(SaveOptions.DONOTSAVECHANGES);
     app.preferences.rulerUnits = originalRulerUnits;

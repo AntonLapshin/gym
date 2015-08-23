@@ -9,8 +9,9 @@ define([
     'cs/muscleinfo/vm',
     'cs/sw/vm',
     'cs/weigher/vm',
+    'cs/character/vm',
     'cs/ava/vm'
-], function (ko, $, html, c, social, Refs, Player, muscleinfo, sw, weigher, ava) {
+], function (ko, $, html, c, social, Refs, Player, muscleinfo, sw, weigher, character, ava) {
 
     function showFrazzleMap(vm) {
         var fr$ = $('<canvas class="frazzle" width="480px" height="550px"/>');
@@ -97,6 +98,7 @@ define([
             ava('man').init();
             sw('man').init(true);
             muscleinfo('man').init();
+            character('man').init().show();
             weigher('man').init().show();
 
             c.on('sw.switch', function (data) {
@@ -117,7 +119,7 @@ define([
         };
         this.set = function (model) {
             this.model(model);
-            this.src(c.format('components/man/{0}_front.png', model.public.level()));
+            this.src(c.format('components/man/img/{0}_front.png', model.public.level()));
             this.muscles(Refs.getMuscles(!!model.private));
             if (!model.private) {
                 ava('man').set(model).show();
@@ -130,6 +132,7 @@ define([
                 showFrazzleMap(self);
 
             weigher('man').set(model);
+            character('man').set(model);
 
             return self;
         };

@@ -2,7 +2,7 @@ window.cfg = {
     debug: true,
     payments: true,
     publish: true,
-    server: "http://localhost:8080/",
+    server: "http://94.251.114.123:8080/",
     language: "ru",
     updatePeriod: 10
 };

@@ -140,7 +140,7 @@ define(['ko', 'server/server', 'social/social', 'c'], function (ko, server, soci
                 // Update friends
                 social.getFriendsQty().then(function(friends){
                     if (friends !== model.private.friends) {
-                        updateValue(self.private.friends, friends);
+                        updateValue('friends', self.private.friends, friends);
                         server.setFriends(friends);
                     }
                 });
