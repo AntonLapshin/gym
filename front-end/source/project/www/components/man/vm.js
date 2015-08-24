@@ -112,7 +112,8 @@ define([
             });
 
             c.on('player.updated', function (player) {
-                self.set(player);
+                if (player.private)
+                    self.set(player);
             });
 
             return self;
@@ -123,13 +124,14 @@ define([
             this.muscles(Refs.getMuscles(!!model.private));
             if (!model.private) {
                 ava('man').set(model).show();
+
             }
             else {
                 ava('man').hide();
                 sw('man').show();
+                if (sw('man').get())
+                    showFrazzleMap(self);
             }
-            if (sw('man').get())
-                showFrazzleMap(self);
 
             weigher('man').set(model);
             character('man').set(model);

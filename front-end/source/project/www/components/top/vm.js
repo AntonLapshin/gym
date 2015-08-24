@@ -109,9 +109,11 @@ define([
             for (var i = this.page() * MAX_VISIBLE_PLAYERS, j = 0; i < members.length && j < MAX_VISIBLE_PLAYERS; i++, j++) {
                 result.push(members[i]);
             }
-            for (; i < MAX_VISIBLE_PLAYERS; i++) {
-                result.push(Player(-1));
-            }
+            i = i % MAX_VISIBLE_PLAYERS;
+            if (i > 0)
+                for (; i < MAX_VISIBLE_PLAYERS; i++) {
+                    result.push(Player(-1));
+                }
             this.visibleMembers([]);
             this.visibleMembers(result);
         };
@@ -134,7 +136,7 @@ define([
         };
 
         this.nextEnabled = ko.computed(function(){
-            return self.page() < Math.floor(self.members() / MAX_VISIBLE_PLAYERS);
+            return self.page() < Math.floor(self.members().length / MAX_VISIBLE_PLAYERS);
         }, this);
 
         this.prevEnabled = ko.computed(function(){

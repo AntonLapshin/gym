@@ -6,9 +6,9 @@
     <span class="top-players" data-bind="text: strings.topPlayers"></span>
     <span class="top-friends" data-bind="text: strings.topFriends"></span>
     <button class="btn btn-primary left"
-            data-bind="click: $parent.prev, css: { disabled: !prevEnabled() }">
+            data-bind="click: prev, css: { disabled: !prevEnabled() }">
         <span class="glyphicon glyphicon-chevron-left"></span></button>
     <button class="btn btn-primary right"
-            data-bind="click: $parent.next, css: { disabled: !nextEnabled() }">
+            data-bind="click: next, css: { disabled: !nextEnabled() }">
         <span class="glyphicon glyphicon-chevron-right"></span></button>
 </div>

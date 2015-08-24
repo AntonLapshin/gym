@@ -43,17 +43,19 @@ exports.newPlayer = function (id, level) {
     return p;
 };
 
-var player0 = exports.newPlayer(0, 120);
-var player1 = exports.newPlayer(1, 2);
-var player2 = exports.newPlayer(2, 6);
-var player3 = exports.newPlayer(3, 3);
-var player4 = exports.newPlayer(4, 7);
-var player5 = exports.newPlayer(5, 10);
-var player6 = exports.newPlayer(6, 10);
-var player7 = exports.newPlayer(7, 10);
-var player8 = exports.newPlayer(8, 10);
-var player5653333 = exports.newPlayer(5653333, 0);
+var p0 = exports.newPlayer(253300936, 120);
+var p1 = exports.newPlayer(229865556, 0);
+var p2 = exports.newPlayer(159489458, 0);
+var p3 = exports.newPlayer(60981233, 0);
+var p4 = exports.newPlayer(243782603, 0);
+var p5 = exports.newPlayer(5188175, 1);
+var p6 = exports.newPlayer(233219052, 2);
+var p7 = exports.newPlayer(147936855, 2);
+var p8 = exports.newPlayer(128954165, 3);
+var p9 = exports.newPlayer(191699661, 3);
+var p10 = exports.newPlayer(43065119, 3);
+var p5653333 = exports.newPlayer(5653333, 0);
 
 exports.players = [
-    player0, player1, player2, player3, player4, player5, player6, player7, player8, player5653333
+    p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p5653333
 ];

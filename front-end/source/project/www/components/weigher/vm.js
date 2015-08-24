@@ -56,9 +56,10 @@ define([
         };
 
         this.set = function(player){
-            var weight = getWeight(player.public.level()) + getWeightDiff(player.private.body);
+            var weight = getWeight(player.public.level());
+            if (player.private)
+                weight += getWeightDiff(player.private.body);
             this.weight(weight.toFixed(1));
-            //this.weight();
             return self;
         };
 

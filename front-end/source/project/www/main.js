@@ -4,7 +4,7 @@ window.cfg = {
     publish: true,
     server: "http://94.251.114.123:8080/",
     language: "ru",
-    updatePeriod: 10
+    updatePeriod: 100
 };
 
 requirejs.config({

@@ -10,11 +10,7 @@ define(['jquery', 'plugins/format'], function ($, vk, format) {
 
     var _PLAYERS = [
         {"id": 253300936, "img": "https://pp.vk.me/c618421/v618421936/12aa1/RTXvKzOd65E.jpg", "name": "Mikha Pogodin"},
-        {
-            "id": 229865556,
-            "img": "https://pp.vk.me/c306409/v306409233/3581/UAvmuA-GaBo.jpg",
-            "name": "Denis Shevchenko"
-        },
+        {"id": 229865556, "img": "https://pp.vk.me/c306409/v306409233/3581/UAvmuA-GaBo.jpg", "name": "Denis Shevchenko" },
         {"id": 159489458, "img": "https://pp.vk.me/c6011/v6011165/464/9qbDEij68Uc.jpg", "name": "Valentin Cherny"},
         {"id": 60981233, "img": "https://pp.vk.me/c620823/v620823043/190fc/LJjNunV8d7c.jpg", "name": "Anton Chaldaev"},
         {"id": 243782603, "img": "https://pp.vk.me/c407822/v407822609/b820/bWlD4bP140g.jpg", "name": "Andrey Moerchuk"},
@@ -22,11 +18,7 @@ define(['jquery', 'plugins/format'], function ($, vk, format) {
         {"id": 5653333, "img": "https://pp.vk.me/c619116/v619116629/17703/4Und2nzDjzI.jpg", "name": "Anton Lapshin"},
         {"id": 233219052, "img": "https://pp.vk.me/c619420/v619420700/b913/i5LtaPd0NCg.jpg", "name": "Andriy Rozman"},
         {"id": 147936855, "img": "https://pp.vk.me/c619116/v619116629/17703/4Und2nzDjzI.jpg", "name": "Danik Boychuk"},
-        {
-            "id": 128954165,
-            "img": "https://pp.vk.me/c614726/v614726005/202ac/f9GMc_cX_CY.jpg",
-            "name": "Kristian Gitsba"
-        },
+        {"id": 128954165, "img": "https://pp.vk.me/c614726/v614726005/202ac/f9GMc_cX_CY.jpg","name": "Kristian Gitsba" },
         {"id": 191699661, "img": "https://pp.vk.me/c319424/v319424721/df64/VjDpInEQtuM.jpg", "name": "Pavel Taratynov"},
         {"id": 43065119, "img": "https://pp.vk.me/c616030/v616030119/17bb4/-Mf2RNRB04k.jpg", "name": "Marsel Khakimov"},
         {"id": 140340700, "img": "https://pp.vk.me/c619420/v619420700/b913/i5LtaPd0NCg.jpg", "name": "Andriy Rozman"},
@@ -84,7 +76,9 @@ define(['jquery', 'plugins/format'], function ($, vk, format) {
 
         getPlayer: function (id) {
             return $.Deferred(function (defer) {
-                defer.resolve($.grep(_PLAYERS, function(p) { return p.id === id; })[0]);
+                defer.resolve($.grep(_PLAYERS, function (p) {
+                    return p.id === id;
+                })[0]);
             });
         },
 
@@ -106,7 +100,7 @@ define(['jquery', 'plugins/format'], function ($, vk, format) {
             });
         },
 
-        getFriendsQty: function(){
+        getFriendsQty: function () {
             return $.Deferred(function (defer) {
                 defer.resolve(3);
             });
