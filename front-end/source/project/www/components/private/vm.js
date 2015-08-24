@@ -2,35 +2,37 @@ define([
     'ko',
     'text!./view.html',
     'c',
-    'cs/ava/vm',
+    'cs/member/vm',
     'cs/battery/vm',
     'cs/mass/vm',
     'cs/money/vm',
     'cs/gold/vm',
-    'cs/friends/vm'
-], function (ko, html, c, ava, battery, mass, money, gold, friends) {
+    'cs/friends/vm',
+    'cs/level/vm'
+], function (ko, html, c, member, battery, mass, money, gold, friends, level) {
 
     function ViewModel() {
         var self = this;
 
         this.init = function(){
-            ava('private').init().show();
+            member('private').init().show();
             battery('private').init().show();
             mass('private').init().show();
             money('private').init().show();
             gold('private').init().show();
             friends('private').init().show();
-            friends('private').init().show();
+            level('private').init().show();
             return self;
         };
 
         this.set = function(player){
-            ava('private').set(player);
+            member('private').set(player);
             battery('private').set(player.private.energyMax, player.private.energy);
             mass('private').set(player.public.mass);
             money('private').set(player.private.money);
             gold('private').set(player.private.gold);
             friends('private').set(player.private.friends);
+            level('private').set(player.public.level);
             return self;
         };
 

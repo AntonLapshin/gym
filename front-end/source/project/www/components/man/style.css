@@ -10,10 +10,14 @@
   width: 700px;
   height: 700px;
 }
-.man .ava {
+.man .member {
   position: absolute;
-  left: 220px;
-  top: 150px;
+  left: 210px;
+  top: 110px;
+}
+.man .level {
+  top: 103px;
+  left: 267px;
 }
 .man .weigher {
   left: 10px;

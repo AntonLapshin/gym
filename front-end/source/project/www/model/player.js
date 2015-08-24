@@ -129,6 +129,7 @@ define(['ko', 'server/server', 'social/social', 'c'], function (ko, server, soci
                 updateValue('energy', self.private.energy, model.private.energy);
                 updateValue('gold', self.private.gold, model.private.gold);
                 updateValue('friends', self.private.friends, model.private.friends);
+                updateValue('level', self.public.level, model.public.level);
                 self.private.energyMax(model.private.energyMax);
                 self.private.gyms = model.private.gyms;
                 self.private.achievements = model.private.achievements;

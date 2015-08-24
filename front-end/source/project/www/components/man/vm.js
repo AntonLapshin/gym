@@ -10,8 +10,9 @@ define([
     'cs/sw/vm',
     'cs/weigher/vm',
     'cs/character/vm',
-    'cs/ava/vm'
-], function (ko, $, html, c, social, Refs, Player, muscleinfo, sw, weigher, character, ava) {
+    'cs/member/vm',
+    'cs/level/vm'
+], function (ko, $, html, c, social, Refs, Player, muscleinfo, sw, weigher, character, member, level) {
 
     function showFrazzleMap(vm) {
         var fr$ = $('<canvas class="frazzle" width="480px" height="550px"/>');
@@ -95,7 +96,8 @@ define([
             win.focus();
         };
         this.init = function () {
-            ava('man').init();
+            member('man').init();
+            level('man').init();
             sw('man').init(true);
             muscleinfo('man').init();
             character('man').init().show();
@@ -112,7 +114,7 @@ define([
             });
 
             c.on('player.updated', function (player) {
-                if (player.private)
+                if (self.model().private)
                     self.set(player);
             });
 
@@ -121,13 +123,14 @@ define([
         this.set = function (model) {
             this.model(model);
             this.src(c.format('components/man/img/{0}_front.png', model.public.level()));
-            this.muscles(Refs.getMuscles(!!model.private));
+            this.muscles(Refs.getMuscles(!!model.private, model.public.level));
             if (!model.private) {
-                ava('man').set(model).show();
-
+                member('man').set(model).show();
+                level('man').set(model.public.level).show();
             }
             else {
-                ava('man').hide();
+                member('man').hide();
+                level('man').hide();
                 sw('man').show();
                 if (sw('man').get())
                     showFrazzleMap(self);
@@ -159,13 +162,13 @@ define([
             showFrazzleMap(self);
         };
         this.test = function () {
-            //var player = new Player(5653333);
-            //player.load().then(function(){
-            //    self.init().set(player).show();
-            //});
-            require(['model/game'], function (game) {
-                self.init().set(game.player).show();
+            var player = new Player(5653333);
+            player.load().then(function(){
+                self.init().set(player).show();
             });
+            //require(['model/game'], function (game) {
+            //    self.init().set(game.player).show();
+            //});
         };
     }
 

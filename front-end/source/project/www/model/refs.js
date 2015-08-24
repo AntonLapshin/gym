@@ -92,9 +92,9 @@ define(['jquery', 'server/server', 'c'], function ($, server, c) {
                 $.extend(self, data);
             });
         },
-        getMuscles: function (isPrivate) {
+        getMuscles: function (isPrivate, level) {
             var maps = $.grep(_refs.muscles_view, function (m) {
-                return m._id == _player.public.level();
+                return m._id == level();
             })[0].front;
 
             return $.map(maps, function (view) {

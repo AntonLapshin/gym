@@ -117,7 +117,9 @@ define(['ko'], function(ko){
         topPlayers:     ['Топ игроков', 'Top Players'],
         topFriends:     ['Топ друзей', 'Top Friends'],
 
-        buy:            ['Купить', 'Buy']
+        buy:            ['Купить', 'Buy'],
+
+        level:          ['Уровень', 'Level']
     };
 
     var _localization = {

@@ -43,7 +43,7 @@ exports.newPlayer = function (id, level) {
     return p;
 };
 
-var p0 = exports.newPlayer(253300936, 120);
+var p0 = exports.newPlayer(253300936, 0);
 var p1 = exports.newPlayer(229865556, 0);
 var p2 = exports.newPlayer(159489458, 0);
 var p3 = exports.newPlayer(60981233, 0);
@@ -52,8 +52,8 @@ var p5 = exports.newPlayer(5188175, 1);
 var p6 = exports.newPlayer(233219052, 2);
 var p7 = exports.newPlayer(147936855, 2);
 var p8 = exports.newPlayer(128954165, 3);
-var p9 = exports.newPlayer(191699661, 3);
-var p10 = exports.newPlayer(43065119, 3);
+var p9 = exports.newPlayer(191699661, 12);
+var p10 = exports.newPlayer(43065119, 19);
 var p5653333 = exports.newPlayer(5653333, 0);
 
 exports.players = [

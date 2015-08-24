@@ -27,9 +27,13 @@
   width: 100%;
   z-index: -1;
 }
-.private .ava {
-  top: 10px;
-  left: 17px;
+.private .level {
+  top: 15px;
+  left: 83px;
+}
+.private .member {
+  top: 23px;
+  left: 26px;
 }
 .private .battery,
 .private .mass,
@@ -40,8 +44,8 @@
   left: 10px;
 }
 .private .battery {
-  top: 100px;
-  left: 33px;
+  top: 88px;
+  left: 25px;
 }
 .private .mass {
   display: none;

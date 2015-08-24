@@ -49,9 +49,9 @@ define([
         this.weight = ko.observable();
 
         this.init = function(){
-            c.on('player.updated', function (player) {
-                self.set(player);
-            });
+            //c.on('player.updated', function (player) {
+            //    self.set(player);
+            //});
             return self;
         };
 
